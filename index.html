@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AIS Contracting — Advanced Information Systems &amp; Contracting</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,600;1,700;1,800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-high": "#e2e7ff",
+            "primary-fixed-dim": "#4cd7f6",
+            "inverse-primary": "#4cd7f6",
+            "on-secondary-container": "#00714d",
+            "surface-container-low": "#f2f3ff",
+            "on-tertiary-fixed": "#2a1700",
+            "secondary": "#006c49",
+            "tertiary-container": "#e79400",
+            "error-container": "#ffdad6",
+            "primary-container": "#06b6d4",
+            "secondary-fixed-dim": "#4edea3",
+            "on-primary-container": "#00424f",
+            "on-secondary-fixed-variant": "#005236",
+            "on-tertiary-container": "#563400",
+            "outline-variant": "#bcc9cd",
+            "surface-tint": "#00687a",
+            "surface-container-highest": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-variant": "#dae2fd",
+            "on-tertiary-fixed-variant": "#653e00",
+            "primary": "#00687a",
+            "on-primary-fixed-variant": "#004e5c",
+            "on-primary-fixed": "#001f26",
+            "secondary-container": "#6cf8bb",
+            "on-error-container": "#93000a",
+            "secondary-fixed": "#6ffbbe",
+            "tertiary-fixed-dim": "#ffb95f",
+            "surface-container": "#eaedff",
+            "primary-fixed": "#acedff",
+            "on-surface": "#0F172A",
+            "outline": "#6d797d",
+            "surface-container-lowest": "#ffffff",
+            "on-background": "#0F172A",
+            "on-secondary-fixed": "#002113",
+            "surface": "#faf8ff",
+            "inverse-surface": "#0F172A",
+            "on-error": "#ffffff",
+            "on-surface-variant": "#334155",
+            "background": "#faf8ff",
+            "surface-dim": "#d2d9f4",
+            "tertiary": "#855300",
+            "inverse-on-surface": "#eef0ff",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed": "#ffddb8",
+            "error": "#ba1a1a",
+            "on-secondary": "#ffffff",
+            "on-tertiary": "#ffffff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "display": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "display-hero-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-lg": ["Inter", "sans-serif"],
+            "display-hero": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"]
+          },
+          fontSize: {
+            "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" }],
+            "body-sm": ["13px", { lineHeight: "20px", letterSpacing: "0.005em", fontWeight: "400" }],
+            "display-hero-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.025em", fontWeight: "700" }],
+            "body-md": ["15px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }],
+            "headline-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-md": ["28px", { lineHeight: "36px", letterSpacing: "-0.015em", fontWeight: "700" }],
+            "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+            "display-hero": ["56px", { lineHeight: "64px", letterSpacing: "-0.03em", fontWeight: "800" }],
+            "headline-sm": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "700" }],
+            "headline-lg-mobile": ["28px", { lineHeight: "36px", letterSpacing: "-0.015em", fontWeight: "700" }],
+            "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.05em", fontWeight: "600" }],
+            "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "-0.005em", fontWeight: "400" }]
+          }
+        }
+      }
+    }
+</script>
+<style>
+    @keyframes float-orb-1 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(110px, 70px) scale(1.18); }
+      66% { transform: translate(-70px, 120px) scale(0.92); }
+    }
+    @keyframes float-orb-2 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(-90px, 90px) scale(1.12); }
+      66% { transform: translate(70px, -60px) scale(1.22); }
+    }
+    @keyframes float-orb-3 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(80px, -80px) scale(1.15); }
+      66% { transform: translate(-60px, -110px) scale(0.9); }
+    }
+    @keyframes float-orb-4 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(-100px, -90px) scale(1.2); }
+      66% { transform: translate(90px, 60px) scale(0.95); }
+    }
+    @keyframes marquee-scroll {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .animate-orb-1 { animation: float-orb-1 26s ease-in-out infinite alternate; }
+    .animate-orb-2 { animation: float-orb-2 32s ease-in-out infinite alternate; }
+    .animate-orb-3 { animation: float-orb-3 29s ease-in-out infinite alternate; }
+    .animate-orb-4 { animation: float-orb-4 35s ease-in-out infinite alternate; }
+    .animate-marquee { animation: marquee-scroll 40s linear infinite; }
+    .animate-marquee:hover { animation-play-state: paused; }
+
+    .glass-card {
+      background-color: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 20px 45px -10px rgba(8, 47, 73, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+
+    #pillar-accordion .pillar-card {
+      flex: 1 1 0%;
+      min-width: 0;
+      transition: flex 0.5s ease-out, background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    @media (min-width: 768px) {
+      #pillar-accordion .pillar-card.is-active {
+        flex: 3 1 0%;
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+        border-color: rgba(34, 211, 238, 0.4);
+      }
+      #pillar-accordion .pillar-card .pillar-expandable {
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.45s ease 0.08s, transform 0.45s ease 0.08s;
+      }
+      #pillar-accordion .pillar-card.is-active .pillar-expandable {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      #pillar-accordion .pillar-card .pillar-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+      }
+      #pillar-accordion .pillar-card.is-active .pillar-title {
+        white-space: nowrap;
+      }
+      #pillar-accordion .pillar-card:not(.is-active) .pillar-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 0;
+      }
+      #pillar-accordion .pillar-card:not(.is-active) .pillar-top > span:last-child {
+        writing-mode: horizontal-tb;
+        white-space: nowrap;
+      }
+      #pillar-accordion .pillar-card:not(.is-active) .pillar-title {
+        writing-mode: horizontal-tb;
+        transform: none;
+        white-space: normal;
+        overflow: visible;
+        margin-top: 14px;
+        margin-bottom: 0;
+        font-size: 19px;
+        line-height: 1.3;
+        max-width: 100%;
+      }
+      #pillar-accordion .pillar-card .pillar-subtitle-md {
+        display: none;
+      }
+      #pillar-accordion .pillar-card.is-active .pillar-subtitle-md {
+        display: block;
+      }
+      #pillar-accordion .pillar-card .pillar-glow {
+        transition: background-color 0.5s ease;
+      }
+      #pillar-accordion .pillar-card.is-active .pillar-glow-emerald { background-color: rgba(16, 185, 129, 0.2); }
+      #pillar-accordion .pillar-card.is-active .pillar-glow-cyan { background-color: rgba(6, 182, 212, 0.2); }
+      #pillar-accordion .pillar-card.is-active .pillar-glow-sky { background-color: rgba(14, 165, 233, 0.2); }
+      #pillar-accordion .pillar-card.is-active .pillar-glow-amber { background-color: rgba(245, 158, 11, 0.2); }
+      #pillar-accordion .pillar-card.is-active .pillar-icon { transform: scale(1.1); }
+      #pillar-accordion .pillar-card.is-active.pillar-emerald .pillar-title { color: #006c49; }
+      #pillar-accordion .pillar-card.is-active.pillar-cyan .pillar-title { color: #00687a; }
+      #pillar-accordion .pillar-card.is-active.pillar-sky .pillar-title { color: #0284C7; }
+      #pillar-accordion .pillar-card.is-active.pillar-amber .pillar-title { color: #855300; }
+    }
+    @media (max-width: 767px) {
+      #pillar-accordion .pillar-card .pillar-expandable {
+        opacity: 1;
+        transform: none;
+      }
+      #pillar-accordion .pillar-card .pillar-subtitle-md {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#FAFAFA] text-[#0F172A] font-body-md text-body-md antialiased selection:bg-cyan-500 selection:text-white overflow-x-hidden relative min-h-screen">
+<!-- Fullscreen Animated Aurora Glow Background -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<!-- Orb 1: Mint Green / Emerald (#10B981) -->
+<div class="absolute -top-[12vw] -left-[10vw] w-[58vw] h-[58vw] rounded-full bg-gradient-to-br from-[#10B981] to-[#059669] filter blur-[120px] opacity-[0.38] will-change-transform animate-orb-1"></div>
+<!-- Orb 2: Vibrant Cyan (#06B6D4) -->
+<div class="absolute -top-[8vw] right-[-8vw] w-[54vw] h-[54vw] rounded-full bg-gradient-to-bl from-[#06B6D4] via-[#38BDF8] to-[#0284C7] filter blur-[120px] opacity-[0.4] will-change-transform animate-orb-2"></div>
+<!-- Orb 3: Soft Amber / Warm Orange (#F59E0B) -->
+<div class="absolute top-[38vh] -left-[12vw] w-[52vw] h-[52vw] rounded-full bg-gradient-to-tr from-[#FDE68A] via-[#F59E0B] to-[#F97316] filter blur-[120px] opacity-[0.32] will-change-transform animate-orb-3"></div>
+<!-- Orb 4: Teal & Soft Ice Azure -->
+<div class="absolute top-[68vh] -right-[12vw] w-[56vw] h-[56vw] rounded-full bg-gradient-to-tl from-[#10B981] via-[#06B6D4] to-[#C7D2FE] filter blur-[120px] opacity-[0.34] will-change-transform animate-orb-4"></div>
+<!-- Subtle Fine Noise Overlay -->
+<div class="absolute inset-0 opacity-[0.10] mix-blend-overlay bg-[radial-gradient(#0F172A_1px,transparent_1px)] [background-size:16px_16px]"></div>
+</div>
+<!-- Floating Glass Island Navbar -->
+<header class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-[95%] max-w-7xl flex items-center justify-between px-8 py-3 bg-white/20 backdrop-blur-2xl border border-white/40 rounded-full shadow-2xl"><a class="flex items-center shrink-0" href="#"><img alt="AIS Logo" class="h-16 md:h-[72px] w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6A7PXapl4PgnDRelPqLxu1jvyUGpg-4yfinHQ4EKM6YH-6mE2HAEFZYq6UAcF9scMdtX_5GrzFANstoqympmwVjEh-WtnEqIEDIq29gvz51OIVhKvUeYeqVg9X2sw2KJxrkPTEPwF3kalgOB5DenZBqtZkchxM1cnYx01QjShAzZ_0-oP_z4QB3VrylD7cZBBaCjnlNRRkBFt0UIRtAAX211ClsGmxxQlJOhLmnctgfumcIUg8beUAg"/></a><div class="hidden md:flex items-center gap-8"><a class="text-sm font-semibold text-slate-800 hover:text-black transition-colors" href="#about">About</a><a class="text-sm font-semibold text-slate-800 hover:text-black transition-colors" href="#software">Software</a><a class="text-sm font-semibold text-slate-800 hover:text-black transition-colors" href="#cyber-security">Cyber Security</a><a class="text-sm font-semibold text-slate-800 hover:text-black transition-colors" href="#power">Power</a><a class="text-sm font-semibold text-slate-800 hover:text-black transition-colors" href="#telecom">Telecom</a></div><div class="flex items-center"><a href="#contact"><button class="bg-slate-900 text-white rounded-full px-7 py-3 text-sm font-semibold hover:scale-105 transition-transform shadow-lg">Initiate Brief ↗</button></a></div></header>
+<!-- Main Canvas -->
+<main class="relative z-10 pt-36 md:pt-40 pb-16">
+<!-- HERO SECTION & STATS ROW -->
+<section class="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-20 text-center flex flex-col items-center" id="about">
+<!-- Eyebrow Pill -->
+<div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-xl border border-white/85 shadow-sm mb-8 hover:bg-white/90 transition-all">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-[#0F172A] font-bold">EST. 1998 • OWNED BY CITY BANDIT LIMITED</span>
+</div>
+<!-- Main Heading -->
+<h1 class="text-[#0F172A] font-display-hero text-display-hero md:text-[68px] md:leading-[1.08] tracking-tight max-w-4xl mx-auto font-black mb-6">
+      Your digital future. <span class="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent italic">Revitalized.</span>
+</h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-[#334155] max-w-3xl mx-auto mb-10 leading-relaxed font-normal">
+      Advanced Information Systems Company is a progressive technology organization specializing in telecommunications, information technology, and custom software development across the Middle East, aligned with Saudi Vision 2030.
+    </p>
+<!-- CTA Cluster -->
+<div class="flex flex-col sm:flex-row items-center gap-4 mb-16">
+<a class="w-full sm:w-auto px-8 py-4 rounded-full bg-[#0F172A] text-white font-label-lg text-label-lg shadow-xl shadow-slate-900/15 hover:bg-[#1E293B] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2" href="#solutions">
+<span class="">Explore Solutions</span>
+<span class="material-symbols-outlined text-[18px]">north_east</span>
+</a>
+<a class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/55 backdrop-blur-xl border border-white/80 text-[#0F172A] font-label-lg text-label-lg hover:bg-white/80 shadow-md shadow-slate-900/5 active:scale-95 transition-all flex items-center justify-center gap-2" href="#contact">
+<span class="">Contact Us</span>
+<span class="material-symbols-outlined text-[18px]">forum</span>
+</a>
+</div>
+<!-- Stats Row (Ultra-Premium Editorial Typography Layout) -->
+<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-900/10 mt-12 py-4 w-full">
+<!-- Metric 1 -->
+<div class="flex flex-col items-center justify-center py-6 md:py-0 px-6 group">
+<div class="text-6xl md:text-7xl font-display font-light tracking-tighter text-slate-800 transition-all duration-500 hover:-translate-y-1 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-cyan-600 hover:to-emerald-500 cursor-default">
+      1998
+    </div>
+<div class="text-[10px] md:text-xs tracking-[0.25em] text-slate-500 uppercase mt-2 font-medium">
+      YEAR ESTABLISHED
+    </div>
+</div>
+<!-- Metric 2 -->
+<div class="flex flex-col items-center justify-center py-6 md:py-0 px-6 group">
+<div class="h-[72px] md:h-[88px] flex items-center justify-center transition-all duration-500 group-hover:-translate-y-1 cursor-default">
+<img alt="Saudi Vision 2030" class="h-full w-auto object-contain" src="logos/vision2030.png"/>
+</div>
+<div class="text-[10px] md:text-xs tracking-[0.25em] text-slate-500 uppercase mt-2 font-medium">
+      STRATEGIC ALIGNMENT
+    </div>
+</div>
+<!-- Metric 3 -->
+<div class="flex flex-col items-center justify-center py-6 md:py-0 px-6 group">
+<div class="h-[72px] md:h-[88px] flex items-center justify-center transition-all duration-500 group-hover:-translate-y-1 cursor-default">
+<span class="bg-[#0F172A] rounded-2xl px-6 h-full flex items-center justify-center shadow-lg shadow-slate-900/15">
+<img alt="Saudi Arabia" class="h-[78%] w-auto object-contain" src="logos/ksa-map.png"/>
+</span>
+</div>
+<div class="text-[10px] md:text-xs tracking-[0.25em] text-slate-500 uppercase mt-2 font-medium">
+      SOVEREIGN FOCUS
+    </div>
+</div>
+</div>
+</section>
+<!-- CORE SERVICES (Asymmetric Glass Bento Grid) -->
+<section class="max-w-6xl mx-auto px-6 lg:px-8 py-16 scroll-mt-28" id="solutions">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+<div>
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-[#00687a] font-bold mb-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#00687a]"></span>
+          CORE CAPABILITIES &amp; ARCHITECTURE
+        </div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-[#0F172A] tracking-tight">
+          Future-Ready Sovereign Systems
+        </h2>
+</div>
+<p class="font-body-md text-body-md text-[#475569] max-w-md mt-4 md:mt-0">
+        Precision-engineered digital backbones, sovereign defense standards, and deep technical execution across the Kingdom.
+      </p>
+</div>
+<!-- Asymmetric 4-Card Bento Grid (Span 7/5 & 5/7) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- 1) Software Solutions (Span 7) -->
+<div class="md:col-span-7 glass-card rounded-3xl p-8 hover:-translate-y-1 hover:shadow-2xl hover:border-white/90 transition-all duration-300 group overflow-hidden relative flex flex-col justify-between" id="software"><img alt="Software Solutions" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByP2h6IuoaN1Z6a2J--u4Ia1OK-bK92nSI4LtBNkyZVkTz3gtCjTA0eiRdHxeLTM931SV7ainMtmRXvUO0yor5lPotVf3wWvGyypMlqIxhkbADyYDsbyWh-pFfdZu_I4iQBsuMQQoxNoYrav4tb54kHowi3TbPBAOG0Jxj0hgKdTzq1jVV3HGyUfcIIdXmh4mz4gpcX_UzpTH8ZU0ZaJ9Nmek7uanMzMbP7CQGJDiMDEUVmjrZnaaunA"/><div class="bg-gradient-to-t from-white/95 via-white/80 to-white/20 absolute inset-0 backdrop-blur-[2px]"></div><div class="relative z-10 flex flex-col justify-between h-full"><div><div class="flex items-center justify-between mb-6"><div class="w-12 h-12 rounded-2xl bg-white/80 border border-white flex items-center justify-center text-[#00687a] shadow-sm"><span class="material-symbols-outlined text-[24px]">terminal</span></div><span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-cyan-500/10 text-[#00687a] font-bold border border-cyan-500/20 backdrop-blur-md">Enterprise Engineering</span></div><h3 class="font-headline-md text-headline-md font-bold text-[#0F172A] mb-3 group-hover:text-[#00687a] transition-colors">Software Solutions</h3><p class="font-body-md text-body-md text-[#0F172A] font-medium max-w-xl mb-6">End-to-end custom systems architecture, rigorous code assurance, and automation engineering engineered to meet state and commercial mandates.</p><div class="flex flex-wrap gap-2.5 mb-6"><span class="font-label-sm text-label-sm px-3.5 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Custom Software Development</span><span class="font-label-sm text-label-sm px-3.5 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Quality Engineering</span><span class="font-label-sm text-label-sm px-3.5 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Testing and Inspection</span><span class="font-label-sm text-label-sm px-3.5 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Code Testing</span><span class="font-label-sm text-label-sm px-3.5 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Professional Consulting</span><span class="font-label-sm text-label-sm px-3.5 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Automation Engineering</span></div></div><div class="bg-white/70 backdrop-blur-md rounded-2xl p-4 border border-white/80 shadow-inner flex items-center justify-between text-[13px] text-[#475569] font-medium"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span class="">Continuous QA Pipeline Active</span></div><span class="font-mono text-xs text-[#00687a] font-bold">100% REGULATORY TEST PASS</span></div></div></div>
+<!-- 2) Cyber Security (Span 5) -->
+<div class="md:col-span-5 glass-card rounded-3xl p-8 hover:-translate-y-1 hover:shadow-2xl hover:border-white/90 transition-all duration-300 group overflow-hidden relative flex flex-col justify-between" id="cyber-security"><img alt="Cyber Security" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANJ20APUrZaU9sZo0OV4m3yQqbkX6Ek5CUrrGcOTjtBOcC-E_t6fO335UA9x7NbV1H3ZfE3GNyjiQubleoHXet-S_mBI8NesLm1cR_6Bi1O6m0MPCB0v0T7mXqee_6p3scLOUYCmgwvyV0Yi3__A_lt0ej7OhhnyGHOjmPaYbTKZzcbfkczy-XOf4kVuwRsqPB21D-5a4T9hPkKtLN7v7o3mahD6eRql_UGjx7xNh8nRTrpmfqGRygmw"/><div class="bg-gradient-to-t from-white/95 via-white/80 to-white/20 absolute inset-0 backdrop-blur-[2px]"></div><div class="relative z-10 flex flex-col justify-between h-full"><div><div class="flex items-center justify-between mb-6"><div class="w-12 h-12 rounded-2xl bg-white/80 border border-white flex items-center justify-center text-[#006c49] shadow-sm"><span class="material-symbols-outlined text-[24px]">shield_lock</span></div><span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-500/10 text-[#006c49] font-bold border border-emerald-500/20 backdrop-blur-md">Defense Grade</span></div><h3 class="font-headline-md text-headline-md font-bold text-[#0F172A] mb-3 group-hover:text-[#006c49] transition-colors">Cyber Security</h3><p class="font-body-md text-body-md text-[#0F172A] font-medium mb-6">Robust sovereign defense mechanisms, proactive incident posture, and fully managed threat-mitigation frameworks.</p><div class="flex flex-wrap gap-2 mb-6"><span class="font-label-sm text-label-sm px-3 py-1 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Implementation &amp; Deployment</span><span class="font-label-sm text-label-sm px-3 py-1 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Performance Engineering</span><span class="font-label-sm text-label-sm px-3 py-1 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">IT Outsourcing</span><span class="font-label-sm text-label-sm px-3 py-1 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Planning and Execution</span><span class="font-label-sm text-label-sm px-3 py-1 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Customization &amp; Development</span><span class="font-label-sm text-label-sm px-3 py-1 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Managed Services</span><span class="font-label-sm text-label-sm px-3 py-1 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Proactive Solutions</span></div></div><div class="bg-white/70 backdrop-blur-md rounded-2xl p-4 border border-white/80 shadow-sm"><div class="flex items-center justify-between text-xs font-semibold mb-1"><span class="text-[#0F172A]">NCA &amp; SAMA Baseline</span><span class="text-[#006c49]">Defense Ready</span></div><div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden"><div class="bg-gradient-to-r from-emerald-500 to-cyan-500 h-full w-full rounded-full"></div></div></div></div></div>
+<!-- 3) Power Solutions (Span 5) -->
+<div class="md:col-span-5 glass-card rounded-3xl p-8 hover:-translate-y-1 hover:shadow-2xl hover:border-white/90 transition-all duration-300 group overflow-hidden relative flex flex-col justify-between" id="power"><img alt="Power Solutions" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOFhB5lpGaXLAr-yF_p2it0_dkfwjXlrICmILQhVEfAB4SCEY0S7nwxEweTD7eq78M8lEPX7otNaL7fgxFDrx9YClGIlDm6N8eUVVr6T5sQ5srM5zBcOJxVYtRJedNANGMUT4wQL2OjXhmVkOWFVu3O-TQghA1B6shMT3GYqeIBqupdZgQv6PmGLnJZAb2fmEh2zCjiXOeosYcW65MFtuIOdrMGd8pWH0bm8HsGvK79-Y4un3WqYzWkg"/><div class="bg-gradient-to-t from-white/95 via-white/80 to-white/20 absolute inset-0 backdrop-blur-[2px]"></div><div class="relative z-10 flex flex-col justify-between h-full"><div><div class="flex items-center justify-between mb-6"><div class="w-12 h-12 rounded-2xl bg-white/80 border border-white flex items-center justify-center text-[#855300] shadow-sm"><span class="material-symbols-outlined text-[24px]">bolt</span></div><span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/10 text-[#855300] font-bold border border-amber-500/20 backdrop-blur-md">High Availability</span></div><h3 class="font-headline-md text-headline-md font-bold text-[#0F172A] mb-3 group-hover:text-[#855300] transition-colors">Power Solutions</h3><p class="font-body-md text-body-md text-[#0F172A] font-medium mb-6">Engineered electrical resilience, power conversion systems, and mission-critical emergency fallback matrices for non-stop operations.</p><div class="flex flex-wrap gap-2 mb-6"><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Low Voltage Services</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Medium Voltage Solutions</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Backup Power Systems (UPS)</span></div></div><div class="grid grid-cols-2 gap-3"><div class="p-3 bg-white/70 backdrop-blur-md rounded-xl border border-white/80"><div class="font-headline-sm text-headline-sm font-bold text-[#0F172A]">2N+1</div><div class="font-label-sm text-label-sm text-[#475569]">Redundant Topology</div></div><div class="p-3 bg-white/70 backdrop-blur-md rounded-xl border border-white/80"><div class="font-headline-sm text-headline-sm font-bold text-[#0F172A]">0.0 ms</div><div class="font-label-sm text-label-sm text-[#475569]">Switchover Latency</div></div></div></div></div>
+<!-- 4) Telecom & ICT Solutions (Span 7) -->
+<div class="md:col-span-7 glass-card rounded-3xl p-8 hover:-translate-y-1 hover:shadow-2xl hover:border-white/90 transition-all duration-300 group overflow-hidden relative flex flex-col justify-between" id="telecom"><img alt="Telecom &amp; ICT Solutions" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtroWCIVGGKgJVtVucExoeCvq7FrqztrPoenjK5GBOV7gpoglifRm1Ej2QgbK67EOunVkHMvIAcdJeGtcz_VzR3WodfeVyCU6eSPQRcdhaSeHzsAX2fAG7BqEf8PV1OhtS4xCTirHKmi1JuDvlMnb8eB6FUdJTcAd57lEI-D7gb59hH5hHOmHRxZQ_9haw-GtkNlKm2OdENARwFEpiiKX3SpVhHWLNnKeXwtoduIwYO748USH8klchsw"/><div class="bg-gradient-to-t from-white/95 via-white/80 to-white/20 absolute inset-0 backdrop-blur-[2px]"></div><div class="relative z-10 flex flex-col justify-between h-full"><div><div class="flex items-center justify-between mb-6"><div class="w-12 h-12 rounded-2xl bg-white/80 border border-white flex items-center justify-center text-[#00687a] shadow-sm"><span class="material-symbols-outlined text-[24px]">settings_input_antenna</span></div><span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-cyan-500/10 text-[#00687a] font-bold border border-cyan-500/20 backdrop-blur-md">National Scale</span></div><h3 class="font-headline-md text-headline-md font-bold text-[#0F172A] mb-3 group-hover:text-[#00687a] transition-colors">Telecom &amp; ICT Solutions</h3><p class="font-body-md text-body-md text-[#0F172A] font-medium max-w-xl mb-6">Turnkey telecommunications contracting, optical backbones, smart city surveillance arrays, and high-density hyperscale data center infrastructure.</p><div class="flex flex-wrap gap-2 mb-6"><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Connectivity Solutions</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Data Center Solutions</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Core Network-ISP</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Safe City - CCTV</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Network Security</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Storage Solutions</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">Network Infrastructure</span><span class="font-label-sm text-label-sm px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md text-[#0F172A] border border-white/90 shadow-sm font-medium">OSP &amp; FTTX Solutions</span></div></div><div class="flex items-center justify-between p-4 bg-white/70 backdrop-blur-md rounded-2xl border border-white/80"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-[#00687a] text-[24px]">cell_tower</span><div><div class="font-label-md text-label-md font-bold text-[#0F172A]">Dense Optical Network Execution</div><div class="font-label-sm text-label-sm text-[#475569]">OSP civil trenching, dark fiber routing, and secure telecom cabinets</div></div></div><span class="material-symbols-outlined text-[#00687a] group-hover:translate-x-1 transition-transform">east</span></div></div></div>
+</div>
+</section>
+<!-- WHY CHOOSE US (4-Column Layout) -->
+<section class="max-w-6xl mx-auto px-6 lg:px-8 py-20 scroll-mt-28" id="why-choose-us">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<div class="font-label-sm text-label-sm uppercase tracking-widest text-[#00687a] font-bold mb-2">
+        THE AIS ADVANTAGE
+      </div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-[#0F172A] tracking-tight">
+        Engineered for Uncompromising Resilience
+      </h2>
+<p class="font-body-lg text-body-lg text-[#475569] mt-4">
+        Executing Saudi Arabia's most demanding mission infrastructure through rigorous engineering discipline and sovereign governance.
+      </p>
+</div>
+<div class="relative max-w-5xl mx-auto my-6">
+<div class="flex flex-col md:flex-row h-auto md:h-[420px] gap-4 w-full" id="pillar-accordion">
+<!-- Pillar 01 — expanded by default -->
+<div class="pillar-card pillar-emerald is-active bg-white/30 backdrop-blur-2xl border border-white/50 rounded-3xl overflow-hidden relative cursor-pointer flex flex-col justify-between p-6 md:p-8 shadow-lg" data-pillar="0">
+<div class="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-emerald-500/10 blur-2xl pillar-glow pillar-glow-emerald pointer-events-none"></div>
+<div class="relative z-10">
+<div class="pillar-top flex items-center justify-between mb-6">
+<div class="pillar-icon w-12 h-12 rounded-2xl bg-emerald-50 text-[#006c49] border border-emerald-100 flex items-center justify-center shadow-sm transition-transform duration-300"><span class="material-symbols-outlined text-[24px]">verified_user</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 font-bold border border-emerald-500/20 backdrop-blur-md">Pillar 01</span>
+</div>
+<h4 class="pillar-title font-headline-sm text-headline-sm font-bold text-[#0F172A] mb-2 transition-colors whitespace-nowrap">Industry Expertise</h4>
+<p class="pillar-subtitle-md font-label-sm text-label-sm text-[#475569] font-medium">Since 1998 • Sovereign Governance</p>
+</div>
+<div class="relative z-10 mt-6 md:mt-0 pillar-expandable">
+<p class="font-body-sm text-body-sm text-[#334155] leading-relaxed">With decades of experience across diverse sectors since 1998, we provide valuable insights and time-tested strategies.</p>
+<div class="mt-4 pt-3 border-t border-white/60 flex items-center justify-between text-emerald-600 font-label-sm text-label-sm font-bold">
+<span class="flex items-center gap-1">Explore Domain <span class="material-symbols-outlined text-[16px]">arrow_forward</span></span>
+<span class="text-[#006c49] font-mono text-xs">01 / 04</span>
+</div>
+</div>
+</div>
+<!-- Pillar 02 -->
+<div class="pillar-card pillar-cyan bg-white/30 backdrop-blur-2xl border border-white/50 rounded-3xl overflow-hidden relative cursor-pointer flex flex-col justify-between p-6 md:p-8 shadow-lg" data-pillar="1">
+<div class="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-cyan-500/10 blur-2xl pillar-glow pillar-glow-cyan pointer-events-none"></div>
+<div class="relative z-10">
+<div class="pillar-top flex items-center justify-between mb-6">
+<div class="pillar-icon w-12 h-12 rounded-2xl bg-cyan-50 text-[#00687a] border border-cyan-100 flex items-center justify-center shadow-sm transition-transform duration-300"><span class="material-symbols-outlined text-[24px]">tune</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-cyan-500/10 text-[#00687a] font-bold border border-cyan-500/20 backdrop-blur-md">Pillar 02</span>
+</div>
+<h4 class="pillar-title font-headline-sm text-headline-sm font-bold text-[#0F172A] mb-2 transition-colors whitespace-nowrap">Tailored Solutions</h4>
+<p class="pillar-subtitle-md font-label-sm text-label-sm text-[#475569] font-medium">Adaptive Technical Execution</p>
+</div>
+<div class="relative z-10 mt-6 md:mt-0 pillar-expandable">
+<p class="font-body-sm text-body-sm text-[#334155] leading-relaxed">Delivering tailored, flexible strategies crafted to tackle each client's unique challenges.</p>
+<div class="mt-4 pt-3 border-t border-white/60 flex items-center justify-between text-[#00687a] font-label-sm text-label-sm font-bold">
+<span class="flex items-center gap-1">Explore Domain <span class="material-symbols-outlined text-[16px]">arrow_forward</span></span>
+<span class="text-[#00687a] font-mono text-xs">02 / 04</span>
+</div>
+</div>
+</div>
+<!-- Pillar 03 -->
+<div class="pillar-card pillar-sky bg-white/30 backdrop-blur-2xl border border-white/50 rounded-3xl overflow-hidden relative cursor-pointer flex flex-col justify-between p-6 md:p-8 shadow-lg" data-pillar="2">
+<div class="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-sky-500/10 blur-2xl pillar-glow pillar-glow-sky pointer-events-none"></div>
+<div class="relative z-10">
+<div class="pillar-top flex items-center justify-between mb-6">
+<div class="pillar-icon w-12 h-12 rounded-2xl bg-sky-50 text-[#0284C7] border border-sky-100 flex items-center justify-center shadow-sm transition-transform duration-300"><span class="material-symbols-outlined text-[24px]">psychology</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-cyan-500/10 text-sky-600 font-bold border border-cyan-500/20 backdrop-blur-md">Pillar 03</span>
+</div>
+<h4 class="pillar-title font-headline-sm text-headline-sm font-bold text-[#0F172A] mb-2 transition-colors whitespace-nowrap">Cutting-Edge Tech</h4>
+<p class="pillar-subtitle-md font-label-sm text-label-sm text-[#475569] font-medium">AI &amp; Advanced Automation</p>
+</div>
+<div class="relative z-10 mt-6 md:mt-0 pillar-expandable">
+<p class="font-body-sm text-body-sm text-[#334155] leading-relaxed">Harnessing cutting-edge innovations such as AI, automation, and data analytics.</p>
+<div class="mt-4 pt-3 border-t border-white/60 flex items-center justify-between text-sky-600 font-label-sm text-label-sm font-bold">
+<span class="flex items-center gap-1">Explore Domain <span class="material-symbols-outlined text-[16px]">arrow_forward</span></span>
+<span class="text-[#0284C7] font-mono text-xs">03 / 04</span>
+</div>
+</div>
+</div>
+<!-- Pillar 04 -->
+<div class="pillar-card pillar-amber bg-white/30 backdrop-blur-2xl border border-white/50 rounded-3xl overflow-hidden relative cursor-pointer flex flex-col justify-between p-6 md:p-8 shadow-lg" data-pillar="3">
+<div class="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-amber-500/10 blur-2xl pillar-glow pillar-glow-amber pointer-events-none"></div>
+<div class="relative z-10">
+<div class="pillar-top flex items-center justify-between mb-6">
+<div class="pillar-icon w-12 h-12 rounded-2xl bg-amber-50 text-[#855300] border border-amber-100 flex items-center justify-center shadow-sm transition-transform duration-300"><span class="material-symbols-outlined text-[24px]">workspace_premium</span></div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 font-bold border border-amber-500/20 backdrop-blur-md">Pillar 04</span>
+</div>
+<h4 class="pillar-title font-headline-sm text-headline-sm font-bold text-[#0F172A] mb-2 transition-colors whitespace-nowrap">Proven Track Record</h4>
+<p class="pillar-subtitle-md font-label-sm text-label-sm text-[#475569] font-medium">National Delivery &amp; Alliances</p>
+</div>
+<div class="relative z-10 mt-6 md:mt-0 pillar-expandable">
+<p class="font-body-sm text-body-sm text-[#334155] leading-relaxed">A proven track record of successful projects, satisfied clients, and strategic partnerships.</p>
+<div class="mt-4 pt-3 border-t border-white/60 flex items-center justify-between text-amber-600 font-label-sm text-label-sm font-bold">
+<span class="flex items-center gap-1">Explore Domain <span class="material-symbols-outlined text-[16px]">arrow_forward</span></span>
+<span class="text-[#855300] font-mono text-xs">04 / 04</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TRUSTED PARTNERS & CUSTOMERS (Infinite Image Logo Marquee) -->
+<section class="max-w-6xl mx-auto px-6 lg:px-8 py-14 scroll-mt-28" id="partners">
+<div class="text-center mb-10">
+<h3 class="font-headline-sm text-headline-sm font-bold text-[#0F172A] tracking-tight">
+        Trusted by Sovereign Pioneers &amp; Customers
+      </h3>
+<p class="font-body-sm text-body-sm text-[#475569] mt-1">
+        Powering vital infrastructure for industry authorities and leading regional enterprises.
+      </p>
+</div>
+<!-- Marquee Glass Slider Track -->
+<div class="relative w-full overflow-hidden rounded-2xl bg-white/35 backdrop-blur-xl border border-white/60 py-8 shadow-sm">
+<!-- Gradient masks for smooth fading edges -->
+<div class="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
+<div class="absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none"></div>
+<div class="flex items-center w-max animate-marquee">
+<!-- Set 1: Official partner & customer logos (full color, uniform boxes) -->
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Jahez" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/jahez.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="neoleap" class="max-w-full max-h-full w-auto h-auto object-contain px-2" src="logos/neoleap.jpg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Arab National Bank" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/anb.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Dynatrace" class="h-6 w-6 object-contain" src="logos/dynatrace.svg" loading="lazy" draggable="false"/><span class="ml-2 text-lg font-bold text-slate-700 lowercase tracking-tight">dynatrace</span></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Alinma Bank" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/alinma.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Bank Albilad" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/albilad.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="MODON" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/modon.jpg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Atlassian" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/atlassian.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Alibaba.com" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/alibaba.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="LambdaTest" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/lambdatest.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="stc" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/stc.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Mobily" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/mobily.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Saudi Electricity Company" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/sec.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="OpenText" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/opentext.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Tricentis" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/tricentis.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Katalon" class="h-7 w-7 object-contain" src="logos/katalon.svg" loading="lazy" draggable="false"/><span class="ml-2 text-xl font-extrabold text-slate-900 tracking-tight">Katalon</span></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Checkmarx" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/checkmarx.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="SPL" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/spl.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Social Development Bank" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/sdb.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="HRSD" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/hrsd.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="GACA" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/gaca.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Central Bank of Oman" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/cbo.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300"><img alt="Oman Ministry of Labour" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/oman-mol.png" loading="lazy" draggable="false"/></span>
+<!-- Set 2 (Seamless duplicate track) -->
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Jahez" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/jahez.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="neoleap" class="max-w-full max-h-full w-auto h-auto object-contain px-2" src="logos/neoleap.jpg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Arab National Bank" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/anb.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Dynatrace" class="h-6 w-6 object-contain" src="logos/dynatrace.svg" loading="lazy" draggable="false"/><span class="ml-2 text-lg font-bold text-slate-700 lowercase tracking-tight">dynatrace</span></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Alinma Bank" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/alinma.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Bank Albilad" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/albilad.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="MODON" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/modon.jpg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Atlassian" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/atlassian.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Alibaba.com" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/alibaba.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="LambdaTest" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/lambdatest.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="stc" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/stc.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Mobily" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/mobily.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Saudi Electricity Company" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/sec.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="OpenText" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/opentext.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Tricentis" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/tricentis.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Katalon" class="h-7 w-7 object-contain" src="logos/katalon.svg" loading="lazy" draggable="false"/><span class="ml-2 text-xl font-extrabold text-slate-900 tracking-tight">Katalon</span></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Checkmarx" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/checkmarx.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="SPL" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/spl.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Social Development Bank" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/sdb.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="HRSD" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/hrsd.svg" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="GACA" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/gaca.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Central Bank of Oman" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/cbo.png" loading="lazy" draggable="false"/></span>
+<span class="flex items-center justify-center w-36 h-14 shrink-0 mx-3 opacity-90 hover:opacity-100 hover:scale-[1.06] transition-all duration-300" aria-hidden="true"><img alt="Oman Ministry of Labour" class="max-w-full max-h-full w-auto h-auto object-contain" src="logos/oman-mol.png" loading="lazy" draggable="false"/></span>
+</div></div>
+</section>
+<!-- CONTACT SECTION (Glass Container) -->
+<section class="max-w-5xl mx-auto px-6 lg:px-8 py-16 scroll-mt-28" id="contact">
+<div class="glass-card rounded-3xl p-8 md:p-14 relative overflow-hidden">
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-cyan-100/60 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row gap-12 items-start justify-between relative z-10">
+<!-- Left: Information Column -->
+<div class="lg:w-1/2">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/60 text-[#006c49] font-label-sm text-label-sm font-bold mb-6">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Operational &amp; Available for Tenders
+          </div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-[#0F172A] tracking-tight mb-4">
+            Start a dialogue.
+          </h2>
+<p class="font-body-md text-body-md text-[#475569] mb-8 leading-relaxed">
+            Connect with our enterprise directors, systems architects, and sovereign engineering leads to initiate your tender or consultation.
+          </p>
+<!-- Exact Corporate Contact Details -->
+<div class="space-y-4 font-body-sm text-body-sm">
+<div class="flex items-start gap-3 text-[#0F172A]">
+<span class="material-symbols-outlined text-[#00687a] text-[20px] mt-0.5">location_on</span>
+<div>
+<span class="font-bold block">Headquarters:</span>
+<span class="text-[#475569]">Building 7022, Al Aqeeq Dist, Riyadh, Postal Code 13515, Kingdom of Saudi Arabia.</span>
+</div>
+</div>
+<div class="flex items-center gap-3 text-[#0F172A]">
+<span class="material-symbols-outlined text-[#00687a] text-[20px]">call</span>
+<div>
+<span class="font-bold">Phone:</span>
+<span class="text-[#475569] ml-1">+966 53 086 7489</span>
+</div>
+</div>
+<div class="flex items-center gap-3 text-[#0F172A]">
+<span class="material-symbols-outlined text-[#00687a] text-[20px]">mail</span>
+<div>
+<span class="font-bold">Email:</span>
+<span class="text-[#475569] ml-1">info@advaninfo.com</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Interactive Minimalist Inquiry Form -->
+<form class="lg:w-1/2 w-full space-y-5" onsubmit="event.preventDefault(); alert('Inquiry transmitted to Advanced Information Systems &amp; Contracting.');">
+<div>
+<label class="block font-label-md text-label-md text-[#0F172A] font-semibold mb-1">Entity Name / Government Agency</label>
+<input class="w-full bg-white/60 border-b-2 border-slate-300 focus:border-[#00687a] rounded-t-lg rounded-b-none px-4 py-3 placeholder-slate-400 outline-none transition-colors text-[#0F172A] font-body-md text-body-md" placeholder="e.g. Ministry Directorate, Enterprise Corp" required="" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block font-label-md text-label-md text-[#0F172A] font-semibold mb-1">Work Email</label>
+<input class="w-full bg-white/60 border-b-2 border-slate-300 focus:border-[#00687a] rounded-t-lg rounded-b-none px-4 py-3 placeholder-slate-400 outline-none transition-colors text-[#0F172A] font-body-md text-body-md" placeholder="officer@agency.gov.sa" required="" type="email"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-[#0F172A] font-semibold mb-1">Phone</label>
+<input class="w-full bg-white/60 border-b-2 border-slate-300 focus:border-[#00687a] rounded-t-lg rounded-b-none px-4 py-3 placeholder-slate-400 outline-none transition-colors text-[#0F172A] font-body-md text-body-md" placeholder="+966 5x xxx xxxx" required="" type="tel"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-[#0F172A] font-semibold mb-1">Scope of Inquiry</label>
+<select class="w-full bg-white/60 border-b-2 border-slate-300 focus:border-[#00687a] rounded-t-lg rounded-b-none px-4 py-3 text-[#0F172A] outline-none transition-colors font-body-md text-body-md">
+<option>Software Solutions &amp; Custom Engineering</option>
+<option>Cyber Security Architecture &amp; ECC</option>
+<option>Power Solutions &amp; Backup Systems (UPS)</option>
+<option>Telecom &amp; ICT Solutions (OSP/FTTX, Data Centers)</option>
+<option>Comprehensive Sovereign Tender</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-[#0F172A] font-semibold mb-1">Brief Description</label>
+<textarea class="w-full bg-white/60 border-b-2 border-slate-300 focus:border-[#00687a] rounded-t-lg rounded-b-none px-4 py-3 placeholder-slate-400 outline-none transition-colors text-[#0F172A] font-body-md text-body-md resize-none" placeholder="Outline procurement specifications, timelines, or NDA requirements..." rows="3"></textarea>
+</div>
+<button class="w-full py-4 rounded-full bg-gradient-to-r from-[#00687a] to-[#0891b2] text-white font-label-lg text-label-lg shadow-xl shadow-cyan-950/20 hover:shadow-cyan-950/30 hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 border border-white/20" type="submit">
+<span class="">Transmit Formal Inquiry</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer class="mt-12 bg-white/60 backdrop-blur-3xl border-t border-white/70 shadow-[0_-16px_40px_-8px_rgba(15,23,42,0.04)] relative z-20 transition-all">
+<div class="w-full px-6 py-12 md:px-12 lg:px-16 max-w-7xl mx-auto flex flex-col gap-8">
+<!-- Top Row -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b border-slate-200/80">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<img alt="Advanced Information Systems &amp; Contracting" class="h-12 md:h-14 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSV3eSRzJKr-7vnCFfX1pJ_GIJ32zzz5NW0WlXk6K2sH7LVL64P3ut5vuKg07-YR3NfC7r0FMCWep8nCek4mt1M6pfzkAycM21j8-suBpq_mm6Rm-Myif_ST0T1Rh0cU1oMVZDgpzYjTmJrgGx5Xqo3jTVZGV2vnDoC8J9eCSQEt4wbQE5Xqol0HU89DlB4YYjKviH32GtECnz3EBTNCetTQJmuZPMSFDAGqA8mSQZ4W7e7iODcMSznCKsOgWSyOMgXg0"/>
+</div>
+<p class="text-body-sm font-body-sm text-[#475569] max-w-lg mt-1">
+          Advanced Information Systems &amp; Contracting (AIS Contracting). Owned by City Bandit Limited. Delivering telecom engineering, cybersecurity, power, and software systems.
+        </p>
+</div>
+<nav class="flex flex-wrap gap-x-6 gap-y-2">
+<a class="text-[#00687a] font-semibold text-label-md font-label-md hover:underline" href="#software">Software</a>
+<a class="text-[#334155] text-label-md font-label-md hover:text-[#00687a] transition-colors" href="#cyber-security">Cyber Security</a>
+<a class="text-[#334155] text-label-md font-label-md hover:text-[#00687a] transition-colors" href="#power">Power</a>
+<a class="text-[#334155] text-label-md font-label-md hover:text-[#00687a] transition-colors" href="#telecom">Telecom</a>
+<a class="text-[#334155] text-label-md font-label-md hover:text-[#00687a] transition-colors" href="#contact">Contact</a>
+</nav>
+</div>
+<!-- Bottom Row -->
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-body-sm font-body-sm text-[#475569]">
+<div class="">
+        Copyright Advanced Information Systems &amp; Contracting (AIS Contracting). Owned by City Bandit Limited. Riyadh, KSA. All rights reserved.
+      </div>
+<div class="flex items-center gap-1.5 font-medium">
+<span class="material-symbols-outlined text-[#00687a] text-[18px]">location_on</span>
+<span class="">Riyadh, Kingdom of Saudi Arabia</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+(function () {
+  var accordion = document.getElementById('pillar-accordion');
+  if (!accordion) return;
+
+  var cards = accordion.querySelectorAll('.pillar-card');
+
+  function activatePillar(card) {
+    cards.forEach(function (c) { c.classList.remove('is-active'); });
+    card.classList.add('is-active');
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('mouseenter', function () { activatePillar(card); });
+    card.addEventListener('click', function () { activatePillar(card); });
+  });
+})();
+</script>
+</body></html>
