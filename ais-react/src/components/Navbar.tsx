@@ -17,13 +17,6 @@ export default function Navbar() {
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26 });
   const lang = i18n.resolvedLanguage ?? i18n.language;
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   // Lock body when mobile menu is open
   useEffect(() => {
@@ -41,88 +34,88 @@ export default function Navbar() {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 0.61, 0.36, 1] }}
-        className={`fixed top-5 left-1/2 -translate-x-1/2 z-[100] w-[94%] max-w-7xl flex items-center justify-between px-4 md:px-8 py-2.5 rounded-2xl transition-all duration-500 ${
-          scrolled
-            ? 'glass-nav shadow-2xl top-3'
-            : 'bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg'
-        }`}
+        className="fixed top-0 left-0 right-0 z-[9999] w-full bg-white/80 backdrop-blur-2xl border-b border-white/50 shadow-sm transition-all duration-300"
       >
-        {/* Logo */}
-        <a className="flex items-center shrink-0 group" href="#">
-          <img
-            alt="AIS Logo"
-            className="h-16 md:h-20 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
-            src="logos/ais-logo.png"
-          />
-        </a>
-
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1">
-          {LINKS.map((l) => (
-            <a
-              key={l.href}
-              className="relative text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors px-4 py-2 rounded-xl hover:bg-white/30"
-              href={l.href}
-            >
-              {t(l.key)}
-            </a>
-          ))}
-        </nav>
-
-        {/* Right controls */}
-        <div className="flex items-center gap-2.5">
-          {/* Language toggle */}
-          <div className="hidden sm:flex items-center rounded-xl border border-white/50 bg-white/30 backdrop-blur-sm text-[11px] font-bold overflow-hidden">
-            <button
-              type="button"
-              onClick={() => setLang('en')}
-              className={`px-3.5 py-2 transition-all duration-300 ${
-                lang === 'en'
-                  ? 'bg-slate-900 text-white shadow-inner'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/40'
-              }`}
-            >
-              EN
-            </button>
-            <button
-              type="button"
-              onClick={() => setLang('ar')}
-              className={`px-3.5 py-2 transition-all duration-300 ${
-                lang === 'ar'
-                  ? 'bg-slate-900 text-white shadow-inner'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/40'
-              }`}
-            >
-              عربي
-            </button>
-          </div>
-
-          {/* CTA */}
-          <a href="#contact" className="hidden md:block">
-            <button className="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl px-6 py-3 text-sm font-semibold hover:shadow-xl hover:shadow-slate-900/20 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center gap-1.5 border border-white/10">
-              {t('nav.cta')} <ArrowUpRight size={16} />
-            </button>
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-3">
+          {/* Logo */}
+          <a className="flex items-center shrink-0 group" href="#">
+            <img
+              alt="AIS Logo"
+              className="h-14 md:h-16 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
+              src="logos/ais-logo.png"
+            />
           </a>
 
-          {/* Mobile menu button */}
-          <button
-            type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2.5 rounded-xl bg-white/30 backdrop-blur-sm border border-white/40 text-slate-700 hover:bg-white/50 transition-all"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {LINKS.map((l) => (
+              <a
+                key={l.href}
+                className="relative text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors px-4 py-2 rounded-xl hover:bg-white/40"
+                href={l.href}
+              >
+                {t(l.key)}
+              </a>
+            ))}
+          </nav>
+
+          {/* Right controls */}
+          <div className="flex items-center gap-2.5">
+            {/* Language toggle */}
+            <div className="hidden sm:flex items-center rounded-xl border border-white/60 bg-white/40 backdrop-blur-sm text-[11px] font-bold overflow-hidden shadow-xs">
+              <button
+                type="button"
+                onClick={() => setLang('en')}
+                className={`px-3.5 py-2 transition-all duration-300 ${
+                  lang === 'en'
+                    ? 'bg-slate-900 text-white shadow-inner'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                }`}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLang('ar')}
+                className={`px-3.5 py-2 transition-all duration-300 ${
+                  lang === 'ar'
+                    ? 'bg-slate-900 text-white shadow-inner'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                }`}
+              >
+                عربي
+              </button>
+            </div>
+
+            {/* CTA */}
+            <a
+              className="btn-shimmer hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
+              href="#contact"
+            >
+              <span>{t('nav.cta')}</span>
+              <ArrowUpRight size={14} />
+            </a>
+
+            {/* Mobile menu toggle */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-white/40 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
 
-        {/* Scroll progress */}
-        <motion.span
+        {/* Scroll progress line at bottom of navbar */}
+        <motion.div
+          className="h-[2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 origin-left"
           style={{ scaleX: progress }}
-          className="absolute -bottom-0.5 left-6 right-6 h-[2px] origin-left rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500"
         />
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -130,7 +123,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[99] mobile-menu-overlay pt-28 px-6 lg:hidden"
+            className="fixed inset-0 z-[10000] mobile-menu-overlay pt-28 px-6 lg:hidden"
           >
             <motion.nav
               initial={{ y: -20, opacity: 0 }}

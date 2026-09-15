@@ -13,16 +13,6 @@ const fadeUp = {
   }),
 };
 
-const statReveal = {
-  hidden: { opacity: 0, y: 24, scale: 0.95 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.65, delay: 0.6 + i * 0.12, ease: EASE },
-  }),
-};
-
 /* Particle positions — spread around the hero area */
 const PARTICLE_POSITIONS = [
   { top: '10%', left: '15%' },
@@ -38,7 +28,7 @@ export default function Hero() {
 
   return (
     <section
-      className="max-w-6xl mx-auto px-6 lg:px-8 pt-8 pb-24 text-center flex flex-col items-center relative"
+      className="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-20 text-center flex flex-col items-center relative overflow-hidden"
       id="about"
     >
       {/* Floating particles */}
@@ -136,87 +126,6 @@ export default function Hero() {
           <MessagesSquare size={18} className="group-hover:scale-110 transition-transform" />
         </a>
       </motion.div>
-
-      {/* Stats strip */}
-      <div className="max-w-5xl mx-auto w-full relative z-10">
-        {/* Morphing blob behind stats */}
-        <div className="absolute -inset-8 pointer-events-none" aria-hidden="true">
-          <motion.div
-            className="w-full h-full rounded-[3rem] bg-gradient-to-br from-cyan-200/10 via-emerald-100/10 to-amber-100/5 blur-[50px]"
-            animate={{
-              scale: [1, 1.05, 0.98, 1.02, 1],
-              rotate: [0, 1, -1, 0.5, 0],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-          />
-        </div>
-
-        <div className="glass-card rounded-3xl p-4 md:p-6 relative">
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-200/50 rtl:divide-x-reverse items-center">
-            {/* Year Established */}
-            <motion.div
-              variants={statReveal}
-              initial="hidden"
-              animate="show"
-              custom={0}
-              className="flex flex-col items-center justify-center py-8 md:py-8 px-6 group cursor-default"
-            >
-              <div className="h-[80px] md:h-[90px] flex items-center justify-center">
-                <span className="text-6xl md:text-7xl font-display font-extralight tracking-tighter text-slate-800 transition-all duration-500 group-hover:-translate-y-1 stat-glow group-hover:text-gradient-brand">
-                  1998
-                </span>
-              </div>
-              <div className="text-[10px] md:text-xs tracking-[0.2em] text-slate-400 uppercase mt-4 font-semibold text-center">
-                {t('hero.statEstablished')}
-              </div>
-            </motion.div>
-
-            {/* Vision 2030 */}
-            <motion.div
-              variants={statReveal}
-              initial="hidden"
-              animate="show"
-              custom={1}
-              className="flex flex-col items-center justify-center py-8 md:py-8 px-6 group cursor-default"
-            >
-              <div className="h-[80px] md:h-[90px] flex items-center justify-center transition-all duration-500 group-hover:-translate-y-1 group-hover:drop-shadow-lg">
-                <img
-                  alt="Saudi Vision 2030"
-                  className="max-h-full w-auto object-contain"
-                  src="logos/vision2030.png"
-                />
-              </div>
-              <div className="text-[10px] md:text-xs tracking-[0.2em] text-slate-400 uppercase mt-4 font-semibold text-center">
-                {t('hero.statAlignment')}
-              </div>
-            </motion.div>
-
-            {/* KSA Focus */}
-            <motion.div
-              variants={statReveal}
-              initial="hidden"
-              animate="show"
-              custom={2}
-              className="flex flex-col items-center justify-center py-8 md:py-8 px-6 group cursor-default"
-            >
-              <div className="h-[80px] md:h-[90px] flex items-center justify-center transition-all duration-500 group-hover:-translate-y-1 group-hover:drop-shadow-lg">
-                <img
-                  alt="Saudi Arabia"
-                  className="max-h-full w-auto object-contain"
-                  src="logos/ksa-map.png"
-                />
-              </div>
-              <div className="text-[10px] md:text-xs tracking-[0.2em] text-slate-400 uppercase mt-4 font-semibold text-center">
-                {t('hero.statFocus')}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
     </section>
   );
 }

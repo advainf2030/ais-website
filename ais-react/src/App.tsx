@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Partners from './components/Partners';
 import Pillars from './components/Pillars';
 import Services from './components/Services';
+import Stats from './components/Stats';
 
 const SPLASH_EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 
@@ -89,8 +90,9 @@ export default function App() {
       >
         <AuroraBackground />
         <Navbar />
-        <main className="relative z-10 pt-36 md:pt-44 pb-16">
+        <main className="relative z-10 pt-28 md:pt-32 pb-16">
           <Hero />
+          <Stats />
           <Services />
           <Pillars />
           <Partners />

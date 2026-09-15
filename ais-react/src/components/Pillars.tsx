@@ -80,11 +80,10 @@ export default function Pillars() {
                 key={i}
                 type="button"
                 onClick={() => setActive(i)}
-                className={`rounded-full transition-all duration-300 ${
-                  i === active
+                className={`rounded-full transition-all duration-300 ${i === active
                     ? 'w-8 h-2 bg-gradient-to-r from-teal-500 to-cyan-500'
                     : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
-                }`}
+                  }`}
                 layout
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               />
