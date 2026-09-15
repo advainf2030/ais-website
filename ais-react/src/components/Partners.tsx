@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { PARTNERS } from '../data';
 import type { Partner } from '../data';
@@ -60,16 +58,9 @@ function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
 
 export default function Partners() {
   const { t } = useTranslation();
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-  // Subtle parallax offset for the marquee
-  const marqueeX = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
-    <section ref={sectionRef} className="max-w-6xl mx-auto px-6 lg:px-8 py-16 scroll-mt-28" id="partners">
+    <section className="max-w-6xl mx-auto px-6 lg:px-8 py-16 scroll-mt-28" id="partners">
       <ScrollReveal className="text-center mb-12">
         <h3 className="font-display text-2xl leading-8 font-bold text-slate-900 tracking-tight">
           {t('partners.title')}
@@ -80,24 +71,28 @@ export default function Partners() {
       </ScrollReveal>
 
       <ScrollReveal delay={0.15}>
-        <div className="relative w-full overflow-hidden rounded-3xl glass-card py-10 shadow-sm">
-          {/* Gradient masks */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white/80 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/80 to-transparent z-10 pointer-events-none" />
+        <div
+          className="relative w-full overflow-hidden rounded-3xl glass-card py-10 shadow-sm"
+          dir="ltr"
+          style={{ direction: 'ltr' }}
+        >
+          {/* Gradient edge masks */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white/90 via-white/50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/90 via-white/50 to-transparent z-10 pointer-events-none" />
 
-          {/* Scrolling logos — always LTR for visual consistency, with scroll parallax */}
-          <motion.div
-            className="flex items-center w-max animate-marquee"
-            dir="ltr"
-            style={{ x: marqueeX }}
-          >
-            {PARTNERS.map((p) => (
-              <LogoItem key={p.name} partner={p} />
-            ))}
-            {PARTNERS.map((p) => (
-              <LogoItem key={`dup-${p.name}`} partner={p} hidden />
-            ))}
-          </motion.div>
+          {/* Scrolling logos — dual-track seamless infinite marquee that never disappears */}
+          <div className="marquee-track" dir="ltr">
+            <div className="marquee-group">
+              {PARTNERS.map((p) => (
+                <LogoItem key={`p1-${p.name}`} partner={p} />
+              ))}
+            </div>
+            <div className="marquee-group" aria-hidden="true">
+              {PARTNERS.map((p) => (
+                <LogoItem key={`p2-${p.name}`} partner={p} hidden />
+              ))}
+            </div>
+          </div>
         </div>
       </ScrollReveal>
     </section>

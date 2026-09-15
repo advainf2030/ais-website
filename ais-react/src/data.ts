@@ -73,8 +73,7 @@ export const SERVICES: ServiceMeta[] = [
     iconClass: 'text-[#00687a]',
     tagClass: 'bg-cyan-500/10 text-[#00687a] border-cyan-500/20',
     hoverClass: 'group-hover:text-[#00687a]',
-    image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuByP2h6IuoaN1Z6a2J--u4Ia1OK-bK92nSI4LtBNkyZVkTz3gtCjTA0eiRdHxeLTM931SV7ainMtmRXvUO0yor5lPotVf3wWvGyypMlqIxhkbADyYDsbyWh-pFfdZu_I4iQBsuMQQoxNoYrav4tb54kHowi3TbPBAOG0Jxj0hgKdTzq1jVV3HGyUfcIIdXmh4mz4gpcX_UzpTH8ZU0ZaJ9Nmek7uanMzMbP7CQGJDiMDEUVmjrZnaaunA',
+    image: 'images/software-solutions.jpg',
   },
   {
     id: 'cyber-security',
@@ -83,8 +82,7 @@ export const SERVICES: ServiceMeta[] = [
     iconClass: 'text-[#006c49]',
     tagClass: 'bg-emerald-500/10 text-[#006c49] border-emerald-500/20',
     hoverClass: 'group-hover:text-[#006c49]',
-    image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuANJ20APUrZaU9sZo0OV4m3yQqbkX6Ek5CUrrGcOTjtBOcC-E_t6fO335UA9x7NbV1H3ZfE3GNyjiQubleoHXet-S_mBI8NesLm1cR_6Bi1O6m0MPCB0v0T7mXqee_6p3scLOUYCmgwvyV0Yi3__A_lt0ej7OhhnyGHOjmPaYbTKZzcbfkczy-XOf4kVuwRsqPB21D-5a4T9hPkKtLN7v7o3mahD6eRql_UGjx7xNh8nRTrpmfqGRygmw',
+    image: 'images/cyber-security.jpg',
   },
   {
     id: 'power',

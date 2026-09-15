@@ -88,11 +88,24 @@ html[dir="rtl"] * {
 
 /* ---------- Marquee ---------- */
 @keyframes marquee-scroll {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
 }
-.animate-marquee { animation: marquee-scroll 45s linear infinite; }
-.animate-marquee:hover { animation-play-state: paused; }
+.marquee-track {
+  display: flex;
+  width: max-content;
+  user-select: none;
+}
+.marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  animation: marquee-scroll 42s linear infinite;
+  will-change: transform;
+}
+.marquee-track:hover .marquee-group {
+  animation-play-state: paused;
+}
 
 /* ---------- Shimmer glow ---------- */
 @keyframes shimmer {
