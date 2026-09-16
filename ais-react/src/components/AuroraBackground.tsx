@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -7,17 +7,30 @@ gsap.registerPlugin(ScrollTrigger);
 const VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4';
 
+const VIDEO_POSTER =
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=60';
+
 /**
  * Fixed fullscreen background — 3-layer compositing:
- *   Layer A (bottom): Dark code-texture video — opacity 0.12, mix-blend-difference
- *   Layer B (middle): Animated aurora gradient orbs with GSAP scroll parallax
+ *   Layer A (bottom): Animated aurora gradient orbs with GSAP scroll parallax
+ *   Layer B (middle): Dark code-texture video (conditionally loaded)
  *   Layer C (top):    Noise dot-pattern grain overlay
  *
- * Base canvas is #FAFAFA — the site stays light-mode.
- * mix-blend-difference inverts the video's dark pixels into subtle light patterns.
+ * Video is skipped when:
+ *   - User prefers reduced motion
+ *   - Browser signals Save-Data mode (navigator.connection.saveData)
  */
 export default function AuroraBackground() {
   const root = useRef<HTMLDivElement>(null);
+  const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const saveData = conn?.saveData === true;
+
+    setShowVideo(!prefersReducedMotion && !saveData);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -68,19 +81,24 @@ export default function AuroraBackground() {
       {/* Subtle center glow for depth */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] rounded-full bg-gradient-radial from-cyan-200/15 dark:from-emerald-500/5 to-transparent blur-[80px]" />
 
-      {/* ─── Layer B: Video texture (sharp overlay on top of aurora colors) ─── */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-[0.42] dark:opacity-[0.05] mix-blend-multiply dark:mix-blend-screen contrast-[1.15] pointer-events-none"
-      >
-        <source src={VIDEO_SRC} type="video/mp4" />
-      </video>
+      {/* ─── Layer B: Video texture (conditionally loaded) ─── */}
+      {showVideo && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster={VIDEO_POSTER}
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.42] dark:opacity-[0.05] mix-blend-multiply dark:mix-blend-screen contrast-[1.15] pointer-events-none"
+        >
+          <source src={VIDEO_SRC} type="video/mp4" />
+        </video>
+      )}
 
       {/* ─── Layer C: Noise grain overlay (top) ─── */}
       <div className="absolute inset-0 opacity-[0.06] dark:opacity-[0.03] mix-blend-overlay bg-[radial-gradient(#0F172A_1px,transparent_1px)] [background-size:14px_14px]" />
     </div>
   );
 }
+

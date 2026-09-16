@@ -13,14 +13,16 @@ const inputBaseClass =
 
 function AnimatedInput({
   label,
+  htmlFor,
   children,
 }: {
   label: string;
+  htmlFor: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="input-animate-wrapper">
-      <label className="block text-xs text-slate-800 dark:text-slate-200 font-semibold mb-1.5">
+      <label htmlFor={htmlFor} className="block text-xs text-slate-800 dark:text-slate-200 font-semibold mb-1.5">
         {label}
       </label>
       {children}
@@ -156,21 +158,21 @@ export default function Contact() {
                   className="lg:w-1/2 w-full space-y-5"
                   onSubmit={onSubmit}
                 >
-                  <AnimatedInput label={t('contact.entity')}>
-                    <input className={inputBaseClass} placeholder={t('contact.entityPh')} required type="text" />
+                  <AnimatedInput label={t('contact.entity')} htmlFor="field-entity">
+                    <input id="field-entity" className={inputBaseClass} placeholder={t('contact.entityPh')} required aria-required="true" type="text" />
                   </AnimatedInput>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <AnimatedInput label={t('contact.workEmail')}>
-                      <input className={inputBaseClass} placeholder="officer@agency.gov.sa" required type="email" />
+                    <AnimatedInput label={t('contact.workEmail')} htmlFor="field-email">
+                      <input id="field-email" className={inputBaseClass} placeholder="officer@agency.gov.sa" required aria-required="true" type="email" />
                     </AnimatedInput>
-                    <AnimatedInput label={t('contact.phoneLabel')}>
-                      <input className={inputBaseClass} placeholder="+966 5x xxx xxxx" required type="tel" />
+                    <AnimatedInput label={t('contact.phoneLabel')} htmlFor="field-phone">
+                      <input id="field-phone" className={inputBaseClass} placeholder="+966 5x xxx xxxx" required aria-required="true" type="tel" />
                     </AnimatedInput>
                   </div>
 
-                  <AnimatedInput label={t('contact.scope')}>
-                    <select className={`${inputBaseClass} cursor-pointer`}>
+                  <AnimatedInput label={t('contact.scope')} htmlFor="field-scope">
+                    <select id="field-scope" className={`${inputBaseClass} cursor-pointer`}>
                       {scopes.map((s) => (
                         <option key={s} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
                           {s}
@@ -179,8 +181,9 @@ export default function Contact() {
                     </select>
                   </AnimatedInput>
 
-                  <AnimatedInput label={t('contact.brief')}>
+                  <AnimatedInput label={t('contact.brief')} htmlFor="field-brief">
                     <textarea
+                      id="field-brief"
                       className={`${inputBaseClass} resize-none`}
                       placeholder={t('contact.briefPh')}
                       rows={3}

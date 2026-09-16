@@ -597,3 +597,41 @@ html[dir="rtl"] * {
 .theme-toggle-icon {
   animation: theme-toggle-spin 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
+
+/* ---------- Reduced motion accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-orb-1,
+  .animate-orb-2,
+  .animate-orb-3,
+  .animate-orb-4,
+  .hero-particle,
+  .marquee-group,
+  .animate-shimmer,
+  .animate-pulse-ring,
+  .confetti-piece,
+  .btn-shimmer::before,
+  .footer-shimmer-line,
+  .theme-toggle-icon,
+  .pillar-active-pulse,
+  .typing-dot {
+    animation: none !important;
+  }
+
+  .marquee-group {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+

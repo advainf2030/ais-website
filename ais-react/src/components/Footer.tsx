@@ -34,18 +34,29 @@ export default function Footer() {
         <div className="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           {/* Contact details — compact row */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-xs text-slate-700 dark:text-slate-300 font-medium">
-            <div className="flex items-center gap-1.5">
+            <a
+              href="https://maps.google.com/?q=Building+7022+Al+Aqeeq+Dist+Riyadh+13515+KSA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
+            >
               <MapPin size={13} className="text-teal-600 dark:text-emerald-400 shrink-0" />
               <span>{t('footer.address')}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
+            </a>
+            <a
+              href={`tel:${t('footer.phone').replace(/\s/g, '')}`}
+              className="flex items-center gap-1.5 hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
+            >
               <Phone size={13} className="text-teal-600 dark:text-emerald-400 shrink-0" />
               <span dir="ltr">{t('footer.phone')}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
+            </a>
+            <a
+              href={`mailto:${t('footer.email')}`}
+              className="flex items-center gap-1.5 hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
+            >
               <Mail size={13} className="text-teal-600 dark:text-emerald-400 shrink-0" />
               <span>{t('footer.email')}</span>
-            </div>
+            </a>
           </div>
 
           {/* Logo + copyright */}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { ArrowUpRight, Menu, X, Sun, Moon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -18,12 +18,34 @@ export default function Navbar() {
   const lang = i18n.resolvedLanguage ?? i18n.language;
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   // Lock body when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
+
+  // Focus management: focus first link on open, return to hamburger on close
+  const prevOpen = useRef(false);
+  useEffect(() => {
+    if (mobileOpen && !prevOpen.current) {
+      // Just opened — focus first link after animation starts
+      requestAnimationFrame(() => firstLinkRef.current?.focus());
+    } else if (!mobileOpen && prevOpen.current) {
+      // Just closed — return focus to hamburger
+      hamburgerRef.current?.focus();
+    }
+    prevOpen.current = mobileOpen;
+  }, [mobileOpen]);
+
+  // Close drawer on Escape key
+  const handleDrawerKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setMobileOpen(false);
+    }
+  }, []);
 
   const setLang = (lng: string) => {
     void i18n.changeLanguage(lng);
@@ -128,10 +150,12 @@ export default function Navbar() {
 
             {/* Mobile menu toggle */}
             <button
+              ref={hamburgerRef}
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-900 hover:bg-white/40 dark:hover:bg-slate-800/40 transition-colors"
-              aria-label="Toggle menu"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -154,6 +178,10 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[10000] mobile-menu-overlay pt-28 px-6 lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            onKeyDown={handleDrawerKeyDown}
           >
             <motion.nav
               initial={{ y: -20, opacity: 0 }}
@@ -165,6 +193,7 @@ export default function Navbar() {
               {LINKS.map((l, i) => (
                 <motion.a
                   key={l.key}
+                  ref={i === 0 ? firstLinkRef : undefined}
                   href={l.href}
                   onClick={(e) => {
                     e.preventDefault();

@@ -101,12 +101,16 @@ function AccordionRow({
   isOpen,
   onToggle,
   index,
+  panelId,
+  headerId,
 }: {
   title: string;
   desc: string;
   isOpen: boolean;
   onToggle: () => void;
   index: number;
+  panelId: string;
+  headerId: string;
 }) {
   return (
     <div
@@ -118,7 +122,10 @@ function AccordionRow({
     >
       <button
         type="button"
+        id={headerId}
         onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls={panelId}
         className="w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer"
       >
         <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -139,6 +146,7 @@ function AccordionRow({
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3, ease: EASE }}
           className="shrink-0 text-slate-400 dark:text-slate-500 group-hover:text-teal-600 dark:group-hover:text-emerald-400 transition-colors"
+          aria-hidden="true"
         >
           <ChevronDown size={18} />
         </motion.span>
@@ -148,6 +156,9 @@ function AccordionRow({
         {isOpen && (
           <motion.div
             key="content"
+            id={panelId}
+            role="region"
+            aria-labelledby={headerId}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -270,6 +281,8 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                 isOpen={openIndex === i}
                 onToggle={() => toggleAccordion(i)}
                 index={i}
+                headerId={`accordion-header-${serviceIndex}-${i}`}
+                panelId={`accordion-panel-${serviceIndex}-${i}`}
               />
             ))}
           </div>
@@ -327,6 +340,40 @@ export default function TabSystem() {
     if (el) tabRefs.current.set(key, el);
   };
 
+  // Keyboard navigation for WAI-ARIA tabs pattern
+  const handleTabKeyDown = (e: React.KeyboardEvent) => {
+    const isRtl = document.documentElement.dir === 'rtl';
+    const idx = TAB_KEYS.indexOf(active);
+    let nextIdx = idx;
+
+    switch (e.key) {
+      case 'ArrowRight':
+        nextIdx = isRtl
+          ? (idx - 1 + TAB_KEYS.length) % TAB_KEYS.length
+          : (idx + 1) % TAB_KEYS.length;
+        break;
+      case 'ArrowLeft':
+        nextIdx = isRtl
+          ? (idx + 1) % TAB_KEYS.length
+          : (idx - 1 + TAB_KEYS.length) % TAB_KEYS.length;
+        break;
+      case 'Home':
+        nextIdx = 0;
+        break;
+      case 'End':
+        nextIdx = TAB_KEYS.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    e.preventDefault();
+    const nextKey = TAB_KEYS[nextIdx];
+    selectTab(nextKey);
+    // Move focus to the newly selected tab
+    tabRefs.current.get(nextKey)?.focus();
+  };
+
   // Map tab key to service card index:
   // services.cards[0] = Software Solutions
   // services.cards[1] = Power Solutions
@@ -343,7 +390,10 @@ export default function TabSystem() {
         {/* Tab bar */}
         <div
           ref={containerRef}
+          role="tablist"
+          aria-label="Service categories"
           className="relative flex items-center md:justify-center border-b border-slate-200/80 dark:border-slate-800 overflow-x-auto scrollbar-hide px-4 sm:px-6 md:px-0 scroll-smooth pb-0"
+          onKeyDown={handleTabKeyDown}
         >
           {TAB_KEYS.map((key) => {
             const isSelected = active === key;
@@ -352,6 +402,11 @@ export default function TabSystem() {
                 key={key}
                 ref={setTabRef(key)}
                 type="button"
+                role="tab"
+                id={`tab-${key}`}
+                aria-selected={isSelected}
+                aria-controls={`tabpanel-${key}`}
+                tabIndex={isSelected ? 0 : -1}
                 onClick={() => selectTab(key)}
                 className={`relative shrink-0 px-4 sm:px-5 md:px-6 py-4 text-[13px] md:text-sm transition-all duration-300 whitespace-nowrap cursor-pointer ${
                   isSelected
@@ -373,7 +428,13 @@ export default function TabSystem() {
         </div>
 
         {/* Tab content */}
-        <div className="mt-10 min-h-[300px]">
+        <div
+          className="mt-10 min-h-[300px]"
+          role="tabpanel"
+          id={`tabpanel-${active}`}
+          aria-labelledby={`tab-${active}`}
+          tabIndex={0}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
