@@ -3,14 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import AuroraBackground from './components/AuroraBackground';
 import Contact from './components/Contact';
-import CursorFollower from './components/CursorFollower';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import Partners from './components/Partners';
-import Pillars from './components/Pillars';
-import Services from './components/Services';
-import Stats from './components/Stats';
+import TabSystem from './components/TabSystem';
 
 const SPLASH_EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 
@@ -34,9 +31,6 @@ export default function App() {
 
   return (
     <>
-      {/* Custom cursor follower — desktop only */}
-      <CursorFollower />
-
       {/* Splash loader with radial reveal */}
       <AnimatePresence>
         {loading && (
@@ -92,9 +86,7 @@ export default function App() {
         <Navbar />
         <main className="relative z-10 pt-28 md:pt-32 pb-16">
           <Hero />
-          <Stats />
-          <Services />
-          <Pillars />
+          <TabSystem />
           <Partners />
           <Contact />
         </main>

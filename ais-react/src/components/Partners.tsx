@@ -5,7 +5,7 @@ import ScrollReveal from './ScrollReveal';
 
 function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
   const baseClass =
-    'flex items-center justify-center w-40 h-16 shrink-0 mx-4 opacity-85 hover:opacity-100 hover:scale-[1.08] transition-all duration-300 rounded-xl hover:bg-white/40 hover:shadow-md hover:backdrop-blur-sm';
+    'flex items-center justify-center w-32 md:w-40 h-14 md:h-16 shrink-0 mx-3 md:mx-4 opacity-85 hover:opacity-100 hover:scale-[1.08] transition-all duration-300 rounded-xl hover:bg-white/40 hover:shadow-md hover:backdrop-blur-sm';
 
   if (partner.name === 'Dynatrace') {
     return (
@@ -65,22 +65,22 @@ export default function Partners() {
         <h3 className="font-display text-2xl leading-8 font-bold text-slate-900 tracking-tight">
           {t('partners.title')}
         </h3>
-        <p className="text-sm leading-6 text-slate-500 mt-2 max-w-lg mx-auto">
+        <p className="text-sm leading-6 text-slate-800 font-medium mt-2 max-w-lg mx-auto">
           {t('partners.desc')}
         </p>
       </ScrollReveal>
 
       <ScrollReveal delay={0.15}>
         <div
-          className="relative w-full overflow-hidden rounded-3xl glass-card py-10 shadow-sm"
+          className="relative w-full overflow-hidden rounded-3xl glass-card py-8 md:py-10 shadow-sm"
           dir="ltr"
           style={{ direction: 'ltr' }}
         >
           {/* Gradient edge masks */}
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white/90 via-white/50 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white/90 via-white/50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white/90 via-white/50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white/90 via-white/50 to-transparent z-10 pointer-events-none" />
 
-          {/* Scrolling logos — dual-track seamless infinite marquee that never disappears */}
+          {/* Triple-track seamless infinite marquee — tripled logos ensure no gaps even on wide screens */}
           <div className="marquee-track" dir="ltr">
             <div className="marquee-group">
               {PARTNERS.map((p) => (
@@ -90,6 +90,11 @@ export default function Partners() {
             <div className="marquee-group" aria-hidden="true">
               {PARTNERS.map((p) => (
                 <LogoItem key={`p2-${p.name}`} partner={p} hidden />
+              ))}
+            </div>
+            <div className="marquee-group" aria-hidden="true">
+              {PARTNERS.map((p) => (
+                <LogoItem key={`p3-${p.name}`} partner={p} hidden />
               ))}
             </div>
           </div>

@@ -40,6 +40,15 @@ html[dir="rtl"] * {
   color: #fff;
 }
 
+/* Hide scrollbar for tab bar horizontal scroll on mobile */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar {
   width: 6px;
@@ -423,40 +432,6 @@ html[dir="rtl"] * {
   opacity: 1;
 }
 
-/* ---------- Cursor follower (desktop only) ---------- */
-.cursor-follower {
-  position: fixed;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transition: width 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
-              height 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
-              background 0.3s ease;
-}
-.cursor-follower.is-hovering {
-  width: 56px;
-  height: 56px;
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-@media (max-width: 1023px) {
-  .cursor-follower {
-    display: none !important;
-  }
-}
-@media (pointer: coarse) {
-  .cursor-follower {
-    display: none !important;
-  }
-}
 
 /* ---------- Footer shimmer line ---------- */
 @keyframes footer-shimmer {

@@ -73,38 +73,38 @@ export default function Contact() {
                 {t('contact.title')}
               </h2>
 
-              <p className="text-[15px] leading-7 text-slate-500 mb-10">
+              <p className="text-[15px] leading-7 text-slate-800 font-medium mb-10">
                 {t('contact.desc')}
               </p>
 
               <div className="space-y-5 text-sm">
-                <div className="flex items-start gap-4 text-slate-800 group">
+                <div className="flex items-start gap-4 text-slate-900 group">
                   <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
                     <MapPin size={18} className="text-teal-700" />
                   </div>
                   <div>
                     <span className="font-bold block text-slate-900">{t('contact.hq')}</span>
-                    <span className="text-slate-500 leading-6">{t('contact.hqValue')}</span>
+                    <span className="text-slate-800 leading-6">{t('contact.hqValue')}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-slate-800 group">
+                <div className="flex items-center gap-4 text-slate-900 group">
                   <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
                     <Phone size={18} className="text-teal-700" />
                   </div>
                   <div>
                     <span className="font-bold">{t('contact.phone')}</span>
-                    <span className="text-slate-500 ms-1.5" dir="ltr">{CONTACT.phone}</span>
+                    <span className="text-slate-800 ms-1.5 font-medium" dir="ltr">{CONTACT.phone}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-slate-800 group">
+                <div className="flex items-center gap-4 text-slate-900 group">
                   <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
                     <Mail size={18} className="text-teal-700" />
                   </div>
                   <div>
                     <span className="font-bold">{t('contact.email')}</span>
-                    <span className="text-slate-500 ms-1.5">{CONTACT.email}</span>
+                    <span className="text-slate-800 ms-1.5 font-medium">{CONTACT.email}</span>
                   </div>
                 </div>
               </div>

@@ -50,11 +50,11 @@ export default function Hero() {
         custom={0}
         className="flex items-center gap-4 justify-center mb-10 relative z-10"
       >
-        <span className="hidden md:block w-10 h-[1px] bg-slate-300" />
-        <span className="text-[10px] md:text-xs tracking-[0.25em] font-semibold uppercase text-slate-500">
+        <span className="hidden md:block w-10 h-[1px] bg-slate-400" />
+        <span className="text-[11px] md:text-xs tracking-[0.25em] font-bold uppercase text-slate-800">
           {t('hero.eyebrow')}
         </span>
-        <span className="hidden md:block w-10 h-[1px] bg-slate-300" />
+        <span className="hidden md:block w-10 h-[1px] bg-slate-400" />
       </motion.div>
 
       {/* Main headline — staggered word reveal */}
@@ -75,7 +75,7 @@ export default function Hero() {
         </motion.span>{' '}
         <span className="relative inline-block overflow-visible py-1 px-1">
           <motion.span
-            className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent inline-block"
+            className="bg-gradient-to-r from-teal-700 via-emerald-600 to-teal-600 bg-clip-text text-transparent inline-block pb-1"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
@@ -87,7 +87,7 @@ export default function Hero() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 1.0, duration: 0.8, ease: EASE }}
-            className="absolute -bottom-0.5 left-1 right-1 h-[3px] bg-gradient-to-r from-emerald-500/50 via-teal-400/50 to-cyan-500/50 rounded-full origin-left"
+            className="absolute -bottom-1.5 md:-bottom-2 left-1 right-1 h-[3px] bg-gradient-to-r from-teal-600/60 via-emerald-500/60 to-teal-600/60 rounded-full origin-left"
           />
         </span>
       </motion.h1>
@@ -98,7 +98,7 @@ export default function Hero() {
         initial="hidden"
         animate="show"
         custom={2}
-        className="text-lg md:text-xl leading-8 text-slate-500 max-w-3xl mx-auto mb-12 font-normal relative z-10"
+        className="text-lg md:text-xl leading-8 text-slate-800 max-w-3xl mx-auto mb-12 font-medium relative z-10"
       >
         {t('hero.subtitle')}
       </motion.p>
@@ -119,7 +119,7 @@ export default function Hero() {
           <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </a>
         <a
-          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/50 backdrop-blur-2xl border border-white/80 text-slate-800 text-sm font-semibold hover:bg-white/70 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2"
+          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/70 backdrop-blur-2xl border border-white/90 text-slate-900 text-sm font-bold hover:bg-white/90 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2"
           href="#contact"
         >
           {t('hero.contact')}

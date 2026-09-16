@@ -4,11 +4,11 @@ import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const LINKS = [
-  { href: '#about', key: 'nav.about' },
+  { href: '#solutions', key: 'nav.about' },
   { href: '#solutions', key: 'nav.software' },
-  { href: '#cyber-security', key: 'nav.cyber' },
-  { href: '#power', key: 'nav.power' },
-  { href: '#telecom', key: 'nav.telecom' },
+  { href: '#solutions', key: 'nav.cyber' },
+  { href: '#solutions', key: 'nav.power' },
+  { href: '#solutions', key: 'nav.telecom' },
 ] as const;
 
 export default function Navbar() {
@@ -149,7 +149,7 @@ export default function Navbar() {
               <div className="border-t border-slate-200/60 mt-4 pt-4 flex flex-col gap-3">
                 {/* Mobile lang toggle */}
                 <div className="flex items-center gap-2 px-4">
-                  <span className="text-xs text-slate-500 font-medium">Language:</span>
+                  <span className="text-xs text-slate-800 font-semibold">Language:</span>
                   <div className="flex items-center rounded-xl border border-slate-200 bg-white/60 text-xs font-bold overflow-hidden">
                     <button
                       type="button"

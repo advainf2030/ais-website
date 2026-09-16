@@ -56,33 +56,23 @@ const resources = {
           },
         ],
       },
-      pillars: {
-        eyebrow: 'THE AIS ADVANTAGE',
-        title: 'Engineered for Uncompromising Resilience',
-        desc: "Executing Saudi Arabia's most demanding mission infrastructure through rigorous engineering discipline and sovereign governance.",
-        explore: 'Explore Domain',
-        badge: ['Pillar 01', 'Pillar 02', 'Pillar 03', 'Pillar 04'],
-        cards: [
-          {
-            title: 'Industry Expertise',
-            sub: 'Since 1998 • Sovereign Governance',
-            desc: 'With decades of experience across diverse sectors since 1998, we provide valuable insights and time-tested strategies.',
-          },
-          {
-            title: 'Tailored Solutions',
-            sub: 'Adaptive Technical Execution',
-            desc: "Delivering tailored, flexible strategies crafted to tackle each client's unique challenges.",
-          },
-          {
-            title: 'Cutting-Edge Tech',
-            sub: 'AI & Advanced Automation',
-            desc: 'Harnessing cutting-edge innovations such as AI, automation, and data analytics.',
-          },
-          {
-            title: 'Proven Track Record',
-            sub: 'National Delivery & Alliances',
-            desc: 'A proven track record of successful projects, satisfied clients, and strategic partnerships.',
-          },
+      tabs: {
+        about: 'About',
+        software: 'Software Solutions',
+        cyber: 'Cyber Security',
+        power: 'Power Solutions',
+        telecom: 'Telecom & ICT',
+      },
+      about: {
+        title: 'Who We Are',
+        overview: 'Advanced Information Systems & Contracting (AIS) is a progressive technology organization established in 1998, owned by City Bandit Limited. We specialize in telecommunications, information technology, and custom software development across the Middle East, aligned with Saudi Vision 2030.',
+        vision: 'To be among the leading companies in information technology, cybersecurity, artificial intelligence, electricity, telecommunications, and general contracting, through continuous innovation and leveraging artificial intelligence to enhance trust and efficiency for clients in both the public and private sectors.',
+        mission: 'Advanced Information Systems Company strives to provide diverse and reliable services with high quality and cost-effectiveness, combining modernity and innovation to meet client needs and exceed expectations efficiently and professionally, while contributing to the achievement of Saudi Arabia\'s Vision 2030.',
+        strengths: [
+          { title: 'Industry Expertise', desc: 'Over 25 years of experience across diverse sectors since 1998, delivering insights and time-tested strategies.' },
+          { title: 'Tailored Solutions', desc: 'Flexible strategies crafted for each client\'s unique challenges — no one-size-fits-all.' },
+          { title: 'Cutting-Edge Tech', desc: 'Leveraging AI, automation, and data analytics to drive measurable outcomes.' },
+          { title: 'Proven Track Record', desc: 'Successful projects with government bodies and major enterprises across the region.' },
         ],
       },
       partners: {
@@ -176,33 +166,23 @@ const resources = {
           },
         ],
       },
-      pillars: {
-        eyebrow: 'لماذا AIS',
-        title: 'ما يميّزنا عن غيرنا',
-        desc: 'خبرة تمتد لأكثر من 25 سنة في تنفيذ المشاريع التقنية الكبرى في المملكة العربية السعودية.',
-        explore: 'اعرف المزيد',
-        badge: ['أولاً', 'ثانياً', 'ثالثاً', 'رابعاً'],
-        cards: [
-          {
-            title: 'خبرة طويلة',
-            sub: 'منذ 1998 في السوق',
-            desc: 'أكثر من 25 سنة من العمل في قطاعات متعددة، نفهم السوق واحتياجات العملاء.',
-          },
-          {
-            title: 'حلول مخصصة',
-            sub: 'نفهم احتياجك',
-            desc: 'كل مشروع مختلف — لذلك نصمم حلولنا حسب متطلبات كل عميل وليس بقالب جاهز.',
-          },
-          {
-            title: 'أحدث التقنيات',
-            sub: 'نواكب التطور',
-            desc: 'نستخدم أحدث التقنيات والأدوات في مجالات الذكاء الاصطناعي والأتمتة وتحليل البيانات.',
-          },
-          {
-            title: 'إنجازات مثبتة',
-            sub: 'شراكات قوية',
-            desc: 'نفتخر بسجل حافل من المشاريع الناجحة مع جهات حكومية وشركات كبرى في المنطقة.',
-          },
+      tabs: {
+        about: 'من نحن',
+        software: 'الحلول البرمجية',
+        cyber: 'الأمن السيبراني',
+        power: 'حلول الطاقة',
+        telecom: 'الاتصالات',
+      },
+      about: {
+        title: 'من نحن',
+        overview: 'شركة أنظمة المعلومات المتقدمة والمقاولات (AIS) تأسست عام 1998، مملوكة لشركة City Bandit Limited. نتخصص في الاتصالات وتقنية المعلومات وتطوير البرمجيات في المملكة العربية السعودية والشرق الأوسط، بما يتوافق مع رؤية 2030.',
+        vision: 'أن نكون من بين الشركات الرائدة في تقنية المعلومات، والأمن السيبراني، والذكاء الاصطناعي، والكهرباء، والاتصالات، والمقاولات العامة، من خلال الابتكار المستمر وتسخير الذكاء الاصطناعي لتعزيز الثقة والكفاءة للعملاء في القطاعين العام والخاص.',
+        mission: 'تسعى شركة أنظمة المعلومات المتقدمة إلى تقديم خدمات متنوعة وموثوقة بجودة عالية وبتكلفة مناسبة، تجمع بين الحداثة والابتكار لتلبية احتياجات العملاء وتجاوز توقعاتهم بكفاءة واحترافية، مع الإسهام في تحقيق رؤية المملكة العربية السعودية 2030.',
+        strengths: [
+          { title: 'خبرة طويلة', desc: 'أكثر من 25 سنة من العمل في قطاعات متعددة، نفهم السوق واحتياجات العملاء.' },
+          { title: 'حلول مخصصة', desc: 'كل مشروع مختلف — نصمم حلولنا حسب متطلبات كل عميل وليس بقالب جاهز.' },
+          { title: 'أحدث التقنيات', desc: 'نستخدم أحدث التقنيات في الذكاء الاصطناعي والأتمتة وتحليل البيانات.' },
+          { title: 'إنجازات مثبتة', desc: 'سجل حافل من المشاريع الناجحة مع جهات حكومية وشركات كبرى.' },
         ],
       },
       partners: {
