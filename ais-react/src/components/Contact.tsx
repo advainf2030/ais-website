@@ -9,7 +9,7 @@ import ScrollReveal from './ScrollReveal';
 const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 
 const inputBaseClass =
-  'w-full bg-white/50 backdrop-blur-sm rounded-xl px-4 py-3.5 placeholder-slate-400 outline-none transition-all duration-300 text-slate-900 text-[15px] hover:bg-white/70 focus:bg-white/80 focus:shadow-sm border-none';
+  'w-full bg-white/60 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-3.5 placeholder-slate-400 dark:placeholder-slate-400 outline-none transition-all duration-300 text-slate-900 dark:text-white text-[15px] hover:bg-white/80 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 focus:border-teal-500 dark:focus:border-emerald-400 focus:shadow-sm';
 
 function AnimatedInput({
   label,
@@ -20,7 +20,7 @@ function AnimatedInput({
 }) {
   return (
     <div className="input-animate-wrapper">
-      <label className="block text-xs text-slate-800 font-semibold mb-1.5">
+      <label className="block text-xs text-slate-800 dark:text-slate-200 font-semibold mb-1.5">
         {label}
       </label>
       {children}
@@ -49,8 +49,8 @@ export default function Contact() {
       <ScrollReveal>
         <div className="glass-card rounded-[2rem] p-8 md:p-14 relative overflow-hidden">
           {/* Decorative orbs */}
-          <div className="absolute -right-24 -bottom-24 w-96 h-96 bg-gradient-to-tl from-cyan-100/50 via-teal-100/40 to-transparent rounded-full blur-[60px] pointer-events-none" />
-          <div className="absolute -left-16 -top-16 w-64 h-64 bg-gradient-to-br from-emerald-100/30 to-transparent rounded-full blur-[40px] pointer-events-none" />
+          <div className="absolute -right-24 -bottom-24 w-96 h-96 bg-gradient-to-tl from-cyan-100/50 dark:from-emerald-500/10 via-teal-100/40 dark:via-teal-500/5 to-transparent rounded-full blur-[60px] pointer-events-none" />
+          <div className="absolute -left-16 -top-16 w-64 h-64 bg-gradient-to-br from-emerald-100/30 dark:from-cyan-500/10 to-transparent rounded-full blur-[40px] pointer-events-none" />
 
           <div className="flex flex-col lg:flex-row gap-12 items-start justify-between relative z-10">
             {/* Left info */}
@@ -60,7 +60,7 @@ export default function Contact() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-2xl bg-emerald-50/80 border border-emerald-200/60 text-emerald-700 text-xs font-bold mb-7"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/60 border border-emerald-200/60 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold mb-7"
               >
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -69,42 +69,42 @@ export default function Contact() {
                 {t('contact.badge')}
               </motion.div>
 
-              <h2 className="font-display text-4xl md:text-[44px] md:leading-[52px] font-bold text-slate-900 tracking-tight mb-5">
+              <h2 className="font-display text-4xl md:text-[44px] md:leading-[52px] font-bold text-slate-900 dark:text-white tracking-tight mb-5">
                 {t('contact.title')}
               </h2>
 
-              <p className="text-[15px] leading-7 text-slate-800 font-medium mb-10">
+              <p className="text-[15px] leading-7 text-slate-800 dark:text-slate-300 font-medium mb-10">
                 {t('contact.desc')}
               </p>
 
               <div className="space-y-5 text-sm">
-                <div className="flex items-start gap-4 text-slate-900 group">
-                  <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
-                    <MapPin size={18} className="text-teal-700" />
+                <div className="flex items-start gap-4 text-slate-900 dark:text-white group">
+                  <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-slate-800 border border-teal-100 dark:border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-teal-100 dark:group-hover:bg-slate-700 transition-colors">
+                    <MapPin size={18} className="text-teal-700 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <span className="font-bold block text-slate-900">{t('contact.hq')}</span>
-                    <span className="text-slate-800 leading-6">{t('contact.hqValue')}</span>
+                    <span className="font-bold block text-slate-900 dark:text-white">{t('contact.hq')}</span>
+                    <span className="text-slate-800 dark:text-slate-300 leading-6">{t('contact.hqValue')}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-slate-900 group">
-                  <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
-                    <Phone size={18} className="text-teal-700" />
+                <div className="flex items-center gap-4 text-slate-900 dark:text-white group">
+                  <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-slate-800 border border-teal-100 dark:border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-teal-100 dark:group-hover:bg-slate-700 transition-colors">
+                    <Phone size={18} className="text-teal-700 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <span className="font-bold">{t('contact.phone')}</span>
-                    <span className="text-slate-800 ms-1.5 font-medium" dir="ltr">{CONTACT.phone}</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{t('contact.phone')}</span>
+                    <span className="text-slate-800 dark:text-slate-300 ms-1.5 font-medium" dir="ltr">{CONTACT.phone}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 text-slate-900 group">
-                  <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors">
-                    <Mail size={18} className="text-teal-700" />
+                <div className="flex items-center gap-4 text-slate-900 dark:text-white group">
+                  <div className="w-10 h-10 rounded-xl bg-teal-50 dark:bg-slate-800 border border-teal-100 dark:border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-teal-100 dark:group-hover:bg-slate-700 transition-colors">
+                    <Mail size={18} className="text-teal-700 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <span className="font-bold">{t('contact.email')}</span>
-                    <span className="text-slate-800 ms-1.5 font-medium">{CONTACT.email}</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{t('contact.email')}</span>
+                    <span className="text-slate-800 dark:text-slate-300 ms-1.5 font-medium">{CONTACT.email}</span>
                   </div>
                 </div>
               </div>
@@ -142,7 +142,7 @@ export default function Contact() {
                     <CheckCircle2 size={56} className="text-emerald-500" />
                     <Sparkles size={20} className="absolute -top-2 -right-2 text-amber-400 animate-pulse" />
                   </motion.div>
-                  <p className="text-[16px] leading-7 text-slate-800 font-medium max-w-sm">
+                  <p className="text-[16px] leading-7 text-slate-800 dark:text-slate-200 font-medium max-w-sm">
                     {t('contact.success')}
                   </p>
                 </motion.div>
@@ -170,9 +170,11 @@ export default function Contact() {
                   </div>
 
                   <AnimatedInput label={t('contact.scope')}>
-                    <select className={`${inputBaseClass} bg-white/50 cursor-pointer`}>
+                    <select className={`${inputBaseClass} cursor-pointer`}>
                       {scopes.map((s) => (
-                        <option key={s}>{s}</option>
+                        <option key={s} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                          {s}
+                        </option>
                       ))}
                     </select>
                   </AnimatedInput>
@@ -186,7 +188,7 @@ export default function Contact() {
                   </AnimatedInput>
 
                   <button
-                    className="group w-full py-4 rounded-2xl bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 text-white text-sm font-semibold shadow-xl shadow-teal-900/20 hover:shadow-2xl hover:shadow-teal-900/30 hover:brightness-110 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="group w-full py-4 rounded-2xl bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 dark:from-emerald-600 dark:via-teal-600 dark:to-cyan-600 text-white text-sm font-semibold shadow-xl shadow-teal-900/20 hover:shadow-2xl hover:shadow-teal-900/30 hover:brightness-110 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                     type="submit"
                     disabled={submitting}
                   >

@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from './ThemeContext';
 
 const LINKS = [
-  { href: '#solutions', key: 'nav.about' },
-  { href: '#solutions', key: 'nav.software' },
-  { href: '#solutions', key: 'nav.telecom' },
-  { href: '#solutions', key: 'nav.power' },
+  { href: '#about', tab: 'about', key: 'nav.about' },
+  { href: '#software', tab: 'software', key: 'nav.software' },
+  { href: '#telecom', tab: 'telecom', key: 'nav.telecom' },
+  { href: '#power', tab: 'power', key: 'nav.power' },
 ] as const;
 
 export default function Navbar() {
@@ -29,6 +29,16 @@ export default function Navbar() {
     void i18n.changeLanguage(lng);
   };
 
+  const handleNavClick = (tab: string, href: string) => {
+    window.location.hash = href;
+    window.dispatchEvent(new CustomEvent('ais:switch-tab', { detail: tab }));
+    const el = document.getElementById('solutions');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileOpen(false);
+  };
+
   return (
     <>
       <motion.header
@@ -42,7 +52,7 @@ export default function Navbar() {
           <a className="flex items-center shrink-0 group" href="#">
             <img
               alt="AIS Logo"
-              className="h-14 md:h-16 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105"
+              className="h-14 md:h-16 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105 dark:brightness-125 dark:contrast-110 dark:drop-shadow-[0_0_12px_rgba(16,185,129,0.3)]"
               src="logos/ais-logo.png"
             />
           </a>
@@ -52,7 +62,11 @@ export default function Navbar() {
             {LINKS.map((l) => (
               <a
                 key={l.key}
-                className="relative text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors px-4 py-2 rounded-xl hover:bg-white/40 dark:hover:bg-slate-800/50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(l.tab, l.href);
+                }}
+                className="relative text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors px-4 py-2 rounded-xl hover:bg-white/40 dark:hover:bg-slate-800/50 cursor-pointer"
                 href={l.href}
               >
                 {t(l.key)}
@@ -152,11 +166,14 @@ export default function Navbar() {
                 <motion.a
                   key={l.key}
                   href={l.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(l.tab, l.href);
+                  }}
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.1 + i * 0.05 }}
-                  className="text-lg font-semibold text-slate-800 dark:text-slate-100 hover:text-teal-700 dark:hover:text-teal-400 py-3 px-4 rounded-2xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all"
+                  className="text-lg font-semibold text-slate-800 dark:text-slate-100 hover:text-teal-700 dark:hover:text-teal-400 py-3 px-4 rounded-2xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all cursor-pointer"
                 >
                   {t(l.key)}
                 </motion.a>

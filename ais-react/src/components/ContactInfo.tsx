@@ -30,10 +30,10 @@ export default function ContactInfo() {
   return (
     <section className="max-w-5xl mx-auto px-6 lg:px-8 py-16 scroll-mt-28" id="contact-channels">
       <ScrollReveal className="text-center max-w-3xl mx-auto mb-12">
-        <h2 className="font-display text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+        <h2 className="font-display text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
           {t('contactChannels.title')}
         </h2>
-        <p className="text-sm leading-6 text-slate-600 font-medium mt-3 max-w-lg mx-auto">
+        <p className="text-sm leading-6 text-slate-600 dark:text-slate-300 font-medium mt-3 max-w-lg mx-auto">
           {t('contactChannels.desc')}
         </p>
       </ScrollReveal>
@@ -48,15 +48,15 @@ export default function ContactInfo() {
                   key={i}
                   className="flex items-start gap-4 group"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors duration-300">
-                    <Icon size={20} className="text-teal-700" />
+                  <div className="w-11 h-11 rounded-xl bg-teal-50 dark:bg-slate-800 border border-teal-100 dark:border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-teal-100 dark:group-hover:bg-slate-700 transition-colors duration-300">
+                    <Icon size={20} className="text-teal-700 dark:text-emerald-400" />
                   </div>
                   <div className="min-w-0">
-                    <span className="block text-xs font-bold text-slate-900 mb-1">
+                    <span className="block text-xs font-bold text-slate-900 dark:text-white mb-1">
                       {ch.label}
                     </span>
                     <span
-                      className="block text-sm text-slate-700 leading-6 font-medium break-words"
+                      className="block text-sm text-slate-700 dark:text-slate-300 leading-6 font-medium break-words"
                       dir={ch.dir}
                     >
                       {ch.value}

@@ -34,8 +34,8 @@ body {
 
 /* Dark mode base */
 .dark body {
-  background-color: #0b1120;
-  color: #e2e8f0;
+  background-color: #070b14;
+  color: #f8fafc;
 }
 
 /* Arabic / RTL font override — !important needed to beat Tailwind utility specificity */
