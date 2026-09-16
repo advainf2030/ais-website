@@ -4,10 +4,18 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
-const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
+/* Corporate-precise easing — tight, no bounce */
+const EASE = [0.25, 1, 0.5, 1] as [number, number, number, number];
 
 const TAB_KEYS = ['about', 'software', 'telecom', 'power'] as const;
 type TabKey = (typeof TAB_KEYS)[number];
+
+/* Default hero images per service category (shown when no sub-row is expanded) */
+const CATEGORY_HERO_IMAGES: Record<number, string> = {
+  0: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80', // Software
+  1: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80', // Power
+  2: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80', // Telecom
+};
 
 /* Unsplash images for the About section */
 const ABOUT_IMAGE_1 = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80';
@@ -143,7 +151,7 @@ function AccordionRow({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
+            transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden"
           >
             <div className="px-4 md:px-6 pb-5 ps-[calc(1rem+2.75rem)] md:ps-[calc(1.5rem+2.75rem)]">
@@ -158,7 +166,54 @@ function AccordionRow({
   );
 }
 
-/* ── Service Tab Content (Split Layout + Accordion) ── */
+/* ── Dynamic Image Panel (crossfade on sub-service selection) ── */
+function DynamicImagePanel({
+  currentImage,
+  imageKey,
+  tag,
+  activeLabel,
+}: {
+  currentImage: string;
+  imageKey: string;
+  tag: string;
+  activeLabel?: string;
+}) {
+  return (
+    <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800 h-full min-h-[320px] lg:min-h-[400px] relative">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={imageKey}
+          src={currentImage}
+          alt={activeLabel ?? tag}
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.5, ease: EASE }}
+        />
+      </AnimatePresence>
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none z-[1]" />
+      {/* Tag badge */}
+      <div className="absolute bottom-4 start-4 z-10">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={activeLabel ?? tag}
+            className="inline-block px-3 py-1.5 text-[10px] tracking-[0.15em] uppercase font-bold text-white bg-white/20 backdrop-blur-md rounded-lg border border-white/30"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.3, ease: EASE }}
+          >
+            {activeLabel ?? tag}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+/* ── Service Tab Content (Split Layout + Accordion + Dynamic Image Swap) ── */
 function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
   const { t } = useTranslation();
   const texts = t('services.cards', { returnObjects: true }) as unknown as ServiceText[];
@@ -167,7 +222,14 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
 
   if (!text) return null;
 
-  const heroImage = text.subservices?.[0]?.image ?? '';
+  /* Determine which image to show:
+     - If a sub-row is expanded → show that row's specific image
+     - Otherwise → show the category default hero */
+  const defaultHero = CATEGORY_HERO_IMAGES[serviceIndex] ?? text.subservices?.[0]?.image ?? '';
+  const activeSubImage = openIndex !== null ? text.subservices?.[openIndex]?.image : undefined;
+  const currentImage = activeSubImage ?? defaultHero;
+  const imageKey = openIndex !== null ? `sub-${serviceIndex}-${openIndex}` : `hero-${serviceIndex}`;
+  const activeLabel = openIndex !== null ? text.subservices?.[openIndex]?.title : undefined;
 
   const toggleAccordion = (i: number) => {
     setOpenIndex(openIndex === i ? null : i);
@@ -180,25 +242,16 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
         {text.desc}
       </p>
 
-      {/* Split layout: image left, accordion right */}
+      {/* Split layout: dynamic image left, accordion right */}
       <div className="flex flex-col lg:flex-row gap-8 items-stretch">
-        {/* Left — image */}
+        {/* Left — dynamic image panel */}
         <div className="lg:w-[40%] shrink-0">
-          <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800 h-full min-h-[320px] lg:min-h-[400px] relative">
-            <img
-              src={heroImage}
-              alt={text.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            {/* Subtle gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none" />
-            {/* Tag badge */}
-            <div className="absolute bottom-4 start-4 z-10">
-              <span className="px-3 py-1.5 text-[10px] tracking-[0.15em] uppercase font-bold text-white bg-white/20 backdrop-blur-md rounded-lg border border-white/30">
-                {text.tag}
-              </span>
-            </div>
-          </div>
+          <DynamicImagePanel
+            currentImage={currentImage}
+            imageKey={imageKey}
+            tag={text.tag}
+            activeLabel={activeLabel}
+          />
         </div>
 
         {/* Right — accordion */}
@@ -327,7 +380,7 @@ export default function TabSystem() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.35, ease: EASE }}
+              transition={{ duration: 0.3, ease: EASE }}
             >
               {active === 'about' ? (
                 <AboutContent />
