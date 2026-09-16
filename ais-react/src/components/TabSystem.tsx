@@ -1,119 +1,231 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { SERVICES } from '../data';
+import { ChevronDown } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
 const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 
-const TAB_KEYS = ['about', 'software', 'cyber', 'power', 'telecom'] as const;
+const TAB_KEYS = ['about', 'software', 'telecom', 'power'] as const;
 type TabKey = (typeof TAB_KEYS)[number];
 
 const TAB_ANCHORS: Record<TabKey, string> = {
   about: 'about',
   software: 'solutions',
-  cyber: 'cyber-security',
-  power: 'power',
   telecom: 'telecom',
+  power: 'power',
 };
+
+/* Unsplash images for the About section */
+const ABOUT_IMAGE_1 = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80';
+const ABOUT_IMAGE_2 = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80';
+
+interface SubServiceItem {
+  title: string;
+  desc: string;
+  image: string;
+}
 
 interface ServiceText {
   tag: string;
   title: string;
   desc: string;
   chips: string[];
-}
-
-interface Strength {
-  title: string;
-  desc: string;
+  subservices?: SubServiceItem[];
 }
 
 /* ── About Tab Content ── */
 function AboutContent() {
   const { t } = useTranslation();
-  const strengths = t('about.strengths', { returnObjects: true }) as unknown as Strength[];
 
   return (
-    <div className="space-y-10">
-      {/* Overview */}
-      <div>
-        <p className="text-[15px] md:text-base leading-7 text-slate-800 font-medium max-w-3xl">
-          {t('about.overview')}
-        </p>
-      </div>
-
-      {/* Vision & Mission — side by side */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="border-t border-slate-200/80 pt-6">
-          <h4 className="text-xs tracking-[0.2em] uppercase text-slate-900 font-extrabold mb-3">Vision</h4>
-          <p className="text-[15px] leading-7 text-slate-800 font-medium">{t('about.vision')}</p>
+    <div className="space-y-14">
+      {/* Section 1: About the Company */}
+      <div className="space-y-8">
+        <div>
+          <h3 className="font-display text-2xl md:text-3xl font-bold text-slate-900 tracking-tight mb-4">
+            {t('about.title')}
+          </h3>
+          <p className="text-[15px] md:text-base leading-7 text-slate-800 font-medium max-w-3xl">
+            {t('about.overview')}
+          </p>
         </div>
-        <div className="border-t border-slate-200/80 pt-6">
-          <h4 className="text-xs tracking-[0.2em] uppercase text-slate-900 font-extrabold mb-3">Mission</h4>
-          <p className="text-[15px] leading-7 text-slate-800 font-medium">{t('about.mission')}</p>
-        </div>
-      </div>
-
-      {/* Stats row */}
-      <div className="grid grid-cols-3 gap-4 md:gap-8 border-t border-slate-200/80 pt-8">
-        <div className="text-center">
-          <div className="text-4xl md:text-5xl font-display font-black tracking-tighter text-slate-900">1998</div>
-          <div className="text-[11px] tracking-[0.15em] uppercase text-slate-900 font-bold mt-2">{t('hero.statEstablished')}</div>
-        </div>
-        <div className="text-center flex flex-col items-center">
-          <img alt="Vision 2030" className="h-12 md:h-16 w-auto object-contain" src="logos/vision2030.png" />
-          <div className="text-[11px] tracking-[0.15em] uppercase text-slate-900 font-bold mt-2">{t('hero.statAlignment')}</div>
-        </div>
-        <div className="text-center flex flex-col items-center">
-          <img alt="KSA" className="h-12 md:h-16 w-auto object-contain" src="logos/ksa-map.png" />
-          <div className="text-[11px] tracking-[0.15em] uppercase text-slate-900 font-bold mt-2">{t('hero.statFocus')}</div>
+        {/* Image after overview */}
+        <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40">
+          <img
+            src={ABOUT_IMAGE_1}
+            alt="AIS Company Office"
+            className="w-full h-56 md:h-72 object-cover"
+          />
         </div>
       </div>
 
-      {/* Strengths — editorial list */}
-      <div className="border-t border-slate-200/80 pt-8 space-y-0">
-        {strengths.map((s, i) => (
-          <div key={i} className="flex gap-4 md:gap-6 py-5 border-b border-slate-200/70 last:border-b-0 group">
-            <span className="text-[12px] tracking-[0.15em] text-slate-700 font-extrabold mt-1 shrink-0">
-              0{i + 1}
-            </span>
-            <div>
-              <h4 className="text-[15px] font-bold text-slate-900 group-hover:text-teal-700 transition-colors">{s.title}</h4>
-              <p className="text-[14px] leading-6 text-slate-800 mt-1 font-normal">{s.desc}</p>
-            </div>
+      {/* Section 2: Vision & Mission */}
+      <div className="space-y-8">
+        <div className="space-y-8">
+          <div className="border-t border-slate-200/80 pt-6">
+            <h4 className="text-xs tracking-[0.2em] uppercase text-teal-700 font-extrabold mb-3">
+              {t('about.visionTitle')}
+            </h4>
+            <p className="text-[15px] leading-7 text-slate-800 font-medium max-w-3xl">
+              {t('about.vision')}
+            </p>
           </div>
-        ))}
+          <div className="border-t border-slate-200/80 pt-6">
+            <h4 className="text-xs tracking-[0.2em] uppercase text-teal-700 font-extrabold mb-3">
+              {t('about.missionTitle')}
+            </h4>
+            <p className="text-[15px] leading-7 text-slate-800 font-medium max-w-3xl">
+              {t('about.mission')}
+            </p>
+          </div>
+        </div>
+        {/* Image after Vision & Mission */}
+        <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40">
+          <img
+            src={ABOUT_IMAGE_2}
+            alt="AIS Vision 2030"
+            className="w-full h-56 md:h-72 object-cover"
+          />
+        </div>
       </div>
     </div>
   );
 }
 
-/* ── Service Tab Content ── */
+/* ── Accordion Row ── */
+function AccordionRow({
+  title,
+  desc,
+  isOpen,
+  onToggle,
+  index,
+}: {
+  title: string;
+  desc: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  index: number;
+}) {
+  return (
+    <div
+      className={`border-b border-slate-200/70 transition-colors duration-300 ${
+        isOpen ? 'bg-white/30' : 'hover:bg-white/20'
+      }`}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer"
+      >
+        <div className="flex items-center gap-4 flex-1 min-w-0">
+          <span className="text-[11px] tracking-[0.15em] text-slate-400 font-bold shrink-0">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <h4
+            className={`text-[15px] md:text-base font-semibold transition-colors duration-300 ${
+              isOpen
+                ? 'text-teal-700'
+                : 'text-slate-900 group-hover:text-teal-700'
+            }`}
+          >
+            {title}
+          </h4>
+        </div>
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3, ease: EASE }}
+          className="shrink-0 text-slate-400 group-hover:text-teal-600 transition-colors"
+        >
+          <ChevronDown size={18} />
+        </motion.span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 md:px-6 pb-5 ps-[calc(1rem+2.75rem)] md:ps-[calc(1.5rem+2.75rem)]">
+              <p className="text-sm leading-relaxed text-slate-600">
+                {desc}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ── Service Tab Content (Split Layout + Accordion) ── */
 function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
   const { t } = useTranslation();
   const texts = t('services.cards', { returnObjects: true }) as unknown as ServiceText[];
   const text = texts[serviceIndex];
-  const service = SERVICES[serviceIndex];
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  if (!text || !service) return null;
+  if (!text) return null;
+
+  const heroImage = text.subservices?.[0]?.image ?? '';
+
+  const toggleAccordion = (i: number) => {
+    setOpenIndex(openIndex === i ? null : i);
+  };
 
   return (
-    <div className="space-y-6">
-      <p className="text-[15px] md:text-base leading-7 text-slate-800 font-normal max-w-3xl">{text.desc}</p>
+    <div className="space-y-8">
+      {/* Service overview text */}
+      <p className="text-[15px] md:text-base leading-7 text-slate-800 font-medium max-w-3xl">
+        {text.desc}
+      </p>
 
-      {/* Service items as list */}
-      <div className="border-t border-slate-200/80 pt-2">
-        {text.chips.map((chip, i) => (
-          <div key={chip} className="flex items-center gap-4 py-4 border-b border-slate-200/70 last:border-b-0 group">
-            <span className="text-[12px] tracking-[0.15em] text-slate-700 font-extrabold shrink-0">
-              0{i + 1}
-            </span>
-            <span className="text-[15px] font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
-              {chip}
-            </span>
+      {/* Split layout: image left, accordion right */}
+      <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+        {/* Left — image */}
+        <div className="lg:w-[40%] shrink-0">
+          <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 h-full min-h-[320px] lg:min-h-[400px] relative">
+            <img
+              src={heroImage}
+              alt={text.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent pointer-events-none" />
+            {/* Tag badge */}
+            <div className="absolute bottom-4 start-4 z-10">
+              <span className="px-3 py-1.5 text-[10px] tracking-[0.15em] uppercase font-bold text-white bg-white/20 backdrop-blur-md rounded-lg border border-white/30">
+                {text.tag}
+              </span>
+            </div>
           </div>
-        ))}
+        </div>
+
+        {/* Right — accordion */}
+        <div className="lg:w-[60%] flex flex-col">
+          <div className="glass-card rounded-2xl overflow-hidden flex-1">
+            <div className="border-b border-slate-200/70 px-4 md:px-6 py-4">
+              <h3 className="font-display text-lg md:text-xl font-bold text-slate-900">
+                {text.title}
+              </h3>
+            </div>
+            {text.subservices?.map((sub, i) => (
+              <AccordionRow
+                key={i}
+                title={sub.title}
+                desc={sub.desc}
+                isOpen={openIndex === i}
+                onToggle={() => toggleAccordion(i)}
+                index={i}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -158,12 +270,14 @@ export default function TabSystem() {
     if (el) tabRefs.current.set(key, el);
   };
 
-  // Map tab key to content
+  // Map tab key to service card index (after removing cyber):
+  // services.cards[0] = Software Solutions
+  // services.cards[1] = Power Solutions
+  // services.cards[2] = Telecom & ICT
   const serviceIndexMap: Record<string, number> = {
     software: 0,
-    cyber: 1,
-    power: 2,
-    telecom: 3,
+    power: 1,
+    telecom: 2,
   };
 
   return (

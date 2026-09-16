@@ -1,75 +1,63 @@
-import { MapPin, ArrowUpRight } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import ScrollReveal from './ScrollReveal';
-
-const NAV_LINKS = [
-  { href: '#solutions', key: 'nav.software' },
-  { href: '#cyber-security', key: 'nav.cyber' },
-  { href: '#power', key: 'nav.power' },
-  { href: '#telecom', key: 'nav.telecom' },
-  { href: '#contact', key: 'hero.contact' },
-] as const;
 
 export default function Footer() {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-16 bg-white/50 backdrop-blur-3xl border-t border-white/60 shadow-[0_-20px_50px_-10px_rgba(15,23,42,0.04)] relative z-20">
-      {/* Animated shimmer separator */}
+    <footer className="bg-white/50 backdrop-blur-3xl border-t border-white/60 shadow-[0_-20px_50px_-10px_rgba(15,23,42,0.04)] relative z-20">
+      {/* Shimmer line */}
       <div className="footer-shimmer-line" />
 
-      <div className="w-full px-6 py-14 md:px-12 lg:px-16 max-w-7xl mx-auto flex flex-col gap-10">
-        {/* Top row */}
-        <ScrollReveal direction="up" delay={0.1}>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-10 border-b border-slate-200/60">
-            <div className="flex flex-col gap-3">
-              <a href="#" className="inline-block group">
-                <img
-                  alt="AIS Contracting"
-                  className="h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-105 duration-300"
-                  src="logos/ais-logo.png"
-                />
-              </a>
-              <p className="text-sm text-slate-800 font-medium max-w-lg leading-6 mt-1">
-                {t('footer.tagline')}
-              </p>
-            </div>
-
-            <nav className="flex flex-wrap gap-x-1 gap-y-1">
-              {NAV_LINKS.map((l, i) => (
-                <a
-                  key={l.href}
-                  className={`link-slide-underline text-xs font-semibold px-3.5 py-2 rounded-xl transition-all duration-200 ${
-                    i === 0
-                      ? 'text-teal-700 font-bold bg-teal-50/80 hover:bg-teal-100/80'
-                      : 'text-slate-800 hover:text-teal-700 hover:bg-slate-100/70'
-                  }`}
-                  href={l.href}
-                >
-                  {t(l.key)}
-                </a>
-              ))}
-            </nav>
+      <div className="max-w-5xl mx-auto px-6 py-10 md:py-12">
+        {/* "Let's Work Together" CTA row */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-200/60">
+          <div>
+            <h3 className="font-display text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
+              {t('footer.workTogether')}
+            </h3>
+            <p className="text-sm text-slate-600 font-medium mt-1">
+              {t('footer.workTogetherDesc')}
+            </p>
           </div>
-        </ScrollReveal>
+          <a
+            className="btn-shimmer shrink-0 flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-white px-6 py-3 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
+            href="#contact"
+          >
+            <span>{t('nav.cta')}</span>
+            <ArrowUpRight size={14} />
+          </a>
+        </div>
 
-        {/* Bottom row */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-5 text-xs text-slate-700 font-medium">
-          <div className="text-center sm:text-start leading-5">
-            © {year} {t('footer.rights')}
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 font-semibold text-slate-800">
-              <MapPin size={14} className="text-teal-600" />
-              {t('footer.location')}
+        {/* Compact contact info + copyright */}
+        <div className="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          {/* Contact details — compact row */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-xs text-slate-700 font-medium">
+            <div className="flex items-center gap-1.5">
+              <MapPin size={13} className="text-teal-600 shrink-0" />
+              <span>{t('footer.address')}</span>
             </div>
-            <a
-              href="#"
-              className="flex items-center gap-1 text-teal-600 font-semibold hover:text-teal-700 transition-colors"
-            >
-              <ArrowUpRight size={14} />
-            </a>
+            <div className="flex items-center gap-1.5">
+              <Phone size={13} className="text-teal-600 shrink-0" />
+              <span dir="ltr">{t('footer.phone')}</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Mail size={13} className="text-teal-600 shrink-0" />
+              <span>{t('footer.email')}</span>
+            </div>
+          </div>
+
+          {/* Logo + copyright */}
+          <div className="flex items-center gap-3 shrink-0">
+            <img
+              alt="AIS"
+              className="h-8 w-auto object-contain opacity-70"
+              src="logos/ais-logo.png"
+            />
+            <span className="text-[11px] text-slate-500 font-medium leading-4 max-w-[200px]">
+              © {year} {t('footer.tagline')}
+            </span>
           </div>
         </div>
       </div>

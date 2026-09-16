@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowUpRight, Menu, X, Sun, Moon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from './ThemeContext';
 
 const LINKS = [
   { href: '#solutions', key: 'nav.about' },
   { href: '#solutions', key: 'nav.software' },
-  { href: '#solutions', key: 'nav.cyber' },
-  { href: '#solutions', key: 'nav.power' },
   { href: '#solutions', key: 'nav.telecom' },
+  { href: '#solutions', key: 'nav.power' },
 ] as const;
 
 export default function Navbar() {
@@ -17,6 +17,7 @@ export default function Navbar() {
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26 });
   const lang = i18n.resolvedLanguage ?? i18n.language;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   // Lock body when mobile menu is open
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function Navbar() {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 0.61, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-[9999] w-full bg-white/80 backdrop-blur-2xl border-b border-white/50 shadow-sm transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-[9999] w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border-b border-white/50 dark:border-slate-800/60 shadow-sm transition-colors duration-300"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-3">
           {/* Logo */}
@@ -50,8 +51,8 @@ export default function Navbar() {
           <nav className="hidden lg:flex items-center gap-1">
             {LINKS.map((l) => (
               <a
-                key={l.href}
-                className="relative text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors px-4 py-2 rounded-xl hover:bg-white/40"
+                key={l.key}
+                className="relative text-sm font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors px-4 py-2 rounded-xl hover:bg-white/40 dark:hover:bg-slate-800/50"
                 href={l.href}
               >
                 {t(l.key)}
@@ -61,15 +62,30 @@ export default function Navbar() {
 
           {/* Right controls */}
           <div className="flex items-center gap-2.5">
+            {/* Theme toggle */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-2.5 rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-slate-700 dark:text-amber-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-xs flex items-center justify-center cursor-pointer"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? (
+                <Sun size={17} className="text-amber-400 theme-toggle-icon" />
+              ) : (
+                <Moon size={17} className="text-slate-700 theme-toggle-icon" />
+              )}
+            </button>
+
             {/* Language toggle */}
-            <div className="hidden sm:flex items-center rounded-xl border border-white/60 bg-white/40 backdrop-blur-sm text-[11px] font-bold overflow-hidden shadow-xs">
+            <div className="hidden sm:flex items-center rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-[11px] font-bold overflow-hidden shadow-xs">
               <button
                 type="button"
                 onClick={() => setLang('en')}
                 className={`px-3.5 py-2 transition-all duration-300 ${
                   lang === 'en'
-                    ? 'bg-slate-900 text-white shadow-inner'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                    ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950 shadow-inner'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
                 }`}
               >
                 EN
@@ -79,8 +95,8 @@ export default function Navbar() {
                 onClick={() => setLang('ar')}
                 className={`px-3.5 py-2 transition-all duration-300 ${
                   lang === 'ar'
-                    ? 'bg-slate-900 text-white shadow-inner'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+                    ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950 shadow-inner'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
                 }`}
               >
                 عربي
@@ -89,7 +105,7 @@ export default function Navbar() {
 
             {/* CTA */}
             <a
-              className="btn-shimmer hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
+              className="btn-shimmer hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
               href="#contact"
             >
               <span>{t('nav.cta')}</span>
@@ -100,7 +116,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-white/40 transition-colors"
+              className="lg:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-900 hover:bg-white/40 dark:hover:bg-slate-800/40 transition-colors"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -134,34 +150,49 @@ export default function Navbar() {
             >
               {LINKS.map((l, i) => (
                 <motion.a
-                  key={l.href}
+                  key={l.key}
                   href={l.href}
                   onClick={() => setMobileOpen(false)}
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: 0.1 + i * 0.05 }}
-                  className="text-lg font-semibold text-slate-800 hover:text-teal-700 py-3 px-4 rounded-2xl hover:bg-white/60 transition-all"
+                  className="text-lg font-semibold text-slate-800 dark:text-slate-100 hover:text-teal-700 dark:hover:text-teal-400 py-3 px-4 rounded-2xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all"
                 >
                   {t(l.key)}
                 </motion.a>
               ))}
 
-              <div className="border-t border-slate-200/60 mt-4 pt-4 flex flex-col gap-3">
+              <div className="border-t border-slate-200/60 dark:border-slate-800/80 mt-4 pt-4 flex flex-col gap-3">
+                {/* Mobile theme toggle */}
+                <div className="flex items-center justify-between px-4 py-1">
+                  <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                    {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={toggleTheme}
+                    className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800 text-slate-700 dark:text-amber-300"
+                    aria-label="Toggle theme"
+                  >
+                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+                  </button>
+                </div>
+
                 {/* Mobile lang toggle */}
                 <div className="flex items-center gap-2 px-4">
-                  <span className="text-xs text-slate-800 font-semibold">Language:</span>
-                  <div className="flex items-center rounded-xl border border-slate-200 bg-white/60 text-xs font-bold overflow-hidden">
+                  <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold">Language:</span>
+                  <div className="flex items-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800 text-xs font-bold overflow-hidden">
                     <button
                       type="button"
                       onClick={() => setLang('en')}
-                      className={`px-4 py-2 transition-all ${lang === 'en' ? 'bg-slate-900 text-white' : 'text-slate-600'}`}
+                      className={`px-4 py-2 transition-all ${lang === 'en' ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950' : 'text-slate-600 dark:text-slate-300'}`}
                     >
                       EN
                     </button>
                     <button
                       type="button"
                       onClick={() => setLang('ar')}
-                      className={`px-4 py-2 transition-all ${lang === 'ar' ? 'bg-slate-900 text-white' : 'text-slate-600'}`}
+                      className={`px-4 py-2 transition-all ${lang === 'ar' ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950' : 'text-slate-600 dark:text-slate-300'}`}
                     >
                       عربي
                     </button>
@@ -172,7 +203,7 @@ export default function Navbar() {
                 <a
                   href="#contact"
                   onClick={() => setMobileOpen(false)}
-                  className="mx-4 mt-2 bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl px-6 py-4 text-base font-semibold flex items-center justify-center gap-2 shadow-xl"
+                  className="mx-4 mt-2 bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white rounded-2xl px-6 py-4 text-base font-semibold flex items-center justify-center gap-2 shadow-xl"
                 >
                   {t('nav.cta')} <ArrowUpRight size={18} />
                 </a>

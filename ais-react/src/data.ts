@@ -76,15 +76,6 @@ export const SERVICES: ServiceMeta[] = [
     image: 'images/software-solutions.jpg',
   },
   {
-    id: 'cyber-security',
-    span: 'md:col-span-5',
-    icon: ShieldCheck,
-    iconClass: 'text-[#006c49]',
-    tagClass: 'bg-emerald-500/10 text-[#006c49] border-emerald-500/20',
-    hoverClass: 'group-hover:text-[#006c49]',
-    image: 'images/cyber-security.jpg',
-  },
-  {
     id: 'power',
     span: 'md:col-span-5',
     icon: Bolt,

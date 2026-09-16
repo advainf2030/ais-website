@@ -3,11 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import AuroraBackground from './components/AuroraBackground';
 import Contact from './components/Contact';
+import ContactInfo from './components/ContactInfo';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
 import Partners from './components/Partners';
 import TabSystem from './components/TabSystem';
+import WhyChooseUs from './components/WhyChooseUs';
+
+import { ThemeProvider } from './components/ThemeContext';
 
 const SPLASH_EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 
@@ -30,7 +34,7 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <ThemeProvider>
       {/* Splash loader with radial reveal */}
       <AnimatePresence>
         {loading && (
@@ -39,7 +43,7 @@ export default function App() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: SPLASH_EASE }}
-            className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-50"
+            className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
           >
             {/* Radial glow behind logo */}
             <motion.div
@@ -80,18 +84,20 @@ export default function App() {
         initial={{ opacity: 0 }}
         animate={!loading ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.6, ease: SPLASH_EASE }}
-        className="relative min-h-screen overflow-x-hidden font-sans text-slate-900"
+        className="relative min-h-screen overflow-x-hidden font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300"
       >
         <AuroraBackground />
         <Navbar />
         <main className="relative z-10 pt-28 md:pt-32 pb-16">
           <Hero />
           <TabSystem />
+          <WhyChooseUs />
+          <ContactInfo />
           <Partners />
           <Contact />
         </main>
         <Footer />
       </motion.div>
-    </>
+    </ThemeProvider>
   );
 }

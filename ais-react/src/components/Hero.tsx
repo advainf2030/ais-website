@@ -50,11 +50,11 @@ export default function Hero() {
         custom={0}
         className="flex items-center gap-4 justify-center mb-10 relative z-10"
       >
-        <span className="hidden md:block w-10 h-[1px] bg-slate-400" />
-        <span className="text-[11px] md:text-xs tracking-[0.25em] font-bold uppercase text-slate-800">
+        <span className="hidden md:block w-10 h-[1px] bg-slate-400/60 dark:bg-slate-600" />
+        <span className="text-[11px] md:text-xs tracking-[0.25em] font-bold uppercase text-slate-800 dark:text-slate-300">
           {t('hero.eyebrow')}
         </span>
-        <span className="hidden md:block w-10 h-[1px] bg-slate-400" />
+        <span className="hidden md:block w-10 h-[1px] bg-slate-400/60 dark:bg-slate-600" />
       </motion.div>
 
       {/* Main headline — staggered word reveal */}
@@ -63,7 +63,7 @@ export default function Hero() {
         initial="hidden"
         animate="show"
         custom={1}
-        className="text-slate-900 font-display font-black tracking-tight max-w-4xl mx-auto text-[2.75rem] leading-[1.15] md:text-[4.5rem] md:leading-[1.1] mb-7 overflow-visible relative z-10"
+        className="text-slate-900 dark:text-white font-display font-black tracking-tight max-w-4xl mx-auto text-[2.75rem] leading-[1.15] md:text-[4.5rem] md:leading-[1.1] mb-7 overflow-visible relative z-10"
       >
         <motion.span
           className="inline-block"
@@ -75,7 +75,7 @@ export default function Hero() {
         </motion.span>{' '}
         <span className="relative inline-block overflow-visible py-1 px-1">
           <motion.span
-            className="bg-gradient-to-r from-teal-700 via-emerald-600 to-teal-600 bg-clip-text text-transparent inline-block pb-1"
+            className="bg-gradient-to-r from-teal-700 via-emerald-600 to-teal-600 dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent inline-block pb-1"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
@@ -87,7 +87,7 @@ export default function Hero() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: 1.0, duration: 0.8, ease: EASE }}
-            className="absolute -bottom-1.5 md:-bottom-2 left-1 right-1 h-[3px] bg-gradient-to-r from-teal-600/60 via-emerald-500/60 to-teal-600/60 rounded-full origin-left"
+            className="absolute -bottom-1.5 md:-bottom-2 left-1 right-1 h-[3px] bg-gradient-to-r from-teal-600/60 via-emerald-500/60 to-teal-600/60 dark:from-teal-400/60 dark:via-emerald-400/60 dark:to-cyan-400/60 rounded-full origin-left"
           />
         </span>
       </motion.h1>
@@ -98,7 +98,7 @@ export default function Hero() {
         initial="hidden"
         animate="show"
         custom={2}
-        className="text-lg md:text-xl leading-8 text-slate-800 max-w-3xl mx-auto mb-12 font-medium relative z-10"
+        className="text-lg md:text-xl leading-8 text-slate-800 dark:text-slate-300 max-w-3xl mx-auto mb-12 font-medium relative z-10"
       >
         {t('hero.subtitle')}
       </motion.p>
@@ -112,14 +112,14 @@ export default function Hero() {
         className="flex flex-col sm:flex-row items-center gap-4 mb-20 relative z-10"
       >
         <a
-          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-2xl hover:shadow-slate-900/25 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2 border border-white/10"
+          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2 border border-white/10"
           href="#solutions"
         >
           {t('hero.explore')}
           <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </a>
         <a
-          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/70 backdrop-blur-2xl border border-white/90 text-slate-900 text-sm font-bold hover:bg-white/90 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2"
+          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/70 dark:bg-slate-800/80 backdrop-blur-2xl border border-white/90 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm font-bold hover:bg-white/90 dark:hover:bg-slate-700/80 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2"
           href="#contact"
         >
           {t('hero.contact')}
