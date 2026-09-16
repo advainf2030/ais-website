@@ -29,10 +29,27 @@ export default function App() {
     document.documentElement.dir = rtl ? 'rtl' : 'ltr';
   }, [i18n, i18n.language]);
 
+  // Always start at top of page on initial load & reload
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    // If the page was reloaded with an anchor hash, clear it so browser does not jump down
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
+  const handleSplashComplete = () => {
+    setLoading(false);
+    window.scrollTo(0, 0);
+  };
+
   return (
     <ThemeProvider>
       {/* Premium Deep Space Splash Loader */}
-      {loading && <SplashScreen onComplete={() => setLoading(false)} />}
+      {loading && <SplashScreen onComplete={handleSplashComplete} />}
 
       {/* Main app */}
       <motion.div

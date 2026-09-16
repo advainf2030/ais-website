@@ -9,13 +9,6 @@ const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 const TAB_KEYS = ['about', 'software', 'telecom', 'power'] as const;
 type TabKey = (typeof TAB_KEYS)[number];
 
-const TAB_ANCHORS: Record<TabKey, string> = {
-  about: 'about',
-  software: 'solutions',
-  telecom: 'telecom',
-  power: 'power',
-};
-
 /* Unsplash images for the About section */
 const ABOUT_IMAGE_1 = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80';
 const ABOUT_IMAGE_2 = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80';
@@ -241,16 +234,18 @@ export default function TabSystem() {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInitial = useRef(true);
 
+  const scrollTabIntoContainer = (key: TabKey) => {
+    const btn = tabRefs.current.get(key);
+    const container = containerRef.current;
+    if (btn && container) {
+      const left = btn.offsetLeft - container.offsetWidth / 2 + btn.offsetWidth / 2;
+      container.scrollTo({ left, behavior: 'smooth' });
+    }
+  };
+
   const selectTab = (key: TabKey) => {
     setActive(key);
-    const btn = tabRefs.current.get(key);
-    if (btn) {
-      btn.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      });
-    }
+    scrollTabIntoContainer(key);
   };
 
   useEffect(() => {
@@ -258,17 +253,10 @@ export default function TabSystem() {
       isInitial.current = false;
       return;
     }
-    const btn = tabRefs.current.get(active);
-    if (btn) {
-      btn.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      });
-    }
+    scrollTabIntoContainer(active);
   }, [active]);
 
-  // Listen to navigation events from Navbar & URL hash changes
+  // Listen to navigation events from Navbar
   useEffect(() => {
     const handleSwitch = (e: Event) => {
       const custom = e as CustomEvent<TabKey>;
@@ -276,18 +264,9 @@ export default function TabSystem() {
         selectTab(custom.detail);
       }
     };
-    const handleHash = () => {
-      const h = window.location.hash.replace('#', '') as TabKey;
-      if (TAB_KEYS.includes(h)) {
-        selectTab(h);
-      }
-    };
     window.addEventListener('ais:switch-tab', handleSwitch);
-    window.addEventListener('hashchange', handleHash);
-    handleHash();
     return () => {
       window.removeEventListener('ais:switch-tab', handleSwitch);
-      window.removeEventListener('hashchange', handleHash);
     };
   }, []);
 
@@ -341,7 +320,7 @@ export default function TabSystem() {
         </div>
 
         {/* Tab content */}
-        <div className="mt-10 min-h-[300px]" id={TAB_ANCHORS[active]}>
+        <div className="mt-10 min-h-[300px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
