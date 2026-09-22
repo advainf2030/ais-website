@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
@@ -13,8 +13,8 @@ type TabKey = (typeof TAB_KEYS)[number];
 /* Default hero images per service category (shown when no sub-row is expanded) */
 const CATEGORY_HERO_IMAGES: Record<number, string> = {
   0: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80', // Software
-  1: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80', // Power
-  2: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80', // Telecom
+  1: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80', // Power — high-voltage transmission towers
+  2: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80', // Telecom — data center server room
 };
 
 /* Unsplash images for the About section */
@@ -230,6 +230,37 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
   const texts = t('services.cards', { returnObjects: true }) as unknown as ServiceText[];
   const text = texts[serviceIndex];
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const accordionRef = useRef<HTMLDivElement>(null);
+
+  /* Auto-collapse: close expanded row when clicking outside the accordion */
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => {
+      if (
+        accordionRef.current &&
+        !accordionRef.current.contains(e.target as Node)
+      ) {
+        setOpenIndex(null);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (openIndex !== null) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openIndex, handleClickOutside]);
+
+  /* Auto-collapse: close expanded row when mouse leaves accordion (desktop only) */
+  const handleMouseLeave = useCallback(() => {
+    if (openIndex === null) return;
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      setOpenIndex(null);
+    }
+  }, [openIndex]);
 
   if (!text) return null;
 
@@ -265,8 +296,12 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
           />
         </div>
 
-        {/* Right — accordion */}
-        <div className="lg:w-[60%] flex flex-col">
+        {/* Right — accordion (auto-collapses on mouse leave / click outside) */}
+        <div
+          ref={accordionRef}
+          className="lg:w-[60%] flex flex-col"
+          onMouseLeave={handleMouseLeave}
+        >
           <div className="glass-card rounded-2xl overflow-hidden flex-1">
             <div className="border-b border-slate-200/70 dark:border-slate-800 px-4 md:px-6 py-4">
               <h3 className="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white">

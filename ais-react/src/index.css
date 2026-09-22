@@ -80,6 +80,7 @@ html[dir="rtl"] * {
   background: rgba(6, 182, 212, 0.55);
 }
 
+
 /* ---------- Aurora orbs ---------- */
 @keyframes float-orb-1 {
   0%, 100% { transform: translate(0px, 0px) scale(1); }
@@ -164,6 +165,9 @@ html[dir="rtl"] * {
     0 8px 16px -4px rgba(8, 47, 73, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
     inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+  /* GPU compositing — prevents WebKit repaint flicker on scroll */
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 
 .dark .glass-card {

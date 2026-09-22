@@ -22,6 +22,7 @@ const VIDEO_POSTER =
  */
 export default function AuroraBackground() {
   const root = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
@@ -31,6 +32,13 @@ export default function AuroraBackground() {
 
     setShowVideo(!prefersReducedMotion && !saveData);
   }, []);
+
+  /* Set non-standard webkit-playsinline attribute for iOS Safari autoplay */
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.setAttribute('webkit-playsinline', 'true');
+    }
+  }, [showVideo]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -84,13 +92,14 @@ export default function AuroraBackground() {
       {/* ─── Layer B: Video texture (conditionally loaded) ─── */}
       {showVideo && (
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           preload="none"
           poster={VIDEO_POSTER}
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.42] dark:opacity-[0.05] mix-blend-multiply dark:mix-blend-screen contrast-[1.15] pointer-events-none"
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.42] dark:opacity-[0.20] mix-blend-multiply dark:mix-blend-screen contrast-[1.15] pointer-events-none transform-gpu"
         >
           <source src={VIDEO_SRC} type="video/mp4" />
         </video>
@@ -101,4 +110,3 @@ export default function AuroraBackground() {
     </div>
   );
 }
-

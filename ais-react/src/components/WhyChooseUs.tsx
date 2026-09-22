@@ -9,18 +9,11 @@ interface Strength {
   desc: string;
 }
 
-const ACCENT_COLORS = [
-  'text-teal-700',
-  'text-cyan-700',
-  'text-emerald-700',
-  'text-sky-700',
-];
-
-const ACCENT_BG = [
-  'bg-teal-50 border-teal-100',
-  'bg-cyan-50 border-cyan-100',
-  'bg-emerald-50 border-emerald-100',
-  'bg-sky-50 border-sky-100',
+const PALETTE = [
+  { title: 'text-teal-700 dark:text-emerald-400', numeral: 'from-teal-600 to-teal-600/10 dark:from-emerald-400 dark:to-emerald-400/10', rule: 'bg-teal-500/40 dark:bg-emerald-400/40' },
+  { title: 'text-cyan-700 dark:text-cyan-400', numeral: 'from-cyan-600 to-cyan-600/10 dark:from-cyan-400 dark:to-cyan-400/10', rule: 'bg-cyan-500/40 dark:bg-cyan-400/40' },
+  { title: 'text-emerald-700 dark:text-teal-400', numeral: 'from-emerald-600 to-emerald-600/10 dark:from-teal-400 dark:to-teal-400/10', rule: 'bg-emerald-500/40 dark:bg-teal-400/40' },
+  { title: 'text-sky-700 dark:text-sky-400', numeral: 'from-sky-600 to-sky-600/10 dark:from-sky-400 dark:to-sky-400/10', rule: 'bg-sky-500/40 dark:bg-sky-400/40' },
 ];
 
 export default function WhyChooseUs() {
@@ -44,37 +37,39 @@ export default function WhyChooseUs() {
         </p>
       </ScrollReveal>
 
-      {/* Strengths grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {strengths.map((s, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
-            className="glass-card glass-card-hover rounded-2xl p-7 md:p-8 group relative overflow-hidden transition-all duration-300"
-          >
-            {/* Number badge */}
-            <div
-              className={`w-10 h-10 rounded-xl border dark:bg-slate-800/80 dark:border-slate-700 flex items-center justify-center mb-5 ${ACCENT_BG[i % ACCENT_BG.length]} transition-transform duration-300 group-hover:scale-110`}
-            >
-              <span className={`text-sm font-black dark:text-emerald-400 ${ACCENT_COLORS[i % ACCENT_COLORS.length]}`}>
-                0{i + 1}
-              </span>
-            </div>
+      {/* Strengths — editorial row on a single glass slab (site's established glass theme) */}
+      <div className="glass-card rounded-3xl overflow-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-300/60 dark:divide-slate-600/30 rtl:divide-x-reverse">
+          {strengths.map((s, i) => {
+            const accent = PALETTE[i % PALETTE.length];
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
+                className="relative p-6 md:p-8 group"
+              >
+                {/* Numeral dateline — gradient-fade numeral + accent rule, fully in-flow (no clipping) */}
+                <div className="flex items-center gap-3 mb-4">
+                  <span
+                    aria-hidden="true"
+                    className={`shrink-0 text-5xl md:text-6xl font-display font-extralight leading-none select-none bg-gradient-to-b bg-clip-text text-transparent ${accent.numeral}`}
+                  >
+                    0{i + 1}
+                  </span>
+                  <span className={`h-px flex-1 ${accent.rule}`} />
+                </div>
 
-            <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-teal-700 dark:group-hover:text-emerald-400 transition-colors duration-300">
-              {s.title}
-            </h4>
-            <p className="text-sm leading-6 text-slate-600 dark:text-slate-300 font-medium">
-              {s.desc}
-            </p>
-
-            {/* Subtle glow */}
-            <div className="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-gradient-radial from-teal-100/40 dark:from-emerald-500/10 to-transparent blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-          </motion.div>
-        ))}
+                <h4 className={`text-lg font-bold mb-2 ${accent.title}`}>{s.title}</h4>
+                <p className="text-sm leading-6 text-slate-700 dark:text-slate-300 font-medium">
+                  {s.desc}
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

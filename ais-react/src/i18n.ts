@@ -54,7 +54,7 @@ const resources = {
               {
                 title: 'Testing & Inspection',
                 desc: 'Rigorous functional, regression, and unit testing protocols to eliminate vulnerabilities and ensure seamless deployment.',
-                image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'Code Testing & Review',
@@ -64,7 +64,7 @@ const resources = {
               {
                 title: 'Cyber Security — Implementation & Deployment',
                 desc: 'End-to-end rollout of defense-in-depth security architectures, firewalls, and zero-trust controls.',
-                image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'Cyber Security — Customization & Development',
@@ -74,12 +74,12 @@ const resources = {
               {
                 title: 'Cyber Security — Professional Consulting',
                 desc: 'Strategic security roadmaps and threat posture assessment aligned with NCA and SAMA frameworks.',
-                image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'Cyber Security — Planning & Execution',
                 desc: 'Comprehensive disaster recovery planning, incident response rehearsals, and security operations governance.',
-                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1200&q=80',
               },
             ],
           },
@@ -97,7 +97,7 @@ const resources = {
               {
                 title: 'Backup Power Systems (UPS)',
                 desc: 'Industrial-grade uninterruptible power supply (UPS) systems ensuring non-stop uptime for mission-critical infrastructure.',
-                image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1509390144018-eeaf65052242?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'Medium Voltage Solutions',
@@ -125,7 +125,7 @@ const resources = {
               {
                 title: 'Core Network - ISP',
                 desc: 'Enterprise routing, switching fabric, MPLS backbones, and telecom operator grade core infrastructure.',
-                image: 'https://images.unsplash.com/photo-1520869562399-e772f312f722?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'Safe City - CCTV',
@@ -135,12 +135,12 @@ const resources = {
               {
                 title: 'Network Security',
                 desc: 'Carrier-grade firewalls, DDoS mitigation appliances, and encrypted point-to-point communication tunnels.',
-                image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1683322499436-f4383dd59f5a?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'OSP & FTTX Solutions',
                 desc: 'Turnkey outside plant excavation, optical fiber civil works, ducting, splicing, and last-mile FTTX deployment.',
-                image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1604869515882-4d10fa4b0492?auto=format&fit=crop&w=1200&q=80',
               },
             ],
           },
@@ -269,7 +269,7 @@ const resources = {
               {
                 title: 'اختبار وفحص',
                 desc: 'فحوصات وظيفية وشاملة لاكتشاف الثغرات والتأكد من مطابقة النظام لكافة متطلبات التشغيل.',
-                image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'فحص الأكواد',
@@ -279,7 +279,7 @@ const resources = {
               {
                 title: 'الأمن السيبراني — التنفيذ والتشغيل',
                 desc: 'تركيب وتشغيل حلول أمنية متكاملة تشمل جدران الحماية المتقدمة وأنظمة الثقة الصفرية Zero Trust.',
-                image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'الأمن السيبراني — تطوير وتخصيص',
@@ -289,12 +289,12 @@ const resources = {
               {
                 title: 'الأمن السيبراني — استشارات أمنية',
                 desc: 'استشارات متخصصة لتقييم المخاطر السيبرانية ومواءمة الأنظمة مع الضوابط الوطنية للجهات الحكومية والخاصة.',
-                image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'الأمن السيبراني — تخطيط وتنفيذ',
                 desc: 'وضع وتنفيذ خطط استباقية لإدارة الطوارئ السيبرانية واستمرارية الأعمال تحت أي هجوم أو تهديد.',
-                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1200&q=80',
               },
             ],
           },
@@ -312,7 +312,7 @@ const resources = {
               {
                 title: 'أنظمة الطاقة الاحتياطية (UPS)',
                 desc: 'توريد وتركيب أنظمة UPS متطورة تضمن استمرارية الطاقة للمعدات الحساسة ومراكز البيانات دون أي انقطاع.',
-                image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1509390144018-eeaf65052242?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'حلول الجهد المتوسط',
@@ -340,7 +340,7 @@ const resources = {
               {
                 title: 'شبكات ISP',
                 desc: 'بنية تحتية متطورة للتوجيه والتبديل وشبكات النواة المصممة لمزودي خدمات الاتصالات.',
-                image: 'https://images.unsplash.com/photo-1520869562399-e772f312f722?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'أنظمة المراقبة والمدن الذكية',
@@ -350,12 +350,12 @@ const resources = {
               {
                 title: 'أمن الشبكات',
                 desc: 'حماية الشبكات بجدران حماية متقدمة ومصدات لهجمات حجب الخدمة DDoS وتشفير القنوات.',
-                image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1683322499436-f4383dd59f5a?auto=format&fit=crop&w=1200&q=80',
               },
               {
                 title: 'حلول الألياف الضوئية (FTTX)',
                 desc: 'أعمال التمديد والحفر وشبكات الألياف الخارجية وربط الميل الأخير للعملاء والمنشآت FTTX.',
-                image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1604869515882-4d10fa4b0492?auto=format&fit=crop&w=1200&q=80',
               },
             ],
           },
