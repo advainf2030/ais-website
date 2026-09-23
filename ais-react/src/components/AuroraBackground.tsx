@@ -23,15 +23,14 @@ const VIDEO_POSTER =
 export default function AuroraBackground() {
   const root = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showVideo, setShowVideo] = useState(false);
-
-  useEffect(() => {
+  // Computed once via a lazy initializer instead of an effect + setState —
+  // avoids a wasted extra render on mount for a value that never changes.
+  const [showVideo] = useState(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     const saveData = conn?.saveData === true;
-
-    setShowVideo(!prefersReducedMotion && !saveData);
-  }, []);
+    return !prefersReducedMotion && !saveData;
+  });
 
   /* Set non-standard webkit-playsinline attribute for iOS Safari autoplay */
   useEffect(() => {

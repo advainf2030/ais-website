@@ -12,6 +12,12 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const STORAGE_KEY = 'ais-theme';
+// Tracks whether the THEME was picked explicitly via the toggle, as opposed
+// to merely resolved from the OS preference and cached by the sync effect
+// below. Without this distinction, the "auto-follow OS" listener would stop
+// working after the very first render, since that effect writes STORAGE_KEY
+// on every mount regardless of how the theme was determined.
+const EXPLICIT_KEY = 'ais-theme-explicit';
 
 function getInitialTheme(): Theme {
   // Check localStorage first
@@ -42,8 +48,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handler = (e: MediaQueryListEvent) => {
-      // Only auto-switch if user hasn't explicitly set a preference
-      if (!localStorage.getItem(STORAGE_KEY)) {
+      // Only auto-switch if the user hasn't explicitly picked a theme
+      if (localStorage.getItem(EXPLICIT_KEY) !== '1') {
         setThemeState(e.matches ? 'dark' : 'light');
       }
     };
@@ -52,10 +58,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleTheme = useCallback(() => {
+    localStorage.setItem(EXPLICIT_KEY, '1');
     setThemeState((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
 
   const setTheme = useCallback((t: Theme) => {
+    localStorage.setItem(EXPLICIT_KEY, '1');
     setThemeState(t);
   }, []);
 

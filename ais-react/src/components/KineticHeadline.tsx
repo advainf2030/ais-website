@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useTransform, useMotionValueEvent, type MotionValue } from 'framer-motion';
 
 /**
@@ -93,24 +93,23 @@ function KineticUnit({
 }
 
 export default function KineticHeadline({
-  text,
+  units,
   progress,
   startIndex,
   totalUnits,
-  wordLevel,
   dissolveEnd = 0.6,
   className,
 }: {
-  text: string;
+  // Pre-split by the caller (via `splitUnits`, exported below) so a headline
+  // made of several segments — e.g. a plain run plus a gradient run — only
+  // splits each string once instead of once per segment per render.
+  units: string[];
   progress: MotionValue<number>;
   startIndex: number;
   totalUnits: number;
-  wordLevel: boolean;
   dissolveEnd?: number;
   className?: string;
 }) {
-  const units = useMemo(() => splitUnits(text, wordLevel), [text, wordLevel]);
-
   return (
     <span>
       {units.map((unit, i) => (

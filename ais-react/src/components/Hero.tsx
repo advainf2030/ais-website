@@ -37,11 +37,12 @@ export default function Hero() {
 
   const titleA = t('hero.titleA');
   const titleB = t('hero.titleB');
-  const totalUnits = useMemo(
-    () => splitUnits(titleA, wordLevel).length + splitUnits(titleB, wordLevel).length,
-    [titleA, titleB, wordLevel],
-  );
-  const titleAUnitCount = useMemo(() => splitUnits(titleA, wordLevel).length, [titleA, wordLevel]);
+  // Split once and reuse — each string no longer gets re-split per render
+  // (previously once for the count, once for the total, and again inside
+  // KineticHeadline itself).
+  const titleAUnits = useMemo(() => splitUnits(titleA, wordLevel), [titleA, wordLevel]);
+  const titleBUnits = useMemo(() => splitUnits(titleB, wordLevel), [titleB, wordLevel]);
+  const totalUnits = titleAUnits.length + titleBUnits.length;
 
   // Same imperative-opacity approach as KineticHeadline (see its comment):
   // a style-prop-bound opacity on an element that also has initial/animate
@@ -106,11 +107,10 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
           >
             <KineticHeadline
-              text={titleA}
+              units={titleAUnits}
               progress={scrollYProgress}
               startIndex={0}
               totalUnits={totalUnits}
-              wordLevel={wordLevel}
             />
           </motion.span>{' '}
           <span className="relative inline-block overflow-visible py-1 px-1">
@@ -121,11 +121,10 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
             >
               <KineticHeadline
-                text={titleB}
+                units={titleBUnits}
                 progress={scrollYProgress}
-                startIndex={titleAUnitCount}
+                startIndex={titleAUnits.length}
                 totalUnits={totalUnits}
-                wordLevel={wordLevel}
                 className="text-teal-800 dark:text-transparent dark:bg-gradient-to-r dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 dark:bg-clip-text inline-block pb-1"
               />
             </motion.span>

@@ -159,15 +159,44 @@ export default function Contact() {
                   onSubmit={onSubmit}
                 >
                   <AnimatedInput label={t('contact.entity')} htmlFor="field-entity">
-                    <input id="field-entity" className={inputBaseClass} placeholder={t('contact.entityPh')} required aria-required="true" type="text" />
+                    <input
+                      id="field-entity"
+                      className={inputBaseClass}
+                      placeholder={t('contact.entityPh')}
+                      required
+                      aria-required="true"
+                      type="text"
+                      autoComplete="organization"
+                      maxLength={120}
+                    />
                   </AnimatedInput>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <AnimatedInput label={t('contact.workEmail')} htmlFor="field-email">
-                      <input id="field-email" className={inputBaseClass} placeholder="officer@agency.gov.sa" required aria-required="true" type="email" />
+                      <input
+                        id="field-email"
+                        className={inputBaseClass}
+                        placeholder="officer@agency.gov.sa"
+                        required
+                        aria-required="true"
+                        type="email"
+                        autoComplete="email"
+                        maxLength={254}
+                      />
                     </AnimatedInput>
                     <AnimatedInput label={t('contact.phoneLabel')} htmlFor="field-phone">
-                      <input id="field-phone" className={inputBaseClass} placeholder="+966 5x xxx xxxx" required aria-required="true" type="tel" />
+                      <input
+                        id="field-phone"
+                        className={inputBaseClass}
+                        placeholder="+966 5x xxx xxxx"
+                        required
+                        aria-required="true"
+                        type="tel"
+                        autoComplete="tel"
+                        inputMode="tel"
+                        pattern="^\+?[0-9\s\-()]{7,20}$"
+                        maxLength={20}
+                      />
                     </AnimatedInput>
                   </div>
 
@@ -187,6 +216,7 @@ export default function Contact() {
                       className={`${inputBaseClass} resize-none`}
                       placeholder={t('contact.briefPh')}
                       rows={3}
+                      maxLength={1000}
                     />
                   </AnimatedInput>
 

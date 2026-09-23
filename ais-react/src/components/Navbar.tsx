@@ -20,6 +20,7 @@ export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   // Lock body when mobile menu is open
   useEffect(() => {
@@ -40,10 +41,29 @@ export default function Navbar() {
     prevOpen.current = mobileOpen;
   }, [mobileOpen]);
 
-  // Close drawer on Escape key
+  // Close drawer on Escape, and trap Tab focus inside it while open
+  // (required for aria-modal="true" — without this, keyboard users can
+  // tab straight through into the inert content behind the overlay).
   const handleDrawerKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       setMobileOpen(false);
+      return;
+    }
+    if (e.key !== 'Tab' || !drawerRef.current) return;
+
+    const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled])',
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
     }
   }, []);
 
@@ -102,7 +122,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-slate-700 dark:text-amber-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-xs flex items-center justify-center cursor-pointer"
+              className="min-w-11 min-h-11 p-2.5 rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-slate-700 dark:text-amber-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-xs flex items-center justify-center cursor-pointer"
               title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               aria-label="Toggle theme"
             >
@@ -118,7 +138,8 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setLang('en')}
-                className={`px-3.5 py-2 transition-all duration-300 ${
+                aria-pressed={lang === 'en'}
+                className={`min-h-11 px-3.5 py-2 flex items-center transition-all duration-300 ${
                   lang === 'en'
                     ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950 shadow-inner'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
@@ -129,7 +150,8 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setLang('ar')}
-                className={`px-3.5 py-2 transition-all duration-300 ${
+                aria-pressed={lang === 'ar'}
+                className={`min-h-11 px-3.5 py-2 flex items-center transition-all duration-300 ${
                   lang === 'ar'
                     ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950 shadow-inner'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
@@ -153,7 +175,7 @@ export default function Navbar() {
               ref={hamburgerRef}
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-900 hover:bg-white/40 dark:hover:bg-slate-800/40 transition-colors"
+              className="lg:hidden min-w-11 min-h-11 flex items-center justify-center p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-900 hover:bg-white/40 dark:hover:bg-slate-800/40 transition-colors"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
             >
@@ -177,6 +199,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            ref={drawerRef}
             className="fixed inset-0 z-[10000] mobile-menu-overlay pt-28 px-6 lg:hidden"
             role="dialog"
             aria-modal="true"
@@ -217,7 +240,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={toggleTheme}
-                    className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800 text-slate-700 dark:text-amber-300"
+                    className="min-w-11 min-h-11 flex items-center justify-center p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800 text-slate-700 dark:text-amber-300"
                     aria-label="Toggle theme"
                   >
                     {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
@@ -231,14 +254,16 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={() => setLang('en')}
-                      className={`px-4 py-2 transition-all ${lang === 'en' ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950' : 'text-slate-600 dark:text-slate-300'}`}
+                      aria-pressed={lang === 'en'}
+                      className={`min-h-11 px-4 py-2 flex items-center transition-all ${lang === 'en' ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950' : 'text-slate-600 dark:text-slate-300'}`}
                     >
                       EN
                     </button>
                     <button
                       type="button"
                       onClick={() => setLang('ar')}
-                      className={`px-4 py-2 transition-all ${lang === 'ar' ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950' : 'text-slate-600 dark:text-slate-300'}`}
+                      aria-pressed={lang === 'ar'}
+                      className={`min-h-11 px-4 py-2 flex items-center transition-all ${lang === 'ar' ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950' : 'text-slate-600 dark:text-slate-300'}`}
                     >
                       عربي
                     </button>

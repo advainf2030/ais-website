@@ -61,16 +61,17 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
               className="w-56 md:w-80 h-auto object-contain relative z-10 dark:brightness-125 dark:contrast-110 dark:drop-shadow-[0_0_30px_rgba(16,185,129,0.35)]"
             />
 
-            {/* Corporate hairline progress accent */}
+            {/* Corporate hairline progress accent — animates scaleX (composited)
+                instead of width (layout-thrashing) for a smoother, cheaper reveal */}
             <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 140, opacity: 0.9 }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 0.9 }}
               transition={{
                 delay: 0.8,
                 duration: 1.4,
                 ease: CINEMATIC_EASE,
               }}
-              className="relative z-10 h-[2px] rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 mt-12 md:mt-16"
+              className="relative z-10 w-[140px] h-[2px] rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 mt-12 md:mt-16 origin-left rtl:origin-right"
             />
           </div>
         </motion.div>
