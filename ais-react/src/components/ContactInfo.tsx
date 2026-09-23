@@ -1,10 +1,71 @@
+import { useEffect, useRef } from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import gsap from 'gsap';
 import { CONTACT } from '../data';
 import ScrollReveal from './ScrollReveal';
 
+const MAX_TILT_DEG = 3.5;
+
 export default function ContactInfo() {
   const { t } = useTranslation();
+
+  const panelRef = useRef<HTMLDivElement>(null);
+  const sheenRef = useRef<HTMLDivElement>(null);
+  const iconRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  /* Spatial glass depth — cursor-driven tilt + specular sheen + differential icon parallax.
+     Desktop, fine-pointer only; respects prefers-reduced-motion. */
+  useEffect(() => {
+    const panel = panelRef.current;
+    const sheen = sheenRef.current;
+    if (!panel || !sheen) return;
+
+    const canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!canTilt || reduceMotion) return;
+
+    const state = { rx: 0, ry: 0, sx: 50, sy: 50, glow: 0 };
+    const apply = () => {
+      panel.style.transform = `perspective(1400px) rotateX(${state.rx}deg) rotateY(${state.ry}deg)`;
+      sheen.style.setProperty('--sheen-x', `${state.sx}%`);
+      sheen.style.setProperty('--sheen-y', `${state.sy}%`);
+      sheen.style.opacity = String(state.glow);
+      iconRefs.current.forEach((el) => {
+        if (!el) return;
+        el.style.transform = `translate3d(${state.ry * 2.2}px, ${state.rx * -2.2}px, 0)`;
+      });
+    };
+
+    const setRx = gsap.quickTo(state, 'rx', { duration: 0.6, ease: 'power3.out', onUpdate: apply });
+    const setRy = gsap.quickTo(state, 'ry', { duration: 0.6, ease: 'power3.out', onUpdate: apply });
+    const setSx = gsap.quickTo(state, 'sx', { duration: 0.35, ease: 'power3.out', onUpdate: apply });
+    const setSy = gsap.quickTo(state, 'sy', { duration: 0.35, ease: 'power3.out', onUpdate: apply });
+    const setGlow = gsap.quickTo(state, 'glow', { duration: 0.4, ease: 'power2.out', onUpdate: apply });
+
+    const handleMove = (e: MouseEvent) => {
+      const rect = panel.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      setRx((py - 0.5) * -2 * MAX_TILT_DEG);
+      setRy((px - 0.5) * 2 * MAX_TILT_DEG);
+      setSx(px * 100);
+      setSy(py * 100);
+      setGlow(1);
+    };
+    const handleLeave = () => {
+      setRx(0);
+      setRy(0);
+      setGlow(0);
+    };
+
+    panel.addEventListener('mousemove', handleMove);
+    panel.addEventListener('mouseleave', handleLeave);
+    return () => {
+      panel.removeEventListener('mousemove', handleMove);
+      panel.removeEventListener('mouseleave', handleLeave);
+    };
+  }, []);
 
   const channels = [
     {
@@ -39,8 +100,19 @@ export default function ContactInfo() {
       </ScrollReveal>
 
       <ScrollReveal delay={0.1}>
-        <div className="glass-card rounded-2xl p-6 md:p-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div
+          ref={panelRef}
+          className="glass-card rounded-2xl p-6 md:p-10 relative will-change-transform"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {/* Specular sheen — travels with the cursor, sells the "real glass" read */}
+          <div
+            ref={sheenRef}
+            aria-hidden="true"
+            className="glass-sheen absolute inset-0 rounded-2xl z-20 pointer-events-none opacity-0"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 relative z-10">
             {channels.map((ch, i) => {
               const Icon = ch.icon;
               return (
@@ -48,7 +120,12 @@ export default function ContactInfo() {
                   key={i}
                   className="flex items-start gap-4 group"
                 >
-                  <div className="w-11 h-11 rounded-xl bg-teal-50 dark:bg-slate-800 border border-teal-100 dark:border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-teal-100 dark:group-hover:bg-slate-700 transition-colors duration-300">
+                  <div
+                    ref={(el) => {
+                      iconRefs.current[i] = el;
+                    }}
+                    className="w-11 h-11 rounded-xl bg-teal-50 dark:bg-slate-800 border border-teal-100 dark:border-slate-700 flex items-center justify-center shrink-0 group-hover:bg-teal-100 dark:group-hover:bg-slate-700 transition-colors duration-300 will-change-transform"
+                  >
                     <Icon size={20} className="text-teal-700 dark:text-emerald-400" />
                   </div>
                   <div className="min-w-0">
