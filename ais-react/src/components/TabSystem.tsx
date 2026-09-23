@@ -27,12 +27,24 @@ interface SubServiceItem {
   image: string;
 }
 
+interface GroupItem {
+  title: string;
+  desc: string;
+}
+
+interface ServiceGroup {
+  title: string;
+  image: string;
+  items: GroupItem[];
+}
+
 interface ServiceText {
   tag: string;
   title: string;
   desc: string;
   chips: string[];
   subservices?: SubServiceItem[];
+  groups?: ServiceGroup[];
 }
 
 /* ── About Tab Content ── */
@@ -182,6 +194,81 @@ function AccordionRow({
   );
 }
 
+/* ── Accordion Group (collapsible category — holds nested AccordionRows) ── */
+function AccordionGroup({
+  title,
+  isOpen,
+  onToggle,
+  index,
+  panelId,
+  headerId,
+  children,
+}: {
+  title: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  index: number;
+  panelId: string;
+  headerId: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-b border-slate-200/70 dark:border-slate-800/80">
+      <button
+        type="button"
+        id={headerId}
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
+          isOpen ? 'bg-teal-50/60 dark:bg-slate-800/60' : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
+        }`}
+      >
+        <div className="flex items-center gap-4 flex-1 min-w-0">
+          <span className="text-[11px] tracking-[0.15em] text-slate-400 dark:text-slate-500 font-bold shrink-0">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <h4
+            className={`text-[15px] md:text-base font-bold transition-colors duration-300 ${
+              isOpen
+                ? 'text-teal-700 dark:text-emerald-400'
+                : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
+            }`}
+          >
+            {title}
+          </h4>
+        </div>
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3, ease: EASE }}
+          className="shrink-0 text-slate-400 dark:text-slate-500 group-hover:text-teal-600 dark:group-hover:text-emerald-400 transition-colors"
+          aria-hidden="true"
+        >
+          <ChevronDown size={18} />
+        </motion.span>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key="content"
+            id={panelId}
+            role="region"
+            aria-labelledby={headerId}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="overflow-hidden bg-slate-50/50 dark:bg-slate-900/30"
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /* ── Dynamic Image Panel (crossfade on sub-service selection) ── */
 function DynamicImagePanel({
   currentImage,
@@ -234,10 +321,17 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
   const { t } = useTranslation();
   const texts = t('services.cards', { returnObjects: true }) as unknown as ServiceText[];
   const text = texts[serviceIndex];
+  const hasGroups = !!text?.groups?.length;
+
+  /* Flat accordion state (Power / Telecom — no grouping) */
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  /* Grouped accordion state (Software — category, then service within it) */
+  const [openGroup, setOpenGroup] = useState<number | null>(null);
+  const [openItem, setOpenItem] = useState<number | null>(null);
+
   const accordionRef = useRef<HTMLDivElement>(null);
 
-  /* Auto-collapse: close expanded row when clicking outside the accordion */
+  /* Auto-collapse: close expanded row(s) when clicking outside the accordion */
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
       if (
@@ -245,41 +339,60 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
         !accordionRef.current.contains(e.target as Node)
       ) {
         setOpenIndex(null);
+        setOpenGroup(null);
+        setOpenItem(null);
       }
     },
     [],
   );
 
   useEffect(() => {
-    if (openIndex !== null) {
+    if (openIndex !== null || openGroup !== null) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [openIndex, handleClickOutside]);
+  }, [openIndex, openGroup, handleClickOutside]);
 
-  /* Auto-collapse: close expanded row when mouse leaves accordion (desktop only) */
+  /* Auto-collapse: close expanded row(s) when mouse leaves accordion (desktop only) */
   const handleMouseLeave = useCallback(() => {
-    if (openIndex === null) return;
+    if (openIndex === null && openGroup === null) return;
     if (window.matchMedia('(min-width: 1024px)').matches) {
       setOpenIndex(null);
+      setOpenGroup(null);
+      setOpenItem(null);
     }
-  }, [openIndex]);
+  }, [openIndex, openGroup]);
 
   if (!text) return null;
 
-  /* Determine which image to show:
-     - If a sub-row is expanded → show that row's specific image
-     - Otherwise → show the category default hero */
   const defaultHero = CATEGORY_HERO_IMAGES[serviceIndex] ?? text.subservices?.[0]?.image ?? '';
-  const activeSubImage = openIndex !== null ? text.subservices?.[openIndex]?.image : undefined;
-  const currentImage = activeSubImage ?? defaultHero;
-  const imageKey = openIndex !== null ? `sub-${serviceIndex}-${openIndex}` : `hero-${serviceIndex}`;
-  const activeLabel = openIndex !== null ? text.subservices?.[openIndex]?.title : undefined;
+
+  /* Determine which image to show:
+     - Grouped cards: the open category's representative image (services within
+       it share one image — swapping per-row would just flash between near-
+       identical stock photos)
+     - Flat cards: the open row's own image, otherwise the category default hero */
+  const currentImage = hasGroups
+    ? (openGroup !== null ? text.groups![openGroup].image : defaultHero)
+    : ((openIndex !== null ? text.subservices?.[openIndex]?.image : undefined) ?? defaultHero);
+  const imageKey = hasGroups
+    ? (openGroup !== null ? `group-${serviceIndex}-${openGroup}` : `hero-${serviceIndex}`)
+    : (openIndex !== null ? `sub-${serviceIndex}-${openIndex}` : `hero-${serviceIndex}`);
+  const activeLabel = hasGroups
+    ? (openGroup !== null ? text.groups![openGroup].title : undefined)
+    : (openIndex !== null ? text.subservices?.[openIndex]?.title : undefined);
 
   const toggleAccordion = (i: number) => {
     setOpenIndex(openIndex === i ? null : i);
+  };
+  const toggleGroup = (i: number) => {
+    setOpenGroup(openGroup === i ? null : i);
+    setOpenItem(null);
+  };
+  const toggleItem = (i: number) => {
+    setOpenItem(openItem === i ? null : i);
   };
 
   return (
@@ -313,18 +426,43 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                 {text.title}
               </h3>
             </div>
-            {text.subservices?.map((sub, i) => (
-              <AccordionRow
-                key={i}
-                title={sub.title}
-                desc={sub.desc}
-                isOpen={openIndex === i}
-                onToggle={() => toggleAccordion(i)}
-                index={i}
-                headerId={`accordion-header-${serviceIndex}-${i}`}
-                panelId={`accordion-panel-${serviceIndex}-${i}`}
-              />
-            ))}
+            {hasGroups
+              ? text.groups!.map((g, gi) => (
+                  <AccordionGroup
+                    key={gi}
+                    title={g.title}
+                    isOpen={openGroup === gi}
+                    onToggle={() => toggleGroup(gi)}
+                    index={gi}
+                    headerId={`group-header-${serviceIndex}-${gi}`}
+                    panelId={`group-panel-${serviceIndex}-${gi}`}
+                  >
+                    {g.items.map((it, ii) => (
+                      <AccordionRow
+                        key={ii}
+                        title={it.title}
+                        desc={it.desc}
+                        isOpen={openGroup === gi && openItem === ii}
+                        onToggle={() => toggleItem(ii)}
+                        index={ii}
+                        headerId={`accordion-header-${serviceIndex}-${gi}-${ii}`}
+                        panelId={`accordion-panel-${serviceIndex}-${gi}-${ii}`}
+                      />
+                    ))}
+                  </AccordionGroup>
+                ))
+              : text.subservices?.map((sub, i) => (
+                  <AccordionRow
+                    key={i}
+                    title={sub.title}
+                    desc={sub.desc}
+                    isOpen={openIndex === i}
+                    onToggle={() => toggleAccordion(i)}
+                    index={i}
+                    headerId={`accordion-header-${serviceIndex}-${i}`}
+                    panelId={`accordion-panel-${serviceIndex}-${i}`}
+                  />
+                ))}
           </div>
         </div>
       </div>

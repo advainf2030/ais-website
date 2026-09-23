@@ -10,134 +10,126 @@ const resources = {
         software: 'Software Solutions',
         power: 'Power Solutions',
         telecom: 'Telecom & ICT',
-        cta: 'Initiate Brief',
+        cta: 'Contact Us',
       },
       hero: {
         eyebrow: 'EST. 1998 • OWNED BY CITY BANDIT LIMITED',
         titleA: 'Your digital future.',
         titleB: 'Revitalized.',
         subtitle:
-          'Advanced Information Systems Company is a progressive technology organization specializing in telecommunications, information technology, and custom software development across the Middle East, aligned with Saudi Vision 2030.',
+          'Owned by City Bandit Limited and established in 1998, Advanced Information Systems Company is a progressive technology organization specializing in telecommunications, information technology, and custom software development.',
         explore: 'Explore Solutions',
         contact: 'Contact Us',
         statEstablished: 'YEAR ESTABLISHED',
-        statAlignment: 'STRATEGIC ALIGNMENT',
-        statFocus: 'SOVEREIGN FOCUS',
+        statAlignment: 'VISION 2030 ALIGNMENT',
+        statFocus: 'SAUDI ARABIA FOCUS',
       },
       services: {
         cards: [
           {
-            tag: 'Enterprise Engineering',
+            tag: 'SOFTWARE SOLUTIONS',
             title: 'Software Solutions',
             desc: 'We specialize in designing and developing tailor-made software solutions that address the unique challenges and requirements of each client.',
-            chips: [
-              'Custom Software Development',
-              'Testing & Inspection',
-              'Quality Engineering',
-              'Code Testing',
-              'Cyber Security',
-              'Managed Services',
-            ],
-            subservices: [
+            chips: ['Software Development', 'Cyber Security', 'Managed IT Services'],
+            groups: [
               {
-                title: 'Custom Software Development',
-                desc: 'We focus on creating custom software solutions, carefully designed and developed to meet the specific needs and challenges of every client.',
+                title: 'Software Development',
                 image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Testing & Inspection',
-                desc: 'We deliver comprehensive verification, testing, and inspection services to ensure the reliability and performance of systems and digital software.',
-                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Quality Engineering',
-                desc: 'Quality is integrated into every phase of our development lifecycle as we support organizations throughout their digital transformation journey.',
-                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Code Testing',
-                desc: 'We analyze, test, and verify software code to ensure it is robust, easy to maintain, and capable of scaling effectively.',
-                image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Cyber Security — Implementation & Deployment',
-                desc: 'We deliver complete implementation and deployment of cybersecurity solutions across enterprise-level infrastructures.',
-                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Cyber Security — Customization & Development',
-                desc: 'We deliver personalized cybersecurity solutions designed to address the specific challenges and goals of each client.',
-                image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
+                items: [
+                  {
+                    title: 'Custom Software Development',
+                    desc: 'We focus on creating custom software solutions, carefully designed and developed to meet the specific needs and challenges of every client.',
+                  },
+                  {
+                    title: 'Testing & Inspection',
+                    desc: 'We deliver comprehensive verification, testing, and inspection services to ensure the reliability and performance of systems and digital software.',
+                  },
+                  {
+                    title: 'Quality Engineering',
+                    desc: 'Quality is integrated into every phase of our development lifecycle as we support organizations throughout their digital transformation journey.',
+                  },
+                  {
+                    title: 'Code Testing',
+                    desc: 'We analyze, test, and verify software code to ensure it is robust, easy to maintain, and capable of scaling effectively.',
+                  },
+                ],
               },
               {
                 title: 'Cyber Security',
-                desc: 'We provide comprehensive cybersecurity services, including designing, implementing, and managing security solutions.',
-                image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Cyber Security — Planning & Execution',
-                desc: 'We help clients create customized incident response plans that align with their organization\'s specific risk profile.',
-                image: 'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Professional Consulting',
-                desc: 'We provide expert consulting to help clients define secure, scalable technology strategies aligned with their business goals.',
-                image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Performance Engineering',
-                desc: 'We optimize systems and applications for speed, scalability, and reliability under real-world operating conditions.',
-                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Automation Engineering',
-                desc: 'We design and implement automation solutions that streamline operations, reduce manual effort, and improve consistency.',
-                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'IT Outsourcing',
-                desc: 'We provide dedicated IT outsourcing services, giving clients access to skilled technical teams without the overhead of an in-house department.',
-                image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Managed Services',
-                desc: 'We offer a wide array of managed IT services tailored to address the varied needs of clients across multiple industries.',
-                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Integrated Managed Services',
-                desc: 'We provide fully integrated managed services solutions that seamlessly blend IT management, cybersecurity, and cloud services.',
-                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Proactive Solutions',
-                desc: 'Proactive IT solutions emphasize detecting and resolving potential issues before they disrupt operations, using preventive strategies to maintain seamless performance.',
-                image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Securing Access',
-                desc: 'We enable our clients with innovative solutions that adapt to their evolving needs, offering secure access to cutting-edge technologies.',
                 image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
+                items: [
+                  {
+                    title: 'Implementation & Deployment',
+                    desc: 'We deliver complete implementation and deployment of cybersecurity solutions across enterprise-level infrastructures.',
+                  },
+                  {
+                    title: 'Customization & Development',
+                    desc: 'We deliver personalized cybersecurity solutions designed to address the specific challenges and goals of each client.',
+                  },
+                  {
+                    title: 'Cyber Security Services',
+                    desc: 'We provide comprehensive cybersecurity services, including designing, implementing, and managing security solutions.',
+                  },
+                  {
+                    title: 'Planning & Execution',
+                    desc: 'We help clients create customized incident response plans that align with their organization\'s specific risk profile.',
+                  },
+                  {
+                    title: 'Professional Consulting',
+                    desc: 'We provide expert consulting to help clients define secure, scalable technology strategies aligned with their business goals.',
+                  },
+                  {
+                    title: 'Performance Engineering',
+                    desc: 'We optimize systems and applications for speed, scalability, and reliability under real-world operating conditions.',
+                  },
+                  {
+                    title: 'Automation Engineering',
+                    desc: 'We design and implement automation solutions that streamline operations, reduce manual effort, and improve consistency.',
+                  },
+                  {
+                    title: 'IT Outsourcing',
+                    desc: 'We provide dedicated IT outsourcing services, giving clients access to skilled technical teams without the overhead of an in-house department.',
+                  },
+                ],
               },
               {
-                title: 'Improving IT Performance',
-                desc: 'We actively enhance the long-term performance of internal and external devices, systems, and networks through continuous optimization.',
-                image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Hyperconverged Infrastructure',
-                desc: 'We focus on implementing HCI solutions that unify computing, storage, and networking resources into a single, efficient system.',
-                image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'Operation & Maintenance',
-                desc: 'We offer clients technical expertise to support system management and maintenance, ensuring seamless and reliable IT operations.',
-                image: 'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1200&q=80',
+                title: 'Managed IT Services',
+                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
+                items: [
+                  {
+                    title: 'Managed Services',
+                    desc: 'We offer a wide array of managed IT services tailored to address the varied needs of clients across multiple industries.',
+                  },
+                  {
+                    title: 'Integrated Managed Services',
+                    desc: 'We provide fully integrated managed services solutions that seamlessly blend IT management, cybersecurity, and cloud services.',
+                  },
+                  {
+                    title: 'Proactive Solutions',
+                    desc: 'Proactive IT solutions emphasize detecting and resolving potential issues before they disrupt operations, using preventive strategies to maintain seamless performance.',
+                  },
+                  {
+                    title: 'Securing Access',
+                    desc: 'We enable our clients with innovative solutions that adapt to their evolving needs, offering secure access to cutting-edge technologies.',
+                  },
+                  {
+                    title: 'Improving IT Performance',
+                    desc: 'We actively enhance the long-term performance of internal and external devices, systems, and networks through continuous optimization.',
+                  },
+                  {
+                    title: 'Hyperconverged Infrastructure',
+                    desc: 'We focus on implementing HCI solutions that unify computing, storage, and networking resources into a single, efficient system.',
+                  },
+                  {
+                    title: 'Operation & Maintenance',
+                    desc: 'We offer clients technical expertise to support system management and maintenance, ensuring seamless and reliable IT operations.',
+                  },
+                ],
               },
             ],
           },
           {
-            tag: 'High Availability',
+            tag: 'POWER SOLUTIONS',
             title: 'Power Solutions',
             desc: 'We offer complete Power Solutions for both Medium and Low Voltage systems, encompassing engineering, design, supply, installation, testing, and commissioning.',
             chips: ['Low Voltage Services', 'Backup Power Systems', 'Medium Voltage Solutions'],
@@ -160,7 +152,7 @@ const resources = {
             ],
           },
           {
-            tag: 'National Scale',
+            tag: 'TELECOM & ICT SOLUTIONS',
             title: 'Telecom & ICT Solutions',
             desc: 'We provide end-to-end technology solutions, covering connectivity, fiber optics (OSP & FTTX), data centers, network security, core ISP networks, infrastructure, and storage.',
             chips: ['Connectivity Solutions', 'Data Center Solutions', 'Core Network-ISP', 'Safe City - CCTV', 'Network Security', 'Storage Solutions', 'Network Infrastructure', 'OSP & FTTX Solutions'],
@@ -243,13 +235,13 @@ const resources = {
         desc: 'Get in touch with us through any of the following channels.',
       },
       partners: {
-        title: 'Trusted by Sovereign Pioneers & Customers',
-        desc: 'Powering vital infrastructure for industry authorities and leading regional enterprises.',
+        title: 'Our Partners & Customers',
+        desc: 'A selection of our government and private-sector clients and partners.',
       },
       contact: {
-        badge: 'Operational & Available for Tenders',
+        badge: 'Available for New Projects',
         title: "Let's Work Together!",
-        desc: 'Connect with our enterprise directors, systems architects, and sovereign engineering leads to initiate your tender or consultation.',
+        desc: 'Get in touch with our team to discuss your project or request a consultation.',
         hq: 'Headquarters:',
         hqValue: 'Building 7022, Al Aqeeq Dist, Riyadh, Postal Code 13515, Kingdom of Saudi Arabia.',
         phone: 'Phone:',
@@ -260,16 +252,16 @@ const resources = {
         phoneLabel: 'Phone',
         scope: 'Scope of Inquiry',
         scopeOptions: [
-          'Software Solutions & Custom Engineering',
-          'Cyber Security Architecture & ECC',
-          'Power Solutions & Backup Systems (UPS)',
-          'Telecom & ICT Solutions (OSP/FTTX, Data Centers)',
-          'Comprehensive Sovereign Tender',
+          'Software Solutions',
+          'Cyber Security',
+          'Power Solutions',
+          'Telecom & ICT Solutions',
+          'General Inquiry / Tender',
         ],
         brief: 'Brief Description',
         briefPh: 'Outline procurement specifications, timelines, or NDA requirements...',
-        submit: 'Transmit Formal Inquiry',
-        success: 'Inquiry transmitted to Advanced Information Systems & Contracting. Our team will respond shortly.',
+        submit: 'Submit Inquiry',
+        success: 'Your inquiry has been received. Our team will respond shortly.',
       },
       footer: {
         tagline:
@@ -299,7 +291,7 @@ const resources = {
         titleA: 'مستقبلك الرقمي.',
         titleB: 'نبنيه اليوم.',
         subtitle:
-          'شركة أنظمة المعلومات المتقدمة والمقاولات — شريكك التقني في الاتصالات وتقنية المعلومات وتطوير البرمجيات. نعمل في المملكة العربية السعودية والشرق الأوسط بما يتوافق مع رؤية 2030.',
+          'شركة أنظمة المعلومات المتقدمة، المملوكة لشركة City Bandit Limited والمؤسسة عام 1998، مؤسسة تقنية متطورة متخصصة في الاتصالات وتقنية المعلومات وتطوير البرمجيات المخصصة.',
         explore: 'تعرّف على خدماتنا',
         contact: 'تواصل معنا',
         statEstablished: 'سنة التأسيس',
@@ -312,109 +304,101 @@ const resources = {
             tag: 'تطوير برمجيات',
             title: 'الحلول البرمجية',
             desc: 'نتخصص في تصميم وتطوير حلول برمجية مخصصة تلبي التحديات والمتطلبات الخاصة بكل عميل.',
-            chips: [
-              'تطوير برمجيات مخصصة',
-              'اختبار وفحص',
-              'ضمان الجودة',
-              'فحص الأكواد',
-              'الأمن السيبراني',
-              'الخدمات المُدارة',
-            ],
-            subservices: [
+            chips: ['تطوير البرمجيات', 'الأمن السيبراني', 'الخدمات المُدارة'],
+            groups: [
               {
-                title: 'تطوير برمجيات مخصصة',
-                desc: 'نركز على تصميم وتطوير أنظمة برمجية مخصصة تلبي الاحتياجات والتحديات الخاصة بكل عميل.',
+                title: 'تطوير البرمجيات',
                 image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'اختبار وفحص',
-                desc: 'نقدم خدمات تحقق واختبار وفحص شاملة لضمان موثوقية وأداء الأنظمة والبرمجيات الرقمية.',
-                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'ضمان الجودة',
-                desc: 'الجودة جزء أساسي من كل مرحلة في دورة التطوير لدينا، وندعم المؤسسات طوال رحلة تحولها الرقمي.',
-                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'فحص الأكواد',
-                desc: 'نحلل ونختبر ونتحقق من الأكواد البرمجية لضمان أنها متينة وسهلة الصيانة وقابلة للتوسع بكفاءة.',
-                image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'الأمن السيبراني — التنفيذ والتشغيل',
-                desc: 'نقدم تنفيذاً وتشغيلاً متكاملاً لحلول الأمن السيبراني عبر البنى التحتية على مستوى المؤسسات.',
-                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'الأمن السيبراني — تطوير وتخصيص',
-                desc: 'نقدم حلول أمن سيبراني مخصصة تعالج التحديات والأهداف الخاصة بكل عميل.',
-                image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
+                items: [
+                  {
+                    title: 'تطوير برمجيات مخصصة',
+                    desc: 'نركز على تصميم وتطوير أنظمة برمجية مخصصة تلبي الاحتياجات والتحديات الخاصة بكل عميل.',
+                  },
+                  {
+                    title: 'اختبار وفحص',
+                    desc: 'نقدم خدمات تحقق واختبار وفحص شاملة لضمان موثوقية وأداء الأنظمة والبرمجيات الرقمية.',
+                  },
+                  {
+                    title: 'ضمان الجودة',
+                    desc: 'الجودة جزء أساسي من كل مرحلة في دورة التطوير لدينا، وندعم المؤسسات طوال رحلة تحولها الرقمي.',
+                  },
+                  {
+                    title: 'فحص الأكواد',
+                    desc: 'نحلل ونختبر ونتحقق من الأكواد البرمجية لضمان أنها متينة وسهلة الصيانة وقابلة للتوسع بكفاءة.',
+                  },
+                ],
               },
               {
                 title: 'الأمن السيبراني',
-                desc: 'نقدم خدمات أمن سيبراني شاملة تشمل تصميم وتنفيذ وإدارة الحلول الأمنية.',
-                image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'الأمن السيبراني — تخطيط وتنفيذ',
-                desc: 'نساعد العملاء على إعداد خطط استجابة مخصصة للحوادث تتوافق مع طبيعة المخاطر الخاصة بمنشأتهم.',
-                image: 'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'استشارات احترافية',
-                desc: 'نقدم استشارات متخصصة تساعد العملاء على وضع استراتيجيات تقنية آمنة وقابلة للتوسع تتماشى مع أهداف أعمالهم.',
-                image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'هندسة الأداء',
-                desc: 'نعمل على تحسين أداء الأنظمة والتطبيقات من حيث السرعة والتوسع والموثوقية في ظروف التشغيل الفعلية.',
-                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'هندسة الأتمتة',
-                desc: 'نصمم وننفذ حلول أتمتة تبسّط العمليات وتقلل الجهد اليدوي وتحسّن اتساق الأداء.',
-                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'التعهيد التقني',
-                desc: 'نقدم خدمات تعهيد تقني متخصصة، تمنح العملاء وصولاً لفرق تقنية ماهرة دون أعباء تكوين قسم تقني داخلي.',
-                image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
+                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
+                items: [
+                  {
+                    title: 'التنفيذ والتشغيل',
+                    desc: 'نقدم تنفيذاً وتشغيلاً متكاملاً لحلول الأمن السيبراني عبر البنى التحتية على مستوى المؤسسات.',
+                  },
+                  {
+                    title: 'تطوير وتخصيص',
+                    desc: 'نقدم حلول أمن سيبراني مخصصة تعالج التحديات والأهداف الخاصة بكل عميل.',
+                  },
+                  {
+                    title: 'خدمات الأمن السيبراني',
+                    desc: 'نقدم خدمات أمن سيبراني شاملة تشمل تصميم وتنفيذ وإدارة الحلول الأمنية.',
+                  },
+                  {
+                    title: 'تخطيط وتنفيذ',
+                    desc: 'نساعد العملاء على إعداد خطط استجابة مخصصة للحوادث تتوافق مع طبيعة المخاطر الخاصة بمنشأتهم.',
+                  },
+                  {
+                    title: 'استشارات احترافية',
+                    desc: 'نقدم استشارات متخصصة تساعد العملاء على وضع استراتيجيات تقنية آمنة وقابلة للتوسع تتماشى مع أهداف أعمالهم.',
+                  },
+                  {
+                    title: 'هندسة الأداء',
+                    desc: 'نعمل على تحسين أداء الأنظمة والتطبيقات من حيث السرعة والتوسع والموثوقية في ظروف التشغيل الفعلية.',
+                  },
+                  {
+                    title: 'هندسة الأتمتة',
+                    desc: 'نصمم وننفذ حلول أتمتة تبسّط العمليات وتقلل الجهد اليدوي وتحسّن اتساق الأداء.',
+                  },
+                  {
+                    title: 'التعهيد التقني',
+                    desc: 'نقدم خدمات تعهيد تقني متخصصة، تمنح العملاء وصولاً لفرق تقنية ماهرة دون أعباء تكوين قسم تقني داخلي.',
+                  },
+                ],
               },
               {
                 title: 'الخدمات المُدارة',
-                desc: 'نقدم مجموعة واسعة من الخدمات التقنية المُدارة المصممة لتلبية احتياجات العملاء المختلفة عبر قطاعات متعددة.',
                 image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'الخدمات المُدارة المتكاملة',
-                desc: 'نقدم حلول خدمات مُدارة متكاملة تجمع بسلاسة بين إدارة تقنية المعلومات والأمن السيبراني والخدمات السحابية.',
-                image: 'https://images.unsplash.com/photo-1607706189992-eae578626c86?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'الحلول الاستباقية',
-                desc: 'تركّز الحلول التقنية الاستباقية على اكتشاف ومعالجة المشكلات المحتملة قبل أن تؤثر على التشغيل، باستخدام استراتيجيات وقائية للحفاظ على الأداء المستمر.',
-                image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'تأمين الوصول',
-                desc: 'نمكّن عملاءنا بحلول مبتكرة تواكب احتياجاتهم المتطورة، مع وصول آمن لأحدث التقنيات.',
-                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'تحسين أداء الأنظمة التقنية',
-                desc: 'نعمل باستمرار على رفع كفاءة الأجهزة والأنظمة والشبكات الداخلية والخارجية من خلال التحسين المستمر.',
-                image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'البنية التحتية المتقاربة (HCI)',
-                desc: 'نركّز على تنفيذ حلول HCI التي توحّد موارد الحوسبة والتخزين والشبكات في نظام واحد عالي الكفاءة.',
-                image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80',
-              },
-              {
-                title: 'التشغيل والصيانة',
-                desc: 'نقدم للعملاء الخبرة التقنية اللازمة لدعم إدارة وصيانة الأنظمة، لضمان تشغيل تقني مستمر وموثوق.',
-                image: 'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1200&q=80',
+                items: [
+                  {
+                    title: 'الخدمات المُدارة',
+                    desc: 'نقدم مجموعة واسعة من الخدمات التقنية المُدارة المصممة لتلبية احتياجات العملاء المختلفة عبر قطاعات متعددة.',
+                  },
+                  {
+                    title: 'الخدمات المُدارة المتكاملة',
+                    desc: 'نقدم حلول خدمات مُدارة متكاملة تجمع بسلاسة بين إدارة تقنية المعلومات والأمن السيبراني والخدمات السحابية.',
+                  },
+                  {
+                    title: 'الحلول الاستباقية',
+                    desc: 'تركّز الحلول التقنية الاستباقية على اكتشاف ومعالجة المشكلات المحتملة قبل أن تؤثر على التشغيل، باستخدام استراتيجيات وقائية للحفاظ على الأداء المستمر.',
+                  },
+                  {
+                    title: 'تأمين الوصول',
+                    desc: 'نمكّن عملاءنا بحلول مبتكرة تواكب احتياجاتهم المتطورة، مع وصول آمن لأحدث التقنيات.',
+                  },
+                  {
+                    title: 'تحسين أداء الأنظمة التقنية',
+                    desc: 'نعمل باستمرار على رفع كفاءة الأجهزة والأنظمة والشبكات الداخلية والخارجية من خلال التحسين المستمر.',
+                  },
+                  {
+                    title: 'البنية التحتية المتقاربة (HCI)',
+                    desc: 'نركّز على تنفيذ حلول HCI التي توحّد موارد الحوسبة والتخزين والشبكات في نظام واحد عالي الكفاءة.',
+                  },
+                  {
+                    title: 'التشغيل والصيانة',
+                    desc: 'نقدم للعملاء الخبرة التقنية اللازمة لدعم إدارة وصيانة الأنظمة، لضمان تشغيل تقني مستمر وموثوق.',
+                  },
+                ],
               },
             ],
           },
