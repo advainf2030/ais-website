@@ -216,6 +216,25 @@ html[dir="rtl"] * {
     inset 0 1px 0 rgba(148, 163, 184, 0.08);
 }
 
+/* ---------- Glass sheen — cursor-tracked specular highlight for tiltable glass panels ---------- */
+.glass-sheen {
+  background: radial-gradient(
+    600px circle at var(--sheen-x, 50%) var(--sheen-y, 50%),
+    rgba(255, 255, 255, 0.45),
+    transparent 55%
+  );
+  mix-blend-mode: soft-light;
+}
+
+.dark .glass-sheen {
+  background: radial-gradient(
+    600px circle at var(--sheen-x, 50%) var(--sheen-y, 50%),
+    rgba(255, 255, 255, 0.16),
+    transparent 55%
+  );
+  mix-blend-mode: overlay;
+}
+
 /* ---------- Horizontal pillar accordion (desktop) ---------- */
 #pillar-accordion .pillar-card {
   flex: 1 1 0%;
