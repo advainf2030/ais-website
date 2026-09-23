@@ -135,11 +135,11 @@ function AccordionRow({
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={panelId}
-        className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
+        className={`w-full flex items-center justify-between py-5 px-4 md:px-5 gap-2 text-start group cursor-pointer transition-colors duration-300 ${
           isOpen ? '' : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
         }`}
       >
-        <div className="flex items-center gap-4 flex-1 min-w-0">
+        <div className="flex items-center gap-2.5 flex-1 min-w-0">
           <span
             className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${
               isOpen ? 'bg-teal-600 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'
@@ -147,7 +147,7 @@ function AccordionRow({
             aria-hidden="true"
           />
           <h4
-            className={`text-[15px] md:text-base font-normal transition-colors duration-300 ${
+            className={`text-[15px] md:text-base font-normal leading-snug transition-colors duration-300 ${
               isOpen
                 ? 'text-teal-700 dark:text-emerald-400'
                 : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
@@ -179,7 +179,7 @@ function AccordionRow({
             transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden"
           >
-            <div className="px-4 md:px-6 pb-5">
+            <div className="px-4 md:px-5 pb-5">
               <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                 {desc}
               </p>
@@ -400,9 +400,9 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
           `items-start` (not `items-stretch`) lets each column size to its own
           content — the accordion no longer gets force-stretched to the image's
           height, which left a block of dead glass space below a short 2-col grid. */}
-      <div className="flex flex-col lg:flex-row gap-8 items-start">
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Left — dynamic image panel */}
-        <div className="lg:w-[32%] shrink-0">
+        <div className="lg:w-[26%] shrink-0">
           <DynamicImagePanel
             currentImage={currentImage}
             imageKey={imageKey}
@@ -414,7 +414,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
         {/* Right — accordion (collapses on click outside only; stays open on mouse-leave) */}
         <div
           ref={accordionRef}
-          className="lg:w-[68%] flex flex-col"
+          className="lg:w-[74%] flex flex-col"
         >
           <div className="glass-card rounded-2xl overflow-hidden flex-1">
             <div className="border-b border-slate-200/70 dark:border-slate-800 px-4 md:px-6 py-4">
