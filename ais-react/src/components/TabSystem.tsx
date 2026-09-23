@@ -128,20 +128,16 @@ function AccordionRow({
   headerId: string;
 }) {
   return (
-    <div
-      className={`border-b border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300 ${
-        isOpen
-          ? 'bg-white/30 dark:bg-slate-800/50'
-          : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
-      }`}
-    >
+    <div className="border-b border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300">
       <button
         type="button"
         id={headerId}
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={panelId}
-        className="w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer"
+        className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
+          isOpen ? '' : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
+        }`}
       >
         <div className="flex items-center gap-4 flex-1 min-w-0">
           <span
@@ -263,7 +259,13 @@ function AccordionGroup({
             transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden bg-slate-50/50 dark:bg-slate-900/30"
           >
-            {children}
+            {/* Two-column grid on desktop — a long service list (e.g. Cyber Security's
+                8 items) no longer pushes the last row's content below the fold when
+                expanded. `items-start` keeps a shorter neighbor from stretching to
+                match a taller expanded cell in the same row. */}
+            <div className="grid grid-cols-1 md:grid-cols-2 md:items-start">
+              {children}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -357,16 +359,6 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
     };
   }, [openIndex, openGroup, handleClickOutside]);
 
-  /* Auto-collapse: close expanded row(s) when mouse leaves accordion (desktop only) */
-  const handleMouseLeave = useCallback(() => {
-    if (openIndex === null && openGroup === null) return;
-    if (window.matchMedia('(min-width: 1024px)').matches) {
-      setOpenIndex(null);
-      setOpenGroup(null);
-      setOpenItem(null);
-    }
-  }, [openIndex, openGroup]);
-
   if (!text) return null;
 
   const defaultHero = CATEGORY_HERO_IMAGES[serviceIndex] ?? text.subservices?.[0]?.image ?? '';
@@ -416,11 +408,10 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
           />
         </div>
 
-        {/* Right — accordion (auto-collapses on mouse leave / click outside) */}
+        {/* Right — accordion (collapses on click outside only; stays open on mouse-leave) */}
         <div
           ref={accordionRef}
           className="lg:w-[60%] flex flex-col"
-          onMouseLeave={handleMouseLeave}
         >
           <div className="glass-card rounded-2xl overflow-hidden flex-1">
             <div className="border-b border-slate-200/70 dark:border-slate-800 px-4 md:px-6 py-4">
@@ -451,17 +442,21 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                     ))}
                   </AccordionGroup>
                 ))
-              : text.subservices?.map((sub, i) => (
-                  <AccordionRow
-                    key={i}
-                    title={sub.title}
-                    desc={sub.desc}
-                    isOpen={openIndex === i}
-                    onToggle={() => toggleAccordion(i)}
-                    headerId={`accordion-header-${serviceIndex}-${i}`}
-                    panelId={`accordion-panel-${serviceIndex}-${i}`}
-                  />
-                ))}
+              : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 md:items-start">
+                    {text.subservices?.map((sub, i) => (
+                      <AccordionRow
+                        key={i}
+                        title={sub.title}
+                        desc={sub.desc}
+                        isOpen={openIndex === i}
+                        onToggle={() => toggleAccordion(i)}
+                        headerId={`accordion-header-${serviceIndex}-${i}`}
+                        panelId={`accordion-panel-${serviceIndex}-${i}`}
+                      />
+                    ))}
+                  </div>
+                )}
           </div>
         </div>
       </div>
