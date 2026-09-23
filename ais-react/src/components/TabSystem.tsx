@@ -12,7 +12,7 @@ type TabKey = (typeof TAB_KEYS)[number];
 
 /* Default hero images per service category (shown when no sub-row is expanded) */
 const CATEGORY_HERO_IMAGES: Record<number, string> = {
-  0: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80', // Software
+  0: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80', // Software — circuit board macro
   1: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80', // Power — high-voltage transmission towers
   2: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80', // Telecom — data center server room
 };
@@ -117,7 +117,6 @@ function AccordionRow({
   desc,
   isOpen,
   onToggle,
-  index,
   panelId,
   headerId,
 }: {
@@ -125,7 +124,6 @@ function AccordionRow({
   desc: string;
   isOpen: boolean;
   onToggle: () => void;
-  index: number;
   panelId: string;
   headerId: string;
 }) {
@@ -146,11 +144,14 @@ function AccordionRow({
         className="w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer"
       >
         <div className="flex items-center gap-4 flex-1 min-w-0">
-          <span className="text-[11px] tracking-[0.15em] text-slate-400 dark:text-slate-500 font-bold shrink-0">
-            {String(index + 1).padStart(2, '0')}
-          </span>
+          <span
+            className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${
+              isOpen ? 'bg-teal-600 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'
+            }`}
+            aria-hidden="true"
+          />
           <h4
-            className={`text-[15px] md:text-base font-semibold transition-colors duration-300 ${
+            className={`text-[15px] md:text-base font-normal transition-colors duration-300 ${
               isOpen
                 ? 'text-teal-700 dark:text-emerald-400'
                 : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
@@ -199,7 +200,6 @@ function AccordionGroup({
   title,
   isOpen,
   onToggle,
-  index,
   panelId,
   headerId,
   children,
@@ -207,7 +207,6 @@ function AccordionGroup({
   title: string;
   isOpen: boolean;
   onToggle: () => void;
-  index: number;
   panelId: string;
   headerId: string;
   children: React.ReactNode;
@@ -225,11 +224,14 @@ function AccordionGroup({
         }`}
       >
         <div className="flex items-center gap-4 flex-1 min-w-0">
-          <span className="text-[11px] tracking-[0.15em] text-slate-400 dark:text-slate-500 font-bold shrink-0">
-            {String(index + 1).padStart(2, '0')}
-          </span>
+          <span
+            className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${
+              isOpen ? 'bg-teal-600 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'
+            }`}
+            aria-hidden="true"
+          />
           <h4
-            className={`text-[15px] md:text-base font-bold transition-colors duration-300 ${
+            className={`text-[15px] md:text-base font-normal transition-colors duration-300 ${
               isOpen
                 ? 'text-teal-700 dark:text-emerald-400'
                 : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
@@ -433,7 +435,6 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                     title={g.title}
                     isOpen={openGroup === gi}
                     onToggle={() => toggleGroup(gi)}
-                    index={gi}
                     headerId={`group-header-${serviceIndex}-${gi}`}
                     panelId={`group-panel-${serviceIndex}-${gi}`}
                   >
@@ -444,7 +445,6 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                         desc={it.desc}
                         isOpen={openGroup === gi && openItem === ii}
                         onToggle={() => toggleItem(ii)}
-                        index={ii}
                         headerId={`accordion-header-${serviceIndex}-${gi}-${ii}`}
                         panelId={`accordion-panel-${serviceIndex}-${gi}-${ii}`}
                       />
@@ -458,7 +458,6 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                     desc={sub.desc}
                     isOpen={openIndex === i}
                     onToggle={() => toggleAccordion(i)}
-                    index={i}
                     headerId={`accordion-header-${serviceIndex}-${i}`}
                     panelId={`accordion-panel-${serviceIndex}-${i}`}
                   />
