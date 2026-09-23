@@ -56,7 +56,7 @@ const resources = {
               },
               {
                 title: 'Cyber Security',
-                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/cyber-security.jpg',
                 items: [
                   {
                     title: 'Implementation & Deployment',
@@ -94,7 +94,7 @@ const resources = {
               },
               {
                 title: 'Managed IT Services',
-                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/managed-it.jpg',
                 items: [
                   {
                     title: 'Managed Services',
@@ -137,17 +137,17 @@ const resources = {
               {
                 title: 'Low Voltage Services',
                 desc: 'Expert design, installation, and maintenance of low-voltage systems for commercial, residential, and industrial applications.',
-                image: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/low-voltage.jpg',
               },
               {
                 title: 'Backup Power Systems (UPS)',
                 desc: 'UPS and backup power systems safeguard business continuity through intelligent energy monitoring and management.',
-                image: 'https://images.unsplash.com/photo-1509390144018-eeaf65052242?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/backup-power.jpg',
               },
               {
                 title: 'Medium Voltage Solutions',
                 desc: 'Improving network reliability and stability with advanced medium-voltage power solutions.',
-                image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/medium-voltage.jpg',
               },
             ],
           },
@@ -160,32 +160,32 @@ const resources = {
               {
                 title: 'Connectivity Solutions',
                 desc: 'This encompasses the design and deployment of wired and wireless networks, structured cabling, and unified communications systems.',
-                image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/connectivity-solutions.jpg',
               },
               {
                 title: 'Data Center Solutions',
                 desc: 'Ensures reliable connectivity and fast data transfer through comprehensive data center infrastructure planning and maintenance.',
-                image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/data-center.jpg',
               },
               {
                 title: 'Core Network - ISP',
                 desc: 'Enterprise-grade routing, switching, and MPLS backbone infrastructure built to core ISP network standards.',
-                image: 'https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/core-network.jpg',
               },
               {
                 title: 'Safe City - CCTV',
                 desc: 'We deliver complete CCTV and surveillance solutions for Safe City initiatives, ensuring efficient and high-quality monitoring.',
-                image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/safe-city-cctv.jpg',
               },
               {
                 title: 'Network Security',
                 desc: 'We deliver comprehensive network security solutions to safeguard critical systems, data, and communications against unauthorized access.',
-                image: 'https://images.unsplash.com/photo-1683322499436-f4383dd59f5a?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/cyber-security.jpg',
               },
               {
                 title: 'Storage Solutions',
                 desc: 'We offer scalable and dependable storage solutions designed to support the expanding data requirements of modern organizations.',
-                image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/storage-solutions.jpg',
               },
               {
                 title: 'Network Infrastructure',
@@ -195,7 +195,7 @@ const resources = {
               {
                 title: 'OSP & FTTX Solutions',
                 desc: 'We offer complete OSP (Outside Plant) and FTTx solutions, including planning, design, implementation, and testing.',
-                image: 'https://images.unsplash.com/photo-1604869515882-4d10fa4b0492?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/osp-fttx.jpg',
               },
             ],
           },
@@ -330,7 +330,7 @@ const resources = {
               },
               {
                 title: 'الأمن السيبراني',
-                image: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/cyber-security.jpg',
                 items: [
                   {
                     title: 'التنفيذ والتشغيل',
@@ -368,7 +368,7 @@ const resources = {
               },
               {
                 title: 'الخدمات المُدارة',
-                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/managed-it.jpg',
                 items: [
                   {
                     title: 'الخدمات المُدارة',
@@ -411,17 +411,17 @@ const resources = {
               {
                 title: 'أنظمة الجهد المنخفض',
                 desc: 'تصميم وتركيب وصيانة احترافية لأنظمة الجهد المنخفض للتطبيقات التجارية والسكنية والصناعية.',
-                image: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/low-voltage.jpg',
               },
               {
                 title: 'أنظمة الطاقة الاحتياطية (UPS)',
                 desc: 'أنظمة UPS والطاقة الاحتياطية تحافظ على استمرارية الأعمال من خلال المراقبة والإدارة الذكية للطاقة.',
-                image: 'https://images.unsplash.com/photo-1509390144018-eeaf65052242?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/backup-power.jpg',
               },
               {
                 title: 'حلول الجهد المتوسط',
                 desc: 'تحسين موثوقية واستقرار الشبكة من خلال حلول متقدمة للجهد المتوسط.',
-                image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/medium-voltage.jpg',
               },
             ],
           },
@@ -434,32 +434,32 @@ const resources = {
               {
                 title: 'حلول الربط والاتصال',
                 desc: 'يشمل ذلك تصميم ونشر الشبكات السلكية واللاسلكية، والتمديدات الهيكلية، وأنظمة الاتصالات الموحدة.',
-                image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/connectivity-solutions.jpg',
               },
               {
                 title: 'مراكز البيانات',
                 desc: 'ضمان اتصال موثوق ونقل بيانات سريع من خلال التخطيط والصيانة الشاملة للبنية التحتية لمراكز البيانات.',
-                image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/data-center.jpg',
               },
               {
                 title: 'شبكات النواة (ISP)',
                 desc: 'بنية تحتية للتوجيه والتبديل وشبكات MPLS الأساسية بمستوى معايير شبكات النواة لمزودي خدمة الإنترنت.',
-                image: 'https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/core-network.jpg',
               },
               {
                 title: 'أنظمة المراقبة والمدن الذكية',
                 desc: 'نقدم حلول كاميرات مراقبة متكاملة لمبادرات المدن الآمنة، لضمان مراقبة عالية الكفاءة والجودة.',
-                image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/safe-city-cctv.jpg',
               },
               {
                 title: 'أمن الشبكات',
                 desc: 'نقدم حلول أمن شبكات شاملة لحماية الأنظمة الحساسة والبيانات والاتصالات من الوصول غير المصرح به.',
-                image: 'https://images.unsplash.com/photo-1683322499436-f4383dd59f5a?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/cyber-security.jpg',
               },
               {
                 title: 'حلول التخزين',
                 desc: 'نقدم حلول تخزين قابلة للتوسع وموثوقة، مصممة لتلبية احتياجات البيانات المتنامية لدى المؤسسات الحديثة.',
-                image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/storage-solutions.jpg',
               },
               {
                 title: 'البنية التحتية للشبكات',
@@ -469,7 +469,7 @@ const resources = {
               {
                 title: 'حلول الألياف الضوئية (FTTX)',
                 desc: 'نقدم حلول OSP وFTTx متكاملة، تشمل التخطيط والتصميم والتنفيذ والاختبار.',
-                image: 'https://images.unsplash.com/photo-1604869515882-4d10fa4b0492?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/osp-fttx.jpg',
               },
             ],
           },

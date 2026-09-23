@@ -12,13 +12,13 @@ type TabKey = (typeof TAB_KEYS)[number];
 
 /* Default hero images per service category (shown when no sub-row is expanded) */
 const CATEGORY_HERO_IMAGES: Record<number, string> = {
-  0: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80', // Software — circuit board macro
-  1: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80', // Power — high-voltage transmission towers
-  2: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80', // Telecom — data center server room
+  0: 'images/software-solutions.jpg', // Software — digital engineering and code workstation
+  1: 'images/medium-voltage.jpg', // Power — industrial medium-voltage switchgear substation
+  2: 'images/telecom-tower.jpg', // Telecom — 5G cellular communication tower and antennas
 };
 
-/* Unsplash images for the About section */
-const ABOUT_IMAGE_1 = 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80';
+/* Curated technical architectural imagery for the About section (100% human-free) */
+const ABOUT_IMAGE_1 = 'images/about-building.jpg';
 const ABOUT_IMAGE_2 = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80';
 
 interface SubServiceItem {
