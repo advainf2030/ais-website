@@ -179,7 +179,7 @@ function AccordionRow({
             transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden"
           >
-            <div className="px-4 md:px-6 pb-5 ps-[calc(1rem+2.75rem)] md:ps-[calc(1.5rem+2.75rem)]">
+            <div className="px-4 md:px-6 pb-5">
               <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                 {desc}
               </p>
@@ -396,10 +396,13 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
         {text.desc}
       </p>
 
-      {/* Split layout: dynamic image left, accordion right */}
-      <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+      {/* Split layout: dynamic image left, accordion right.
+          `items-start` (not `items-stretch`) lets each column size to its own
+          content — the accordion no longer gets force-stretched to the image's
+          height, which left a block of dead glass space below a short 2-col grid. */}
+      <div className="flex flex-col lg:flex-row gap-8 items-start">
         {/* Left — dynamic image panel */}
-        <div className="lg:w-[40%] shrink-0">
+        <div className="lg:w-[32%] shrink-0">
           <DynamicImagePanel
             currentImage={currentImage}
             imageKey={imageKey}
@@ -411,7 +414,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
         {/* Right — accordion (collapses on click outside only; stays open on mouse-leave) */}
         <div
           ref={accordionRef}
-          className="lg:w-[60%] flex flex-col"
+          className="lg:w-[68%] flex flex-col"
         >
           <div className="glass-card rounded-2xl overflow-hidden flex-1">
             <div className="border-b border-slate-200/70 dark:border-slate-800 px-4 md:px-6 py-4">
