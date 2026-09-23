@@ -564,12 +564,15 @@ export default function TabSystem() {
   return (
     <section className="relative z-30 max-w-5xl mx-auto px-6 lg:px-8 py-20 scroll-mt-28" id="solutions">
       <ScrollReveal>
-        {/* Tab bar */}
+        {/* Tab bar — the fixed Navbar's own links (About / Software / Telecom / Power)
+            already switch these same tabs from anywhere on the page, so this in-page
+            bar is only needed where the Navbar collapses to a hamburger (< lg).
+            Showing both at once on desktop read as a duplicate navbar. */}
         <div
           ref={containerRef}
           role="tablist"
           aria-label="Service categories"
-          className="relative flex items-center md:justify-center border-b border-slate-200/80 dark:border-slate-800 overflow-x-auto scrollbar-hide px-4 sm:px-6 md:px-0 scroll-smooth pb-0"
+          className="lg:hidden relative flex items-center md:justify-center border-b border-slate-200/80 dark:border-slate-800 overflow-x-auto scrollbar-hide px-4 sm:px-6 md:px-0 scroll-smooth pb-0"
           onKeyDown={handleTabKeyDown}
         >
           {TAB_KEYS.map((key) => {
@@ -604,12 +607,21 @@ export default function TabSystem() {
           })}
         </div>
 
+        {/* Desktop-only current-section label — the tab bar above is hidden at this
+            width (the fixed Navbar's links do the switching instead), so this keeps
+            a lightweight, non-interactive hint of which section is showing. */}
+        <div className="hidden lg:block mt-10 mb-2">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-teal-700 dark:text-emerald-400">
+            {t(`tabs.${active}`)}
+          </span>
+        </div>
+
         {/* Tab content */}
         <div
-          className="mt-10 min-h-[300px]"
+          className="mt-10 lg:mt-4 min-h-[300px]"
           role="tabpanel"
           id={`tabpanel-${active}`}
-          aria-labelledby={`tab-${active}`}
+          aria-label={t(`tabs.${active}`)}
           tabIndex={0}
         >
           <AnimatePresence mode="wait">
