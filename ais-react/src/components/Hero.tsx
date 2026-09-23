@@ -1,6 +1,8 @@
-import { motion } from 'framer-motion';
+import { useEffect, useMemo, useRef } from 'react';
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { ArrowUpRight, MessagesSquare } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import KineticHeadline, { splitUnits } from './KineticHeadline';
 
 const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 
@@ -24,10 +26,37 @@ const PARTICLE_POSITIONS = [
 ];
 
 export default function Hero() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const wordLevel = (i18n.resolvedLanguage ?? i18n.language) === 'ar';
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const titleA = t('hero.titleA');
+  const titleB = t('hero.titleB');
+  const totalUnits = useMemo(
+    () => splitUnits(titleA, wordLevel).length + splitUnits(titleB, wordLevel).length,
+    [titleA, titleB, wordLevel],
+  );
+  const titleAUnitCount = useMemo(() => splitUnits(titleA, wordLevel).length, [titleA, wordLevel]);
+
+  // Same imperative-opacity approach as KineticHeadline (see its comment):
+  // a style-prop-bound opacity on an element that also has initial/animate
+  // props does not clamp correctly once scroll passes its range.
+  const underlineRef = useRef<HTMLSpanElement>(null);
+  const applyUnderlineOpacity = (v: number) => {
+    if (!underlineRef.current) return;
+    underlineRef.current.style.opacity = String(1 - Math.min(Math.max(v / 0.2, 0), 1));
+  };
+  useMotionValueEvent(scrollYProgress, 'change', applyUnderlineOpacity);
+  useEffect(() => applyUnderlineOpacity(scrollYProgress.get()), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section
+      ref={sectionRef}
       className="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-20 text-center flex flex-col items-center relative overflow-hidden"
       id="about"
     >
@@ -57,7 +86,7 @@ export default function Hero() {
         <span className="hidden md:block w-10 h-[1px] bg-slate-400/60 dark:bg-slate-600" />
       </motion.div>
 
-      {/* Main headline — staggered word reveal */}
+      {/* Main headline — staggered entrance reveal, then kinetic scroll-dissolve */}
       <motion.h1
         variants={fadeUp}
         initial="hidden"
@@ -65,30 +94,50 @@ export default function Hero() {
         custom={1}
         className="text-slate-900 dark:text-white font-display font-black tracking-tight max-w-4xl mx-auto text-[2.75rem] leading-[1.15] md:text-[4.5rem] md:leading-[1.1] mb-7 overflow-visible relative z-10"
       >
-        <motion.span
-          className="inline-block"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
-        >
-          {t('hero.titleA')}
-        </motion.span>{' '}
-        <span className="relative inline-block overflow-visible py-1 px-1">
+        {/* Full text stays available to assistive tech; the per-unit spans below are decorative */}
+        <span className="sr-only">
+          {titleA} {titleB}
+        </span>
+        <span aria-hidden="true">
           <motion.span
-            className="bg-gradient-to-r from-teal-700 via-emerald-600 to-teal-600 dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent inline-block pb-1"
+            className="inline-block"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
+            transition={{ duration: 0.6, delay: 0.15, ease: EASE }}
           >
-            {t('hero.titleB')}
-          </motion.span>
-          {/* Underline decoration */}
-          <motion.span
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 1.0, duration: 0.8, ease: EASE }}
-            className="absolute -bottom-1.5 md:-bottom-2 left-1 right-1 h-[3px] bg-gradient-to-r from-teal-600/60 via-emerald-500/60 to-teal-600/60 dark:from-teal-400/60 dark:via-emerald-400/60 dark:to-cyan-400/60 rounded-full origin-left"
-          />
+            <KineticHeadline
+              text={titleA}
+              progress={scrollYProgress}
+              startIndex={0}
+              totalUnits={totalUnits}
+              wordLevel={wordLevel}
+            />
+          </motion.span>{' '}
+          <span className="relative inline-block overflow-visible py-1 px-1">
+            <motion.span
+              className="inline-block"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
+            >
+              <KineticHeadline
+                text={titleB}
+                progress={scrollYProgress}
+                startIndex={titleAUnitCount}
+                totalUnits={totalUnits}
+                wordLevel={wordLevel}
+                className="text-teal-800 dark:text-transparent dark:bg-gradient-to-r dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 dark:bg-clip-text inline-block pb-1"
+              />
+            </motion.span>
+            {/* Underline decoration */}
+            <motion.span
+              ref={underlineRef}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 1.0, duration: 0.8, ease: EASE }}
+              className="absolute -bottom-1.5 md:-bottom-2 left-1 right-1 h-[3px] bg-gradient-to-r from-teal-600/60 via-emerald-500/60 to-teal-600/60 dark:from-teal-400/60 dark:via-emerald-400/60 dark:to-cyan-400/60 rounded-full origin-left"
+            />
+          </span>
         </span>
       </motion.h1>
 

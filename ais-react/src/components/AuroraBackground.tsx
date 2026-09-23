@@ -59,6 +59,41 @@ export default function AuroraBackground() {
     return () => ctx.revert();
   }, []);
 
+  /* Reactive aurora — orbs drift toward the cursor with organic, staggered
+     lag, so the background reads as "alive". Desktop + fine-pointer only;
+     respects prefers-reduced-motion. Purely additive to the scroll drift
+     above (separate transform properties, GSAP composites them safely). */
+  useEffect(() => {
+    const canReact = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 768px)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!canReact || reduceMotion) return;
+
+    const orbs = gsap.utils.toArray<HTMLElement>('[data-mouse-strength]');
+    if (!orbs.length) return;
+
+    const setters = orbs.map((el) => {
+      const strength = Number(el.dataset.mouseStrength ?? 20);
+      const duration = Number(el.dataset.mouseLag ?? 1.4);
+      return {
+        strength,
+        setX: gsap.quickTo(el, 'x', { duration, ease: 'power2.out' }),
+        setY: gsap.quickTo(el, 'y', { duration, ease: 'power2.out' }),
+      };
+    });
+
+    const handleMove = (e: MouseEvent) => {
+      const nx = e.clientX / window.innerWidth - 0.5; // -0.5..0.5
+      const ny = e.clientY / window.innerHeight - 0.5;
+      setters.forEach(({ strength, setX, setY }) => {
+        setX(nx * strength);
+        setY(ny * strength);
+      });
+    };
+
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
+
   return (
     <div
       ref={root}
@@ -69,21 +104,29 @@ export default function AuroraBackground() {
       {/* Primary emerald orb — top left */}
       <div
         data-drift="14"
+        data-mouse-strength="26"
+        data-mouse-lag="1.1"
         className="absolute -top-[14vw] -left-[12vw] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-[#10B981] via-[#059669] to-[#047857] blur-[130px] opacity-[0.32] dark:opacity-[0.12] will-change-transform animate-orb-1"
       />
       {/* Cyan-sky orb — top right */}
       <div
         data-drift="-12"
+        data-mouse-strength="34"
+        data-mouse-lag="1.6"
         className="absolute -top-[10vw] -right-[10vw] w-[56vw] h-[56vw] rounded-full bg-gradient-to-bl from-[#06B6D4] via-[#22D3EE] to-[#0284C7] blur-[130px] opacity-[0.35] dark:opacity-[0.12] will-change-transform animate-orb-2"
       />
       {/* Amber-warm orb — middle left */}
       <div
         data-drift="10"
+        data-mouse-strength="18"
+        data-mouse-lag="2.0"
         className="absolute top-[40vh] -left-[14vw] w-[54vw] h-[54vw] rounded-full bg-gradient-to-tr from-[#FDE68A] via-[#F59E0B] to-[#F97316] blur-[130px] opacity-[0.25] dark:opacity-[0.06] will-change-transform animate-orb-3"
       />
       {/* Teal-indigo blend — bottom right */}
       <div
         data-drift="-16"
+        data-mouse-strength="30"
+        data-mouse-lag="1.35"
         className="absolute top-[70vh] -right-[14vw] w-[58vw] h-[58vw] rounded-full bg-gradient-to-tl from-[#10B981] via-[#06B6D4] to-[#A5B4FC] blur-[130px] opacity-[0.28] dark:opacity-[0.10] will-change-transform animate-orb-4"
       />
       {/* Subtle center glow for depth */}
