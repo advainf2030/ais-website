@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
@@ -99,6 +100,7 @@ function AccordionRow({
   title,
   desc,
   isOpen,
+  isDimmed,
   onToggle,
   index,
   panelId,
@@ -107,6 +109,7 @@ function AccordionRow({
   title: string;
   desc: string;
   isOpen: boolean;
+  isDimmed: boolean;
   onToggle: () => void;
   index: number;
   panelId: string;
@@ -114,11 +117,11 @@ function AccordionRow({
 }) {
   return (
     <div
-      className={`border-b border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300 ${
+      className={`border-b border-slate-200/70 dark:border-slate-800/80 transition-[opacity,filter,background-color] duration-[400ms] ${
         isOpen
           ? 'bg-white/30 dark:bg-slate-800/50'
           : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
-      }`}
+      } ${isDimmed ? 'opacity-40 blur-[2px]' : 'opacity-100 blur-none'}`}
     >
       <button
         type="button"
@@ -278,7 +281,32 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
   };
 
   return (
-    <div className="space-y-8">
+    <>
+      {/* Focus Mode — while a row is open, dim the rest of the page so
+          reading the expanded description is effortless. Rendered via a
+          portal straight into <body> (not the App-level sibling + window
+          event this used before) so its visibility is driven directly by
+          `openIndex` in the same render/commit as the accordion itself —
+          no cross-component event chatter that could land mid-commit
+          while the tab switcher's own AnimatePresence is mid-transition. */}
+      {createPortal(
+        <AnimatePresence>
+          {openIndex !== null && (
+            <motion.div
+              key="focus-scrim"
+              aria-hidden="true"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: EASE }}
+              className="fixed inset-0 z-[25] pointer-events-none backdrop-blur-[2px] bg-white/50 dark:bg-slate-950/60"
+            />
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
+
+      <div className="space-y-8">
       {/* Service overview text */}
       <p className="text-[15px] md:text-base leading-7 text-slate-800 dark:text-slate-300 font-medium max-w-3xl">
         {text.desc}
@@ -314,6 +342,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                 title={sub.title}
                 desc={sub.desc}
                 isOpen={openIndex === i}
+                isDimmed={openIndex !== null && openIndex !== i}
                 onToggle={() => toggleAccordion(i)}
                 index={i}
                 headerId={`accordion-header-${serviceIndex}-${i}`}
@@ -323,7 +352,8 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 
@@ -420,7 +450,7 @@ export default function TabSystem() {
   };
 
   return (
-    <section className="max-w-5xl mx-auto px-6 lg:px-8 py-20 scroll-mt-28" id="solutions">
+    <section className="relative z-30 max-w-5xl mx-auto px-6 lg:px-8 py-20 scroll-mt-28" id="solutions">
       <ScrollReveal>
         {/* Tab bar */}
         <div

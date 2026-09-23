@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
+import { Check, CheckCircle2, Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CONTACT } from '../data';
 import ScrollReveal from './ScrollReveal';
 
 const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
+
+// Lightweight client-side hint only — good enough to drive the progressive
+// reveal and the live checkmark; the `required`/`type="email"` attributes
+// still do the real constraint validation on submit.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputBaseClass =
   'w-full bg-white/60 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-3.5 placeholder-slate-400 dark:placeholder-slate-400 outline-none transition-all duration-300 text-slate-900 dark:text-white text-[15px] hover:bg-white/80 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 focus:border-teal-500 dark:focus:border-emerald-400 focus:shadow-sm';
@@ -34,6 +39,8 @@ export default function Contact() {
   const { t } = useTranslation();
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [email, setEmail] = useState('');
+  const emailValid = EMAIL_RE.test(email.trim());
   const scopes = t('contact.scopeOptions', { returnObjects: true }) as unknown as string[];
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -158,48 +165,10 @@ export default function Contact() {
                   className="lg:w-1/2 w-full space-y-5"
                   onSubmit={onSubmit}
                 >
-                  <AnimatedInput label={t('contact.entity')} htmlFor="field-entity">
-                    <input
-                      id="field-entity"
-                      className={inputBaseClass}
-                      placeholder={t('contact.entityPh')}
-                      required
-                      aria-required="true"
-                      type="text"
-                      autoComplete="organization"
-                      maxLength={120}
-                    />
-                  </AnimatedInput>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <AnimatedInput label={t('contact.workEmail')} htmlFor="field-email">
-                      <input
-                        id="field-email"
-                        className={inputBaseClass}
-                        placeholder="officer@agency.gov.sa"
-                        required
-                        aria-required="true"
-                        type="email"
-                        autoComplete="email"
-                        maxLength={254}
-                      />
-                    </AnimatedInput>
-                    <AnimatedInput label={t('contact.phoneLabel')} htmlFor="field-phone">
-                      <input
-                        id="field-phone"
-                        className={inputBaseClass}
-                        placeholder="+966 5x xxx xxxx"
-                        required
-                        aria-required="true"
-                        type="tel"
-                        autoComplete="tel"
-                        inputMode="tel"
-                        pattern="^\+?[0-9\s\-()]{7,20}$"
-                        maxLength={20}
-                      />
-                    </AnimatedInput>
-                  </div>
-
+                  {/* Step 1 — always visible: the two lowest-friction fields.
+                      Everything else only appears once the visitor has
+                      committed to a real email, so the form never looks
+                      like "homework" on first glance. */}
                   <AnimatedInput label={t('contact.scope')} htmlFor="field-scope">
                     <select id="field-scope" className={`${inputBaseClass} cursor-pointer`}>
                       {scopes.map((s) => (
@@ -210,20 +179,103 @@ export default function Contact() {
                     </select>
                   </AnimatedInput>
 
-                  <AnimatedInput label={t('contact.brief')} htmlFor="field-brief">
-                    <textarea
-                      id="field-brief"
-                      className={`${inputBaseClass} resize-none`}
-                      placeholder={t('contact.briefPh')}
-                      rows={3}
-                      maxLength={1000}
-                    />
+                  <AnimatedInput label={t('contact.workEmail')} htmlFor="field-email">
+                    <div className="relative">
+                      <input
+                        id="field-email"
+                        className={`${inputBaseClass} pe-11 ${
+                          emailValid
+                            ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
+                            : ''
+                        }`}
+                        placeholder="officer@agency.gov.sa"
+                        required
+                        aria-required="true"
+                        type="email"
+                        autoComplete="email"
+                        maxLength={254}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                      <AnimatePresence>
+                        {emailValid && (
+                          <motion.span
+                            key="email-check"
+                            initial={{ opacity: 0, scale: 0.6 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.6 }}
+                            transition={{ duration: 0.25, ease: EASE }}
+                            className="absolute end-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white"
+                            aria-hidden="true"
+                          >
+                            <Check size={13} strokeWidth={3} />
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </AnimatedInput>
+
+                  {/* Step 2 — slides in once the email looks real. A screen
+                      reader announces the new fields as they're added to
+                      the DOM (no visually-hidden-but-focusable limbo). */}
+                  <AnimatePresence initial={false}>
+                    {emailValid && (
+                      <motion.div
+                        key="progressive-fields"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: EASE }}
+                        className="overflow-hidden"
+                      >
+                        <div className="space-y-5 pt-1">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <AnimatedInput label={t('contact.entity')} htmlFor="field-entity">
+                              <input
+                                id="field-entity"
+                                className={inputBaseClass}
+                                placeholder={t('contact.entityPh')}
+                                required
+                                aria-required="true"
+                                type="text"
+                                autoComplete="organization"
+                                maxLength={120}
+                              />
+                            </AnimatedInput>
+                            <AnimatedInput label={t('contact.phoneLabel')} htmlFor="field-phone">
+                              <input
+                                id="field-phone"
+                                className={inputBaseClass}
+                                placeholder="+966 5x xxx xxxx"
+                                required
+                                aria-required="true"
+                                type="tel"
+                                autoComplete="tel"
+                                inputMode="tel"
+                                pattern="^\+?[0-9\s\-()]{7,20}$"
+                                maxLength={20}
+                              />
+                            </AnimatedInput>
+                          </div>
+
+                          <AnimatedInput label={t('contact.brief')} htmlFor="field-brief">
+                            <textarea
+                              id="field-brief"
+                              className={`${inputBaseClass} resize-none`}
+                              placeholder={t('contact.briefPh')}
+                              rows={3}
+                              maxLength={1000}
+                            />
+                          </AnimatedInput>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   <button
                     className="group w-full py-4 rounded-2xl bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 dark:from-emerald-600 dark:via-teal-600 dark:to-cyan-600 text-white text-sm font-semibold shadow-xl shadow-teal-900/20 hover:shadow-2xl hover:shadow-teal-900/30 hover:brightness-110 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                     type="submit"
-                    disabled={submitting}
+                    disabled={submitting || !emailValid}
                   >
                     {submitting ? (
                       <span className="flex items-center gap-1">
