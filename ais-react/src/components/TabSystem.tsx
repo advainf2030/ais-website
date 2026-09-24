@@ -128,26 +128,22 @@ function AccordionRow({
   headerId: string;
 }) {
   const rowRef = useRef<HTMLDivElement>(null);
+  /* True only while the CURRENT open transition is still expanding — read by
+     the motion.div's onAnimationComplete below so a later close (exit
+     animation finishing) doesn't also trigger a scroll. A fixed setTimeout
+     was tried first but a slow frame or a delayed re-render could leave it
+     firing before the row had actually reached its final height. */
+  const justOpenedRef = useRef(false);
 
-  /* Auto-scroll the newly revealed content into view on open — expanding a
-     row otherwise often drops its text below the fold, forcing a manual
-     scroll (and an accidental re-close if that scroll lands on another
-     row's header). Fires after the 300ms height transition so it centers
-     on the FINAL expanded height, not the mid-animation one. */
   const handleClick = () => {
-    const opening = !isOpen;
+    justOpenedRef.current = !isOpen;
     onToggle();
-    if (opening) {
-      setTimeout(() => {
-        rowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 320);
-    }
   };
 
   return (
     <div
       ref={rowRef}
-      className={`border-b border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300 ${
+      className={`border-b border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300 scroll-mt-32 ${
         isOpen ? 'md:col-span-2' : ''
       }`}
     >
@@ -199,6 +195,12 @@ function AccordionRow({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
+            onAnimationComplete={() => {
+              if (justOpenedRef.current) {
+                justOpenedRef.current = false;
+                rowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }}
             className="overflow-hidden"
           >
             {/* Full grid-row width while open (not just this item's own column) —
@@ -236,19 +238,15 @@ function AccordionGroup({
   children: React.ReactNode;
 }) {
   const groupRef = useRef<HTMLDivElement>(null);
+  const justOpenedRef = useRef(false);
 
   const handleClick = () => {
-    const opening = !isOpen;
+    justOpenedRef.current = !isOpen;
     onToggle();
-    if (opening) {
-      setTimeout(() => {
-        groupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 320);
-    }
   };
 
   return (
-    <div ref={groupRef} className="border-b border-slate-200/70 dark:border-slate-800/80">
+    <div ref={groupRef} className="border-b border-slate-200/70 dark:border-slate-800/80 scroll-mt-32">
       <button
         type="button"
         id={headerId}
@@ -297,6 +295,12 @@ function AccordionGroup({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
+            onAnimationComplete={() => {
+              if (justOpenedRef.current) {
+                justOpenedRef.current = false;
+                groupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }}
             className="overflow-hidden bg-slate-50/50 dark:bg-slate-900/30"
           >
             {/* Two-column grid on desktop — a long service list (e.g. Cyber Security's
