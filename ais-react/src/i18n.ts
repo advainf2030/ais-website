@@ -248,8 +248,11 @@ const resources = {
         email: 'Email:',
         entity: 'Entity Name / Government Agency',
         entityPh: 'e.g. Ministry Directorate, Enterprise Corp',
+        entityError: 'Please enter a valid name (letters and numbers only)',
         workEmail: 'Work Email',
+        emailError: 'Please enter a valid email address',
         phoneLabel: 'Phone',
+        phoneError: 'Please enter a valid phone number',
         scope: 'Scope of Inquiry',
         scopeOptions: [
           'Software Solutions',
@@ -522,8 +525,11 @@ const resources = {
         email: 'البريد الإلكتروني:',
         entity: 'اسم الجهة أو الشركة',
         entityPh: 'مثال: وزارة، شركة، مؤسسة',
+        entityError: 'الرجاء إدخال اسم صحيح (حروف وأرقام فقط)',
         workEmail: 'البريد الإلكتروني',
+        emailError: 'الرجاء إدخال بريد إلكتروني صحيح',
         phoneLabel: 'رقم الجوال',
+        phoneError: 'الرجاء إدخال رقم جوال صحيح',
         scope: 'نوع الخدمة المطلوبة',
         scopeOptions: [
           'تطوير برمجيات مخصصة',

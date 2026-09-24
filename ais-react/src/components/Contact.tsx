@@ -8,13 +8,48 @@ import ScrollReveal from './ScrollReveal';
 
 const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 
-// Lightweight client-side hint only — good enough to drive the progressive
-// reveal and the live checkmark; the `required`/`type="email"` attributes
-// still do the real constraint validation on submit.
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Client-side format checks driving the progressive reveal and the live
+// checkmarks. Not Saudi-specific — any real email / international phone
+// number passes. Paired with `required` + the input's own `type`/`pattern`
+// so a JS-disabled submit still gets the same constraint on the server-side
+// (native HTML5 validation) rather than relying on this alone.
+const EMAIL_RE =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+// International phone: optional leading +, 7-15 digits once separators are stripped (E.164 range).
+const PHONE_RE = /^\+?[0-9]{7,15}$/;
+// Unicode-aware: letters (incl. Arabic), numbers, spaces and common punctuation only —
+// blocks angle brackets, backticks and other markup/script-injection characters outright.
+const ENTITY_RE = /^[\p{L}\p{N}\s.,&'\-/()]{2,120}$/u;
+
+const stripPhoneSeparators = (v: string) => v.replace(/[\s\-()]/g, '');
+// Defense-in-depth for free-text fields: strip characters with no legitimate
+// use in a name/description but that are the building blocks of HTML/script
+// injection. React already escapes on render, so this isn't load-bearing for
+// XSS on this page — it just keeps the data itself clean if it's ever piped
+// elsewhere (email, CRM, log).
+const sanitizeText = (v: string) => v.replace(/[<>`]/g, '');
 
 const inputBaseClass =
   'w-full bg-white/60 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-3.5 placeholder-slate-400 dark:placeholder-slate-400 outline-none transition-all duration-300 text-slate-900 dark:text-white text-[15px] hover:bg-white/80 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 focus:border-teal-500 dark:focus:border-emerald-400 focus:shadow-sm';
+
+function FieldError({ show, message }: { show: boolean; message: string }) {
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.p
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.2 }}
+          role="alert"
+          className="text-xs text-red-600 dark:text-red-400 mt-1.5 overflow-hidden"
+        >
+          {message}
+        </motion.p>
+      )}
+    </AnimatePresence>
+  );
+}
 
 function AnimatedInput({
   label,
@@ -27,7 +62,10 @@ function AnimatedInput({
 }) {
   return (
     <div className="input-animate-wrapper">
-      <label htmlFor={htmlFor} className="block text-xs text-slate-800 dark:text-slate-200 font-semibold mb-1.5">
+      <label
+        htmlFor={htmlFor}
+        className="flex items-end min-h-[2.25rem] text-xs text-slate-800 dark:text-slate-200 font-semibold mb-1.5"
+      >
         {label}
       </label>
       {children}
@@ -40,7 +78,14 @@ export default function Contact() {
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [entity, setEntity] = useState('');
+  const [brief, setBrief] = useState('');
+  const [touched, setTouched] = useState({ email: false, phone: false, entity: false });
   const emailValid = EMAIL_RE.test(email.trim());
+  const phoneValid = PHONE_RE.test(stripPhoneSeparators(phone.trim()));
+  const entityValid = ENTITY_RE.test(entity.trim());
+  const markTouched = (field: keyof typeof touched) => setTouched((t) => ({ ...t, [field]: true }));
   const scopes = t('contact.scopeOptions', { returnObjects: true }) as unknown as string[];
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -186,16 +231,20 @@ export default function Contact() {
                         className={`${inputBaseClass} pe-11 ${
                           emailValid
                             ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
-                            : ''
+                            : touched.email && email
+                              ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400'
+                              : ''
                         }`}
                         placeholder="officer@agency.gov.sa"
                         required
                         aria-required="true"
+                        aria-invalid={touched.email && email.length > 0 && !emailValid}
                         type="email"
                         autoComplete="email"
                         maxLength={254}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        onBlur={() => markTouched('email')}
                       />
                       <AnimatePresence>
                         {emailValid && (
@@ -213,6 +262,10 @@ export default function Contact() {
                         )}
                       </AnimatePresence>
                     </div>
+                    <FieldError
+                      show={touched.email && email.length > 0 && !emailValid}
+                      message={t('contact.emailError')}
+                    />
                   </AnimatedInput>
 
                   {/* Step 2 — slides in once the email looks real. A screen
@@ -231,29 +284,91 @@ export default function Contact() {
                         <div className="space-y-5 pt-1">
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <AnimatedInput label={t('contact.entity')} htmlFor="field-entity">
-                              <input
-                                id="field-entity"
-                                className={inputBaseClass}
-                                placeholder={t('contact.entityPh')}
-                                required
-                                aria-required="true"
-                                type="text"
-                                autoComplete="organization"
-                                maxLength={120}
+                              <div className="relative">
+                                <input
+                                  id="field-entity"
+                                  className={`${inputBaseClass} pe-11 ${
+                                    entity && entityValid
+                                      ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
+                                      : touched.entity && entity
+                                        ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400'
+                                        : ''
+                                  }`}
+                                  placeholder={t('contact.entityPh')}
+                                  required
+                                  aria-required="true"
+                                  aria-invalid={touched.entity && entity.length > 0 && !entityValid}
+                                  type="text"
+                                  autoComplete="organization"
+                                  maxLength={120}
+                                  value={entity}
+                                  onChange={(e) => setEntity(sanitizeText(e.target.value))}
+                                  onBlur={() => markTouched('entity')}
+                                />
+                                <AnimatePresence>
+                                  {entity && entityValid && (
+                                    <motion.span
+                                      key="entity-check"
+                                      initial={{ opacity: 0, scale: 0.6 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      exit={{ opacity: 0, scale: 0.6 }}
+                                      transition={{ duration: 0.25, ease: EASE }}
+                                      className="absolute end-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white"
+                                      aria-hidden="true"
+                                    >
+                                      <Check size={13} strokeWidth={3} />
+                                    </motion.span>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                              <FieldError
+                                show={touched.entity && entity.length > 0 && !entityValid}
+                                message={t('contact.entityError')}
                               />
                             </AnimatedInput>
                             <AnimatedInput label={t('contact.phoneLabel')} htmlFor="field-phone">
-                              <input
-                                id="field-phone"
-                                className={inputBaseClass}
-                                placeholder="+966 5x xxx xxxx"
-                                required
-                                aria-required="true"
-                                type="tel"
-                                autoComplete="tel"
-                                inputMode="tel"
-                                pattern="^\+?[0-9\s\-()]{7,20}$"
-                                maxLength={20}
+                              <div className="relative">
+                                <input
+                                  id="field-phone"
+                                  className={`${inputBaseClass} pe-11 ${
+                                    phone && phoneValid
+                                      ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
+                                      : touched.phone && phone
+                                        ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400'
+                                        : ''
+                                  }`}
+                                  placeholder="+966 5x xxx xxxx"
+                                  required
+                                  aria-required="true"
+                                  aria-invalid={touched.phone && phone.length > 0 && !phoneValid}
+                                  type="tel"
+                                  autoComplete="tel"
+                                  inputMode="tel"
+                                  pattern="^\+?[0-9\s\-()]{7,20}$"
+                                  maxLength={20}
+                                  value={phone}
+                                  onChange={(e) => setPhone(e.target.value)}
+                                  onBlur={() => markTouched('phone')}
+                                />
+                                <AnimatePresence>
+                                  {phone && phoneValid && (
+                                    <motion.span
+                                      key="phone-check"
+                                      initial={{ opacity: 0, scale: 0.6 }}
+                                      animate={{ opacity: 1, scale: 1 }}
+                                      exit={{ opacity: 0, scale: 0.6 }}
+                                      transition={{ duration: 0.25, ease: EASE }}
+                                      className="absolute end-3.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white"
+                                      aria-hidden="true"
+                                    >
+                                      <Check size={13} strokeWidth={3} />
+                                    </motion.span>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                              <FieldError
+                                show={touched.phone && phone.length > 0 && !phoneValid}
+                                message={t('contact.phoneError')}
                               />
                             </AnimatedInput>
                           </div>
@@ -265,6 +380,8 @@ export default function Contact() {
                               placeholder={t('contact.briefPh')}
                               rows={3}
                               maxLength={1000}
+                              value={brief}
+                              onChange={(e) => setBrief(sanitizeText(e.target.value))}
                             />
                           </AnimatedInput>
                         </div>
@@ -275,7 +392,7 @@ export default function Contact() {
                   <button
                     className="group w-full py-4 rounded-2xl bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 dark:from-emerald-600 dark:via-teal-600 dark:to-cyan-600 text-white text-sm font-semibold shadow-xl shadow-teal-900/20 hover:shadow-2xl hover:shadow-teal-900/30 hover:brightness-110 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                     type="submit"
-                    disabled={submitting || !emailValid}
+                    disabled={submitting || !emailValid || !phoneValid || !entityValid}
                   >
                     {submitting ? (
                       <span className="flex items-center gap-1">
