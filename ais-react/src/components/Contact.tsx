@@ -29,6 +29,36 @@ const stripPhoneSeparators = (v: string) => v.replace(/[\s\-()]/g, '');
 // elsewhere (email, CRM, log).
 const sanitizeText = (v: string) => v.replace(/[<>`]/g, '');
 
+// Client-side abuse throttle — a deterrent against a script hammering this
+// form, not a real defense (anything determined enough calls a future API
+// directly, bypassing the browser entirely). Real DDoS/bot protection has
+// to live at the infra layer (host-level rate limiting, a WAF/Cloudflare
+// rule, a CAPTCHA + server-side check) once this form has a real backend.
+const RATE_LIMIT_KEY = 'ais_contact_submissions';
+const RATE_LIMIT_MAX = 5; // max submissions per rolling window
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const MIN_SUBMIT_INTERVAL_MS = 20 * 1000; // cool-down between two submissions
+
+const getRecentSubmissions = (): number[] => {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(arr)) return [];
+    const cutoff = Date.now() - RATE_LIMIT_WINDOW_MS;
+    return arr.filter((t): t is number => typeof t === 'number' && t > cutoff);
+  } catch {
+    return [];
+  }
+};
+
+const recordSubmission = (timestamps: number[]) => {
+  try {
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(timestamps));
+  } catch {
+    // Private mode / storage blocked — fail open, nothing to persist.
+  }
+};
+
 const inputBaseClass =
   'w-full bg-white/60 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-3.5 placeholder-slate-400 dark:placeholder-slate-400 outline-none transition-all duration-300 text-slate-900 dark:text-white text-[15px] hover:bg-white/80 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 focus:border-teal-500 dark:focus:border-emerald-400 focus:shadow-sm';
 
@@ -81,6 +111,8 @@ export default function Contact() {
   const [phone, setPhone] = useState('');
   const [entity, setEntity] = useState('');
   const [brief, setBrief] = useState('');
+  const [honeypot, setHoneypot] = useState('');
+  const [rateLimited, setRateLimited] = useState(false);
   const [touched, setTouched] = useState({ email: false, phone: false, entity: false });
   const emailValid = EMAIL_RE.test(email.trim());
   const phoneValid = PHONE_RE.test(stripPhoneSeparators(phone.trim()));
@@ -90,6 +122,29 @@ export default function Contact() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Honeypot field is invisible to real visitors — only a bot filling
+    // every input finds it. Pretend success without recording anything so
+    // the bot has no signal it was caught.
+    if (honeypot) {
+      setSubmitting(true);
+      setTimeout(() => {
+        setSubmitting(false);
+        setSent(true);
+      }, 1200);
+      return;
+    }
+
+    const recent = getRecentSubmissions();
+    const last = recent[recent.length - 1];
+    const tooSoon = last !== undefined && Date.now() - last < MIN_SUBMIT_INTERVAL_MS;
+    if (recent.length >= RATE_LIMIT_MAX || tooSoon) {
+      setRateLimited(true);
+      return;
+    }
+    setRateLimited(false);
+    recordSubmission([...recent, Date.now()]);
+
     setSubmitting(true);
     // Simulate a brief submission delay for the typing indicator
     setTimeout(() => {
@@ -114,13 +169,22 @@ export default function Contact() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/60 border border-emerald-200/60 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-xs font-bold mb-7"
+                whileHover={{ y: -2 }}
+                className="group inline-block mb-7 p-px bg-gradient-to-r from-emerald-400/80 via-teal-400/40 to-cyan-400/80 dark:from-emerald-400/70 dark:via-teal-500/30 dark:to-cyan-400/70 [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]"
               >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                {t('contact.badge')}
+                <div className="flex items-center gap-3 px-4 py-2 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]">
+                  <span className="relative flex h-2 w-2" aria-hidden="true">
+                    <motion.span
+                      className="absolute inset-0 rounded-full bg-emerald-400"
+                      animate={{ scale: [1, 2.6], opacity: [0.6, 0] }}
+                      transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+                    />
+                    <span className="relative h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+                  </span>
+                  <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.18em] rtl:tracking-normal rtl:text-xs text-emerald-800 dark:text-emerald-300">
+                    {t('contact.badge')}
+                  </span>
+                </div>
               </motion.div>
 
               <h2 className="font-display text-4xl md:text-[44px] md:leading-[52px] font-bold text-slate-900 dark:text-white tracking-tight mb-5">
@@ -210,6 +274,22 @@ export default function Contact() {
                   className="lg:w-1/2 w-full space-y-5"
                   onSubmit={onSubmit}
                 >
+                  {/* Honeypot — invisible to sighted users and skipped by
+                      screen readers/tab order; a bot script filling every
+                      field in the DOM fills this one too, which flags it. */}
+                  <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+                    <label htmlFor="field-website">Website</label>
+                    <input
+                      id="field-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                    />
+                  </div>
+
                   {/* Step 1 — always visible: the two lowest-friction fields.
                       Everything else only appears once the visitor has
                       committed to a real email, so the form never looks
@@ -344,7 +424,7 @@ export default function Contact() {
                                   type="tel"
                                   autoComplete="tel"
                                   inputMode="tel"
-                                  pattern="^\+?[0-9\s\-()]{7,20}$"
+                                  pattern="^\+?[0-9\s\-\(\)]{7,20}$"
                                   maxLength={20}
                                   value={phone}
                                   onChange={(e) => setPhone(e.target.value)}
@@ -389,11 +469,14 @@ export default function Contact() {
                     )}
                   </AnimatePresence>
 
+                  <FieldError show={rateLimited} message={t('contact.rateLimitError')} />
+
                   <button
-                    className="group w-full py-4 rounded-2xl bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 dark:from-emerald-600 dark:via-teal-600 dark:to-cyan-600 text-white text-sm font-semibold shadow-xl shadow-teal-900/20 hover:shadow-2xl hover:shadow-teal-900/30 hover:brightness-110 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                    className="group relative overflow-hidden w-full py-4 rounded-2xl bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 dark:from-emerald-600 dark:via-teal-600 dark:to-cyan-600 text-white text-sm font-semibold shadow-xl shadow-teal-900/20 hover:shadow-2xl hover:shadow-teal-900/30 hover:brightness-110 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                     type="submit"
                     disabled={submitting || !emailValid || !phoneValid || !entityValid}
                   >
+                    <span className="transmit-sweep" aria-hidden="true" />
                     {submitting ? (
                       <span className="flex items-center gap-1">
                         <span className="typing-dot" />

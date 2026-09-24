@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
-import { ArrowUpRight, MessagesSquare } from 'lucide-react';
+import { MessagesSquare, ScanSearch } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import KineticHeadline, { splitUnits } from './KineticHeadline';
 
@@ -160,18 +160,25 @@ export default function Hero() {
         className="flex flex-col sm:flex-row items-center gap-4 mb-20 relative z-10"
       >
         <a
-          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-2xl hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2 border border-white/10"
+          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-[0_0_0_3px_rgba(16,185,129,0.3),0_14px_30px_-8px_rgba(16,185,129,0.35)] hover:border-emerald-400/60 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5 border border-white/10"
           href="#solutions"
         >
           {t('hero.explore')}
-          <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          <span className="relative flex w-[18px] h-[18px] overflow-hidden" aria-hidden="true">
+            <ScanSearch size={18} className="text-emerald-300/80 group-hover:text-emerald-300 transition-colors duration-300" />
+            <span className="bio-scan-line [--scan-travel:18px]" />
+          </span>
         </a>
         <a
-          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/70 dark:bg-slate-800/80 backdrop-blur-2xl border border-white/90 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm font-bold hover:bg-white/90 dark:hover:bg-slate-700/80 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2"
+          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/70 dark:bg-slate-800/80 backdrop-blur-2xl border border-white/90 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm font-bold hover:bg-white/90 dark:hover:bg-slate-700/80 hover:border-teal-500/50 dark:hover:border-emerald-400/50 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5"
           href="#contact"
         >
           {t('hero.contact')}
-          <MessagesSquare size={18} className="group-hover:scale-110 transition-transform" />
+          <span className="relative flex items-center justify-center w-[18px] h-[18px]" aria-hidden="true">
+            <span className="signal-ring" />
+            <span className="signal-ring [animation-delay:0.6s]" />
+            <MessagesSquare size={18} className="relative text-teal-700 dark:text-emerald-400" />
+          </span>
         </a>
       </motion.div>
     </section>

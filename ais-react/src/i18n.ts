@@ -7,6 +7,7 @@ const resources = {
     translation: {
       nav: {
         about: 'About',
+        close: 'Close menu',
         software: 'Software Solutions',
         power: 'Power Solutions',
         telecom: 'Telecom & ICT',
@@ -239,7 +240,7 @@ const resources = {
         desc: 'A selection of our government and private-sector clients and partners.',
       },
       contact: {
-        badge: 'Available for New Projects',
+        badge: 'Open for New Projects',
         title: "Let's Work Together!",
         desc: 'Get in touch with our team to discuss your project or request a consultation.',
         hq: 'Headquarters:',
@@ -263,6 +264,7 @@ const resources = {
         ],
         brief: 'Brief Description',
         briefPh: 'Outline procurement specifications, timelines, or NDA requirements...',
+        rateLimitError: 'Too many submissions from this browser — please wait a bit before trying again.',
         submit: 'Submit Inquiry',
         success: 'Your inquiry has been received. Our team will respond shortly.',
       },
@@ -284,6 +286,7 @@ const resources = {
     translation: {
       nav: {
         about: 'من نحن',
+        close: 'إغلاق القائمة',
         software: 'الحلول البرمجية',
         power: 'حلول الطاقة',
         telecom: 'الاتصالات',
@@ -516,7 +519,7 @@ const resources = {
         desc: 'نفتخر بثقة عملائنا من الجهات الحكومية والشركات الرائدة في المنطقة.',
       },
       contact: {
-        badge: 'نستقبل طلباتكم والمناقصات',
+        badge: 'نستقبل مشاريع جديدة',
         title: 'لنعمل معاً!',
         desc: 'فريقنا جاهز لمناقشة متطلباتك والرد على استفساراتك. تواصل معنا مباشرة أو عبئ النموذج.',
         hq: 'المقر الرئيسي:',
@@ -540,6 +543,7 @@ const resources = {
         ],
         brief: 'تفاصيل إضافية',
         briefPh: 'اكتب تفاصيل طلبك أو المواصفات المطلوبة...',
+        rateLimitError: 'عدد المحاولات من هذا المتصفح كبير — الرجاء الانتظار قليلاً قبل المحاولة مرة أخرى.',
         submit: 'إرسال الطلب',
         success: 'تم استلام طلبك بنجاح. فريقنا سيتواصل معك في أقرب وقت.',
       },

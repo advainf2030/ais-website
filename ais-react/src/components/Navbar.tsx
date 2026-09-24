@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
-import { ArrowUpRight, Menu, X, Sun, Moon } from 'lucide-react';
+import { ArrowUpRight, Fingerprint, Menu, X, Sun, Moon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from './ThemeContext';
 
@@ -163,11 +163,14 @@ export default function Navbar() {
 
             {/* CTA */}
             <a
-              className="btn-shimmer hidden sm:flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
+              className="group btn-shimmer hidden sm:flex items-center gap-2.5 text-xs uppercase tracking-wider rtl:tracking-normal font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 shadow-md hover:shadow-[0_0_0_3px_rgba(16,185,129,0.35),0_10px_25px_-5px_rgba(16,185,129,0.35)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10 hover:border-emerald-400/60"
               href="#contact"
             >
               <span>{t('nav.cta')}</span>
-              <ArrowUpRight size={14} />
+              <span className="relative flex w-4 h-4 overflow-hidden" aria-hidden="true">
+                <Fingerprint size={16} className="text-emerald-300/70 group-hover:text-emerald-300 transition-colors duration-300" />
+                <span className="bio-scan-line" />
+              </span>
             </a>
 
             {/* Mobile menu toggle */}
@@ -206,6 +209,14 @@ export default function Navbar() {
             aria-label="Navigation menu"
             onKeyDown={handleDrawerKeyDown}
           >
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              aria-label={t('nav.close')}
+              className="absolute top-6 end-6 min-w-11 min-h-11 flex items-center justify-center rounded-xl border border-slate-200/70 dark:border-slate-700/80 bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-200 hover:text-teal-700 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            >
+              <X size={22} />
+            </button>
             <motion.nav
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

@@ -198,7 +198,7 @@ function AccordionRow({
             onAnimationComplete={() => {
               if (justOpenedRef.current) {
                 justOpenedRef.current = false;
-                rowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                rowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
               }
             }}
             className="overflow-hidden"
@@ -298,7 +298,7 @@ function AccordionGroup({
             onAnimationComplete={() => {
               if (justOpenedRef.current) {
                 justOpenedRef.current = false;
-                groupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                groupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
               }
             }}
             className="overflow-hidden bg-slate-50/50 dark:bg-slate-900/30"
@@ -330,7 +330,7 @@ function DynamicImagePanel({
   activeLabel?: string;
 }) {
   return (
-    <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800 h-full min-h-[320px] lg:min-h-[400px] relative">
+    <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800 h-full min-h-[224px] sm:min-h-[320px] lg:min-h-[400px] relative">
       <AnimatePresence mode="wait">
         <motion.img
           key={imageKey}
@@ -446,7 +446,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
           height, which left a block of dead glass space below a short 2-col grid. */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Left — dynamic image panel */}
-        <div className="lg:w-[26%] shrink-0">
+        <div className="w-full lg:w-[30%] shrink-0 lg:sticky lg:top-28 lg:self-start">
           <DynamicImagePanel
             currentImage={currentImage}
             imageKey={imageKey}
@@ -458,7 +458,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
         {/* Right — accordion (collapses on click outside only; stays open on mouse-leave) */}
         <div
           ref={accordionRef}
-          className="lg:w-[74%] flex flex-col"
+          className="w-full lg:w-[70%] min-w-0 flex flex-col"
         >
           <div className="glass-card rounded-2xl overflow-hidden flex-1">
             <div className="border-b border-slate-200/70 dark:border-slate-800 px-4 md:px-6 py-4">
@@ -604,7 +604,7 @@ export default function TabSystem() {
   };
 
   return (
-    <section className="relative z-30 max-w-[1400px] mx-auto px-6 lg:px-8 pt-2 md:pt-4 pb-20 scroll-mt-24" id="solutions">
+    <section className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-2 md:pt-4 pb-10 md:pb-20 scroll-mt-24" id="solutions">
       <ScrollReveal>
         {/* Tab bar — the fixed Navbar's own links (About / Software / Telecom / Power)
             already switch these same tabs from anywhere on the page, so this in-page
@@ -614,7 +614,7 @@ export default function TabSystem() {
           ref={containerRef}
           role="tablist"
           aria-label="Service categories"
-          className="lg:hidden relative flex items-center md:justify-center border-b border-slate-200/80 dark:border-slate-800 overflow-x-auto scrollbar-hide px-4 sm:px-6 md:px-0 scroll-smooth pb-0"
+          className="lg:hidden relative flex items-center md:justify-center border-b border-slate-200/80 dark:border-slate-800 overflow-x-auto scrollbar-hide px-4 sm:px-6 md:px-0 scroll-smooth pb-0 [mask-image:linear-gradient(to_right,transparent,black_28px,black_calc(100%-28px),transparent)] md:[mask-image:none]"
           onKeyDown={handleTabKeyDown}
         >
           {TAB_KEYS.map((key) => {
@@ -660,7 +660,7 @@ export default function TabSystem() {
 
         {/* Tab content */}
         <div
-          className="mt-10 lg:mt-4 min-h-[300px]"
+          className="mt-6 md:mt-10 lg:mt-4 min-h-[300px]"
           role="tabpanel"
           id={`tabpanel-${active}`}
           aria-label={t(`tabs.${active}`)}

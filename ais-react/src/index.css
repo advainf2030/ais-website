@@ -658,3 +658,79 @@ html[dir="rtl"] * {
   }
 }
 
+
+/* Biometric scan line on the navbar CTA — sweeps down the fingerprint on hover */
+.bio-scan-line {
+  position: absolute;
+  inset-inline: -2px;
+  top: 0;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, #6ee7b7, transparent);
+  box-shadow: 0 0 6px #34d399;
+  opacity: 0;
+}
+.group:hover .bio-scan-line,
+.group:focus-visible .bio-scan-line {
+  animation: bio-scan 1.1s ease-in-out infinite;
+}
+@keyframes bio-scan {
+  0% { transform: translateY(-2px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(var(--scan-travel, 16px)); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .bio-scan-line,
+  .group:focus-visible .bio-scan-line {
+    animation: none;
+    opacity: 1;
+    transform: translateY(7px);
+  }
+}
+
+/* Hero "Contact Us": signal rings ripple out from the chat icon on hover */
+.signal-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 1.5px solid rgb(20 184 166 / 0.7);
+  opacity: 0;
+  pointer-events: none;
+}
+.group:hover .signal-ring,
+.group:focus-visible .signal-ring {
+  animation: signal-ping 1.2s ease-out infinite;
+}
+@keyframes signal-ping {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* Contact form submit: a light beam crosses the button, like data being sent */
+.transmit-sweep {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.group:hover:not(:disabled) .transmit-sweep,
+.group:focus-visible:not(:disabled) .transmit-sweep {
+  animation: transmit 1.3s ease-in-out infinite;
+}
+[dir="rtl"] .group:hover:not(:disabled) .transmit-sweep,
+[dir="rtl"] .group:focus-visible:not(:disabled) .transmit-sweep {
+  animation-name: transmit-rtl;
+}
+@keyframes transmit { to { transform: translateX(320%); } }
+@keyframes transmit-rtl { from { transform: translateX(120%); } to { transform: translateX(-320%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .signal-ring, .group:focus-visible .signal-ring,
+  .group:hover .transmit-sweep, .group:focus-visible .transmit-sweep {
+    animation: none;
+  }
+}

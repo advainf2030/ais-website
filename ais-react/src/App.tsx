@@ -56,7 +56,7 @@ export default function App() {
         initial={{ opacity: 0 }}
         animate={!loading ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8, ease: SPLASH_EASE }}
-        className="relative min-h-screen overflow-x-hidden font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300"
+        className="relative min-h-screen overflow-x-clip font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300"
       >
         <AuroraBackground />
         <Navbar />
