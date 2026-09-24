@@ -600,7 +600,7 @@ export default function TabSystem() {
   };
 
   return (
-    <section className="relative z-30 max-w-5xl mx-auto px-6 lg:px-8 pt-2 md:pt-4 pb-20 scroll-mt-24" id="solutions">
+    <section className="relative z-30 max-w-[1400px] mx-auto px-6 lg:px-8 pt-2 md:pt-4 pb-20 scroll-mt-24" id="solutions">
       <ScrollReveal>
         {/* Tab bar — the fixed Navbar's own links (About / Software / Telecom / Power)
             already switch these same tabs from anywhere on the page, so this in-page
