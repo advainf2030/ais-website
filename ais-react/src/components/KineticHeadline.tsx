@@ -110,19 +110,40 @@ export default function KineticHeadline({
   dissolveEnd?: number;
   className?: string;
 }) {
+  // Each unit is an inline-block, and browsers may wrap between any two of
+  // them — which let a lone "." drop onto its own line. Grouping a word's
+  // units in a nowrap span leaves the spaces as the only break points.
+  const words: { unit: string; i: number }[][] = [];
+  units.forEach((unit, i) => {
+    const isSpace = /^\s+$/.test(unit);
+    const last = words[words.length - 1];
+    if (!isSpace && last && !/^\s+$/.test(last[0].unit)) last.push({ unit, i });
+    else words.push([{ unit, i }]);
+  });
+
+  const renderUnit = ({ unit, i }: { unit: string; i: number }) => (
+    <KineticUnit
+      key={i}
+      unit={unit}
+      index={startIndex + i}
+      total={totalUnits}
+      progress={progress}
+      dissolveEnd={dissolveEnd}
+      unitClassName={className}
+    />
+  );
+
   return (
     <span>
-      {units.map((unit, i) => (
-        <KineticUnit
-          key={i}
-          unit={unit}
-          index={startIndex + i}
-          total={totalUnits}
-          progress={progress}
-          dissolveEnd={dissolveEnd}
-          unitClassName={className}
-        />
-      ))}
+      {words.map((word) =>
+        word.length === 1 ? (
+          renderUnit(word[0])
+        ) : (
+          <span key={`w${word[0].i}`} style={{ whiteSpace: 'nowrap' }}>
+            {word.map(renderUnit)}
+          </span>
+        ),
+      )}
     </span>
   );
 }

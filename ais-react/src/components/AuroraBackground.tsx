@@ -4,11 +4,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const VIDEO_SRC =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4';
-
-const VIDEO_POSTER =
-  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=60';
+const DESKTOP_VIDEO = {
+  src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4',
+  poster: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=60',
+};
+// Portrait centre crop of the same clip, 600x800 (~440 KB vs ~13.5 MB): phones
+// only ever show that middle strip under object-cover. Poster is its first frame.
+const MOBILE_VIDEO = {
+  src: 'videos/bg-mobile.mp4',
+  poster: 'videos/bg-mobile-poster.webp',
+};
 
 /**
  * Fixed fullscreen background — 3-layer compositing:
@@ -23,20 +28,23 @@ const VIDEO_POSTER =
 export default function AuroraBackground() {
   const root = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  // The video is ~13 MB, so it's desktop-only and mounted after the page has
-  // finished loading — it must never compete with first paint or cost a
-  // phone user's data plan.
-  const [showVideo, setShowVideo] = useState(false);
+  // Mounted only after the page has finished loading so it never competes
+  // with first paint; phones get the lightweight portrait encode.
+  const [video, setVideo] = useState<{ src: string; poster: string; mobile: boolean } | null>(null);
+  const showVideo = video !== null;
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     const saveData = conn?.saveData === true;
+    if (prefersReducedMotion || saveData) return;
     const desktop = window.matchMedia('(min-width: 1024px)').matches;
-    if (prefersReducedMotion || saveData || !desktop) return;
 
     let timer: number | undefined;
     const start = () => {
-      timer = window.setTimeout(() => setShowVideo(true), 1200);
+      timer = window.setTimeout(
+        () => setVideo(desktop ? { ...DESKTOP_VIDEO, mobile: false } : { ...MOBILE_VIDEO, mobile: true }),
+        1200,
+      );
     };
     if (document.readyState === 'complete') start();
     else window.addEventListener('load', start, { once: true });
@@ -46,11 +54,19 @@ export default function AuroraBackground() {
     };
   }, []);
 
-  /* Set non-standard webkit-playsinline attribute for iOS Safari autoplay */
+  /* Safari only autoplays when the `muted` *attribute* is present, and React
+     sets `muted` as a DOM property without writing the attribute — so Safari
+     treated the video as unmuted and refused to play it. Set both, then start
+     playback explicitly. If the OS still refuses (e.g. iOS Low Power Mode),
+     the poster image stays as a static background. */
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.setAttribute('webkit-playsinline', 'true');
-    }
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute('muted', '');
+    v.setAttribute('webkit-playsinline', 'true');
+    v.play().catch(() => {});
   }, [showVideo]);
 
   useEffect(() => {
@@ -146,7 +162,7 @@ export default function AuroraBackground() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] rounded-full bg-gradient-radial from-cyan-200/15 dark:from-emerald-500/5 to-transparent blur-[80px]" />
 
       {/* ─── Layer B: Video texture (conditionally loaded) ─── */}
-      {showVideo && (
+      {video && (
         <video
           ref={videoRef}
           autoPlay
@@ -154,10 +170,12 @@ export default function AuroraBackground() {
           loop
           playsInline
           preload="none"
-          poster={VIDEO_POSTER}
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.42] dark:opacity-[0.20] mix-blend-multiply dark:mix-blend-screen contrast-[1.15] pointer-events-none transform-gpu"
+          poster={video.poster}
+          className={`absolute inset-0 w-full h-full object-cover ${
+            video.mobile ? 'opacity-[0.3] dark:opacity-[0.14]' : 'opacity-[0.42] dark:opacity-[0.20]'
+          } mix-blend-multiply dark:mix-blend-screen contrast-[1.15] pointer-events-none transform-gpu`}
         >
-          <source src={VIDEO_SRC} type="video/mp4" />
+          <source src={video.src} type="video/mp4" />
         </video>
       )}
 
