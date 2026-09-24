@@ -142,7 +142,7 @@ function AccordionRow({
   level?: 3 | 4;
 }) {
   const Heading = level === 4 ? 'h4' : 'h3';
-  const rowRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   /* True only while the CURRENT open transition is still expanding — read by
      the motion.div's onAnimationComplete below so a later close (exit
      animation finishing) doesn't also trigger a scroll. A fixed setTimeout
@@ -155,11 +155,19 @@ function AccordionRow({
     onToggle();
   };
 
+  /* Header and description are separate grid items: the header keeps its own
+     column, and the open description spans the full row beneath it. The parent
+     grid uses `grid-flow-row-dense`, so the header's neighbour stays beside it
+     instead of the header jumping down a row and leaving an empty cell. */
   return (
+    <>
+    {/* While open, the header takes the panel's tint and drops its divider, so
+        it reads as a tab joined to its description — whichever column it's in. */}
     <div
-      ref={rowRef}
-      className={`border-b border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300 scroll-mt-32 ${
-        isOpen ? 'md:col-span-2' : ''
+      className={`border-b transition-colors duration-300 ${
+        isOpen
+          ? 'bg-teal-50/40 dark:bg-slate-800/30 border-transparent'
+          : 'border-slate-200/70 dark:border-slate-800/80'
       }`}
     >
       <Heading className="m-0">
@@ -200,10 +208,12 @@ function AccordionRow({
           </motion.span>
         </button>
       </Heading>
+    </div>
 
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
+            ref={panelRef}
             key="content"
             id={panelId}
             role="region"
@@ -215,18 +225,15 @@ function AccordionRow({
             onAnimationComplete={() => {
               if (justOpenedRef.current) {
                 justOpenedRef.current = false;
-                rowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
               }
             }}
-            className="overflow-hidden"
+            className="overflow-hidden md:col-span-2 border-b border-slate-200/70 dark:border-slate-800/80 bg-teal-50/40 dark:bg-slate-800/30 scroll-mt-32"
           >
-            {/* Full grid-row width while open (not just this item's own column) —
-                the description reads as 2 lines of real prose instead of a
-                narrow 4-line tower, and the sibling column's next item is
-                pushed to the row below by the grid's own auto-flow.
+            {/* Full row width so the description reads as ~2 lines of prose.
                 Left edge lines up with the title text (past the dot + gap:
                 0.375rem dot + 1rem gap = 1.375rem), not the bullet itself. */}
-            <div className="ps-[2.375rem] md:ps-[2.875rem] pe-4 md:pe-6 pb-5">
+            <div className="ps-[2.375rem] md:ps-[2.875rem] pe-4 md:pe-6 py-4">
               <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                 {desc}
               </p>
@@ -234,7 +241,7 @@ function AccordionRow({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
 
@@ -326,7 +333,7 @@ function AccordionGroup({
                 8 items) no longer pushes the last row's content below the fold when
                 expanded. `items-start` keeps a shorter neighbor from stretching to
                 match a taller expanded cell in the same row. */}
-            <div className="grid grid-cols-1 md:grid-cols-2 md:items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:grid-flow-row-dense md:items-start">
               {children}
             </div>
           </motion.div>
@@ -510,7 +517,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                   </AccordionGroup>
                 ))
               : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 md:items-start">
+                  <div className="grid grid-cols-1 md:grid-cols-2 md:grid-flow-row-dense md:items-start">
                     {text.subservices?.map((sub, i) => (
                       <AccordionRow
                         key={i}
