@@ -2,9 +2,16 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
+const LANG_KEY = 'ais-lang';
+
 const resources = {
   en: {
     translation: {
+      meta: {
+        title: 'AIS Contracting | Software, Cyber Security & Telecom in Saudi Arabia',
+        description:
+          'Since 1998, Advanced Information Systems Company delivers custom software, cyber security, managed IT services, telecom infrastructure and power solutions across Saudi Arabia.',
+      },
       nav: {
         about: 'About',
         close: 'Close menu',
@@ -284,6 +291,11 @@ const resources = {
   },
   ar: {
     translation: {
+      meta: {
+        title: 'شركة أنظمة المعلومات المتقدمة | البرمجيات والأمن السيبراني والاتصالات في السعودية',
+        description:
+          'منذ 1998، تقدم شركة أنظمة المعلومات المتقدمة حلول تطوير البرمجيات والأمن السيبراني وخدمات تقنية المعلومات المُدارة والبنية التحتية للاتصالات وحلول الطاقة في المملكة العربية السعودية.',
+      },
       nav: {
         about: 'من نحن',
         close: 'إغلاق القائمة',
@@ -569,8 +581,30 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
+    supportedLngs: ['en', 'ar'],
+    // Device locales like "ar-SA" / "en-GB" resolve to "ar" / "en".
+    nonExplicitSupportedLngs: true,
+    load: 'languageOnly',
     interpolation: { escapeValue: false },
-    detection: { order: ['localStorage', 'navigator'], caches: ['localStorage'] },
+    // Device language by default. Only an explicit toggle is remembered
+    // (see rememberLanguage) — never auto-cache the detected value, or a
+    // visitor gets stuck on it even after changing their device language.
+    // `?lang=ar` / `?lang=en` (the hreflang URLs) wins for that visit.
+    detection: {
+      order: ['querystring', 'localStorage', 'navigator'],
+      lookupQuerystring: 'lang',
+      lookupLocalStorage: LANG_KEY,
+      caches: [],
+    },
   });
+
+export function rememberLanguage(lng: 'en' | 'ar') {
+  try {
+    localStorage.setItem(LANG_KEY, lng);
+  } catch {
+    // Storage blocked (private mode) — the switch still applies for this visit.
+  }
+  void i18n.changeLanguage(lng);
+}
 
 export default i18n;

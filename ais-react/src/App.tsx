@@ -27,6 +27,8 @@ export default function App() {
     const rtl = lang === 'ar';
     document.documentElement.lang = lang;
     document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+    document.title = i18n.t('meta.title');
+    document.querySelector('meta[name="description"]')?.setAttribute('content', i18n.t('meta.description'));
   }, [i18n, i18n.language]);
 
   // Always start at top of page on initial load & reload

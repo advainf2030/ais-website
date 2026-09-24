@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { ArrowUpRight, Fingerprint, Menu, X, Sun, Moon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from './ThemeContext';
+import { rememberLanguage } from '../i18n';
 
 const LINKS = [
   { href: '#about', tab: 'about', key: 'nav.about' },
@@ -67,9 +68,7 @@ export default function Navbar() {
     }
   }, []);
 
-  const setLang = (lng: string) => {
-    void i18n.changeLanguage(lng);
-  };
+  const setLang = (lng: 'en' | 'ar') => rememberLanguage(lng);
 
   const handleNavClick = (tab: string, href: string) => {
     window.location.hash = href;
