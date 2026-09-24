@@ -186,8 +186,10 @@ function AccordionRow({
             {/* Full grid-row width while open (not just this item's own column) —
                 the description reads as 2 lines of real prose instead of a
                 narrow 4-line tower, and the sibling column's next item is
-                pushed to the row below by the grid's own auto-flow. */}
-            <div className="px-4 md:px-6 pb-5">
+                pushed to the row below by the grid's own auto-flow.
+                Left edge lines up with the title text (past the dot + gap:
+                0.375rem dot + 1rem gap = 1.375rem), not the bullet itself. */}
+            <div className="ps-[2.375rem] md:ps-[2.875rem] pe-4 md:pe-6 pb-5">
               <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                 {desc}
               </p>
