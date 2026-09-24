@@ -734,3 +734,71 @@ html[dir="rtl"] * {
     animation: none;
   }
 }
+
+/* Hero title: "Revitalized." is revealed behind a sweeping light beam */
+.scan-reveal-text {
+  clip-path: inset(-20% 100% -20% -3%);
+  animation: scan-reveal 1s cubic-bezier(0.65, 0, 0.35, 1) 0.7s forwards;
+}
+@keyframes scan-reveal {
+  to { clip-path: inset(-20% -3% -20% -3%); }
+}
+.scan-reveal-beam {
+  position: absolute;
+  top: 8%;
+  bottom: 8%;
+  left: 0;
+  width: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, transparent, #6ee7b7, #2dd4bf, transparent);
+  box-shadow: 0 0 14px 2px rgb(52 211 153 / 0.7);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  animation: scan-beam 1s cubic-bezier(0.65, 0, 0.35, 1) 0.7s forwards;
+}
+@keyframes scan-beam {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { left: calc(100% - 3px); opacity: 0; }
+}
+
+/* RTL: reveal runs right-to-left */
+[dir="rtl"] .scan-reveal-text {
+  clip-path: inset(-20% -3% -20% 100%);
+}
+[dir="rtl"] .scan-reveal-beam {
+  animation-name: scan-beam-rtl;
+}
+@keyframes scan-beam-rtl {
+  0% { left: calc(100% - 3px); opacity: 0; }
+  10% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { left: 0; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-reveal-text, [dir="rtl"] .scan-reveal-text { animation: none; clip-path: none; }
+  .scan-reveal-beam { display: none; }
+}
+
+/* Hero copy: soft halo so text stays legible over the digit-rain backdrop */
+.hero-text-halo {
+  text-shadow: 0 0 18px rgb(255 255 255 / 0.85), 0 1px 2px rgb(255 255 255 / 0.6);
+}
+.dark .hero-text-halo {
+  text-shadow: 0 0 18px rgb(2 6 23 / 0.9), 0 1px 2px rgb(2 6 23 / 0.7);
+}
+
+/* Keyboard focus: one consistent, clearly visible ring on every interactive
+   element (mouse clicks don't trigger :focus-visible). :where() keeps it at
+   zero specificity so component classes can still override it. */
+:where(a, button, select, textarea, [role="tab"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid #0d9488;
+  outline-offset: 3px;
+  border-radius: 0.75rem;
+}
+.dark :where(a, button, select, textarea, [role="tab"], [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline-color: #34d399;
+}

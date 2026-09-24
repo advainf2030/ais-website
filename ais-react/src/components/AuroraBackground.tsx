@@ -23,14 +23,28 @@ const VIDEO_POSTER =
 export default function AuroraBackground() {
   const root = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  // Computed once via a lazy initializer instead of an effect + setState —
-  // avoids a wasted extra render on mount for a value that never changes.
-  const [showVideo] = useState(() => {
+  // The video is ~13 MB, so it's desktop-only and mounted after the page has
+  // finished loading — it must never compete with first paint or cost a
+  // phone user's data plan.
+  const [showVideo, setShowVideo] = useState(false);
+  useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     const saveData = conn?.saveData === true;
-    return !prefersReducedMotion && !saveData;
-  });
+    const desktop = window.matchMedia('(min-width: 1024px)').matches;
+    if (prefersReducedMotion || saveData || !desktop) return;
+
+    let timer: number | undefined;
+    const start = () => {
+      timer = window.setTimeout(() => setShowVideo(true), 1200);
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+    return () => {
+      window.removeEventListener('load', start);
+      window.clearTimeout(timer);
+    };
+  }, []);
 
   /* Set non-standard webkit-playsinline attribute for iOS Safari autoplay */
   useEffect(() => {

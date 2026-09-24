@@ -73,7 +73,7 @@ export const SERVICES: ServiceMeta[] = [
     iconClass: 'text-[#00687a]',
     tagClass: 'bg-cyan-500/10 text-[#00687a] border-cyan-500/20',
     hoverClass: 'group-hover:text-[#00687a]',
-    image: 'images/software-solutions.jpg',
+    image: 'images/software-solutions.webp',
   },
   {
     id: 'power',

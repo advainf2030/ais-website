@@ -12,14 +12,16 @@ type TabKey = (typeof TAB_KEYS)[number];
 
 /* Default hero images per service category (shown when no sub-row is expanded) */
 const CATEGORY_HERO_IMAGES: Record<number, string> = {
-  0: 'images/software-solutions.jpg', // Software — digital engineering and code workstation
-  1: 'images/medium-voltage.jpg', // Power — industrial medium-voltage switchgear substation
-  2: 'images/telecom-tower.jpg', // Telecom — 5G cellular communication tower and antennas
+  0: 'images/software-solutions.webp', // Software — digital engineering and code workstation
+  1: 'images/medium-voltage.webp', // Power — industrial medium-voltage switchgear substation
+  2: 'images/telecom-tower.webp', // Telecom — 5G cellular communication tower and antennas
 };
 
 /* Curated technical architectural imagery for the About section (100% human-free) */
-const ABOUT_IMAGE_1 = 'images/about-building.jpg';
-const ABOUT_IMAGE_2 = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80';
+const ABOUT_IMAGE_1 = 'images/about-building.webp';
+const ABOUT_IMAGE_2_BASE = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=75';
+const ABOUT_IMAGE_2 = `${ABOUT_IMAGE_2_BASE}&w=1200`;
+const ABOUT_IMAGE_2_SRCSET = `${ABOUT_IMAGE_2_BASE}&w=640 640w, ${ABOUT_IMAGE_2_BASE}&w=1200 1200w`;
 
 interface SubServiceItem {
   title: string;
@@ -56,9 +58,9 @@ function AboutContent() {
       {/* Section 1: About the Company */}
       <div className="space-y-8">
         <div className="space-y-4">
-          <h3 className="font-display text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
             {t('about.title')}
-          </h3>
+          </h2>
           {(t('about.overview', { returnObjects: true }) as unknown as string[]).map((para, i) => (
             <p
               key={i}
@@ -73,6 +75,10 @@ function AboutContent() {
           <img
             src={ABOUT_IMAGE_1}
             alt="AIS Company Office"
+            width={1200}
+            height={730}
+            loading="lazy"
+            decoding="async"
             className="w-full h-56 md:h-72 object-cover"
           />
         </div>
@@ -82,17 +88,17 @@ function AboutContent() {
       <div className="space-y-8">
         <div className="space-y-8">
           <div className="border-t border-slate-200/80 dark:border-slate-800 pt-6">
-            <h4 className="text-xs tracking-[0.2em] uppercase text-teal-700 dark:text-emerald-400 font-extrabold mb-3">
+            <h3 className="text-xs tracking-[0.2em] uppercase text-teal-700 dark:text-emerald-400 font-extrabold mb-3">
               {t('about.visionTitle')}
-            </h4>
+            </h3>
             <p className="text-[15px] leading-7 text-slate-800 dark:text-slate-300 font-medium max-w-3xl">
               {t('about.vision')}
             </p>
           </div>
           <div className="border-t border-slate-200/80 dark:border-slate-800 pt-6">
-            <h4 className="text-xs tracking-[0.2em] uppercase text-teal-700 dark:text-emerald-400 font-extrabold mb-3">
+            <h3 className="text-xs tracking-[0.2em] uppercase text-teal-700 dark:text-emerald-400 font-extrabold mb-3">
               {t('about.missionTitle')}
-            </h4>
+            </h3>
             <p className="text-[15px] leading-7 text-slate-800 dark:text-slate-300 font-medium max-w-3xl">
               {t('about.mission')}
             </p>
@@ -102,7 +108,13 @@ function AboutContent() {
         <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800">
           <img
             src={ABOUT_IMAGE_2}
+            srcSet={ABOUT_IMAGE_2_SRCSET}
+            sizes="(min-width: 768px) 1100px, 100vw"
             alt="AIS Vision 2030"
+            width={1200}
+            height={800}
+            loading="lazy"
+            decoding="async"
             className="w-full h-56 md:h-72 object-cover"
           />
         </div>
@@ -119,6 +131,7 @@ function AccordionRow({
   onToggle,
   panelId,
   headerId,
+  level = 3,
 }: {
   title: string;
   desc: string;
@@ -126,7 +139,9 @@ function AccordionRow({
   onToggle: () => void;
   panelId: string;
   headerId: string;
+  level?: 3 | 4;
 }) {
+  const Heading = level === 4 ? 'h4' : 'h3';
   const rowRef = useRef<HTMLDivElement>(null);
   /* True only while the CURRENT open transition is still expanding — read by
      the motion.div's onAnimationComplete below so a later close (exit
@@ -147,42 +162,44 @@ function AccordionRow({
         isOpen ? 'md:col-span-2' : ''
       }`}
     >
-      <button
-        type="button"
-        id={headerId}
-        onClick={handleClick}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
-          isOpen ? '' : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
-        }`}
-      >
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <span
-            className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${
-              isOpen ? 'bg-teal-600 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'
-            }`}
-            aria-hidden="true"
-          />
-          <h4
-            className={`text-[15px] md:text-base font-normal transition-colors duration-300 ${
-              isOpen
-                ? 'text-teal-700 dark:text-emerald-400'
-                : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
-            }`}
-          >
-            {title}
-          </h4>
-        </div>
-        <motion.span
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3, ease: EASE }}
-          className="shrink-0 text-slate-400 dark:text-slate-500 group-hover:text-teal-600 dark:group-hover:text-emerald-400 transition-colors"
-          aria-hidden="true"
+      <Heading className="m-0">
+        <button
+          type="button"
+          id={headerId}
+          onClick={handleClick}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
+            isOpen ? '' : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
+          }`}
         >
-          <ChevronDown size={18} />
-        </motion.span>
-      </button>
+          <div className="flex items-center gap-4 flex-1 min-w-0">
+            <span
+              className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${
+                isOpen ? 'bg-teal-600 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'
+              }`}
+              aria-hidden="true"
+            />
+            <span
+              className={`text-[15px] md:text-base font-normal transition-colors duration-300 ${
+                isOpen
+                  ? 'text-teal-700 dark:text-emerald-400'
+                  : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
+              }`}
+            >
+              {title}
+            </span>
+          </div>
+          <motion.span
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="shrink-0 text-slate-400 dark:text-slate-500 group-hover:text-teal-600 dark:group-hover:text-emerald-400 transition-colors"
+            aria-hidden="true"
+          >
+            <ChevronDown size={18} />
+          </motion.span>
+        </button>
+      </Heading>
 
       <AnimatePresence initial={false}>
         {isOpen && (
@@ -247,42 +264,44 @@ function AccordionGroup({
 
   return (
     <div ref={groupRef} className="border-b border-slate-200/70 dark:border-slate-800/80 scroll-mt-32">
-      <button
-        type="button"
-        id={headerId}
-        onClick={handleClick}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
-          isOpen ? 'bg-teal-50/60 dark:bg-slate-800/60' : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
-        }`}
-      >
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <span
-            className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${
-              isOpen ? 'bg-teal-600 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'
-            }`}
-            aria-hidden="true"
-          />
-          <h4
-            className={`text-[15px] md:text-base font-normal transition-colors duration-300 ${
-              isOpen
-                ? 'text-teal-700 dark:text-emerald-400'
-                : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
-            }`}
-          >
-            {title}
-          </h4>
-        </div>
-        <motion.span
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3, ease: EASE }}
-          className="shrink-0 text-slate-400 dark:text-slate-500 group-hover:text-teal-600 dark:group-hover:text-emerald-400 transition-colors"
-          aria-hidden="true"
+      <h3 className="m-0">
+        <button
+          type="button"
+          id={headerId}
+          onClick={handleClick}
+          aria-expanded={isOpen}
+          aria-controls={panelId}
+          className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
+            isOpen ? 'bg-teal-50/60 dark:bg-slate-800/60' : 'hover:bg-white/20 dark:hover:bg-slate-800/30'
+          }`}
         >
-          <ChevronDown size={18} />
-        </motion.span>
-      </button>
+          <div className="flex items-center gap-4 flex-1 min-w-0">
+            <span
+              className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-300 ${
+                isOpen ? 'bg-teal-600 dark:bg-emerald-400' : 'bg-slate-300 dark:bg-slate-600'
+              }`}
+              aria-hidden="true"
+            />
+            <span
+              className={`text-[15px] md:text-base font-normal transition-colors duration-300 ${
+                isOpen
+                  ? 'text-teal-700 dark:text-emerald-400'
+                  : 'text-slate-900 dark:text-slate-100 group-hover:text-teal-700 dark:group-hover:text-emerald-400'
+              }`}
+            >
+              {title}
+            </span>
+          </div>
+          <motion.span
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="shrink-0 text-slate-400 dark:text-slate-500 group-hover:text-teal-600 dark:group-hover:text-emerald-400 transition-colors"
+            aria-hidden="true"
+          >
+            <ChevronDown size={18} />
+          </motion.span>
+        </button>
+      </h3>
 
       <AnimatePresence initial={false}>
         {isOpen && (
@@ -462,9 +481,9 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
         >
           <div className="glass-card rounded-2xl overflow-hidden flex-1">
             <div className="border-b border-slate-200/70 dark:border-slate-800 px-4 md:px-6 py-4">
-              <h3 className="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white">
+              <h2 className="font-display text-lg md:text-xl font-bold text-slate-900 dark:text-white">
                 {text.title}
-              </h3>
+              </h2>
             </div>
             {hasGroups
               ? text.groups!.map((g, gi) => (
@@ -485,6 +504,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                         onToggle={() => toggleItem(ii)}
                         headerId={`accordion-header-${serviceIndex}-${gi}-${ii}`}
                         panelId={`accordion-panel-${serviceIndex}-${gi}-${ii}`}
+                        level={4}
                       />
                     ))}
                   </AccordionGroup>
@@ -627,7 +647,7 @@ export default function TabSystem() {
                 role="tab"
                 id={`tab-${key}`}
                 aria-selected={isSelected}
-                aria-controls={`tabpanel-${key}`}
+                aria-controls={isSelected ? `tabpanel-${key}` : undefined}
                 tabIndex={isSelected ? 0 : -1}
                 onClick={() => selectTab(key)}
                 className={`relative shrink-0 px-4 sm:px-5 md:px-6 py-4 text-[13px] md:text-sm transition-all duration-300 whitespace-nowrap cursor-pointer ${

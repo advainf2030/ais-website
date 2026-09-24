@@ -136,7 +136,7 @@ export default function WhyChooseUs() {
                   <span className={`h-px flex-1 ${accent.rule}`} />
                 </div>
 
-                <h4 className={`text-lg font-bold mb-2 ${accent.title}`}>{s.title}</h4>
+                <h3 className={`text-lg font-bold mb-2 ${accent.title}`}>{s.title}</h3>
                 <p className="text-sm leading-6 text-slate-700 dark:text-slate-300 font-medium">
                   {s.desc}
                 </p>

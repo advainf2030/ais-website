@@ -14,9 +14,9 @@ export default function Footer() {
         {/* "Let's Work Together" CTA row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-200/60 dark:border-slate-800">
           <div>
-            <h3 className="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+            <h2 className="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
               {t('footer.workTogether')}
-            </h3>
+            </h2>
             <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mt-1">
               {t('footer.workTogetherDesc')}
             </p>
@@ -63,8 +63,12 @@ export default function Footer() {
           <div className="flex items-center gap-3 shrink-0">
             <img
               alt="AIS"
+              width={333}
+              height={128}
+              loading="lazy"
+              decoding="async"
               className="h-8 w-auto object-contain opacity-70 dark:opacity-90 dark:brightness-125 dark:contrast-110"
-              src="logos/ais-logo.png"
+              src="logos/ais-logo.webp"
             />
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium leading-4 max-w-[200px]">
               © {year} {t('footer.tagline')}

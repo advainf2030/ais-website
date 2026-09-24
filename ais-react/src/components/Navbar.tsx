@@ -94,8 +94,10 @@ export default function Navbar() {
           <a className="flex items-center shrink-0 group" href="#">
             <img
               alt="AIS Logo"
+              width={333}
+              height={128}
               className="h-14 md:h-16 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105 dark:brightness-125 dark:contrast-110 dark:drop-shadow-[0_0_12px_rgba(16,185,129,0.3)]"
-              src="logos/ais-logo.png"
+              src="logos/ais-logo.webp"
             />
           </a>
 

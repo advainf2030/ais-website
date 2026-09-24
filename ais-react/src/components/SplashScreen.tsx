@@ -42,8 +42,11 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
           {/* Deep Space Scale Logo */}
           <div className="relative flex flex-col items-center justify-center px-6">
             <motion.img
-              src="logos/ais-logo.png"
+              src="logos/ais-logo-lg.webp"
               alt="Advanced Information Systems Company"
+              width={960}
+              height={369}
+              fetchPriority="high"
               initial={{
                 scale: 0.15,
                 opacity: 0,

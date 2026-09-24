@@ -25,9 +25,11 @@ const PARTICLE_POSITIONS = [
   { top: '30%', left: '25%' },
 ];
 
-export default function Hero() {
+export default function Hero({ ready = true }: { ready?: boolean }) {
   const { t, i18n } = useTranslation();
   const wordLevel = (i18n.resolvedLanguage ?? i18n.language) === 'ar';
+  // Waits for the splash screen so it isn't played behind it.
+  const scanReveal = ready;
 
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -58,7 +60,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-20 text-center flex flex-col items-center relative overflow-hidden"
+      className="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-10 md:pb-14 text-center flex flex-col items-center relative overflow-hidden"
       id="about"
     >
       {/* Floating particles */}
@@ -81,7 +83,7 @@ export default function Hero() {
         className="flex items-center gap-4 justify-center mb-10 relative z-10"
       >
         <span className="hidden md:block w-10 h-[1px] bg-slate-400/60 dark:bg-slate-600" />
-        <span className="text-[11px] md:text-xs tracking-[0.25em] font-bold uppercase text-slate-800 dark:text-slate-300">
+        <span className="text-[11px] md:text-xs tracking-[0.25em] rtl:tracking-normal font-bold uppercase text-slate-900 dark:text-slate-100 hero-text-halo">
           {t('hero.eyebrow')}
         </span>
         <span className="hidden md:block w-10 h-[1px] bg-slate-400/60 dark:bg-slate-600" />
@@ -114,8 +116,9 @@ export default function Hero() {
             />
           </motion.span>{' '}
           <span className="relative inline-block overflow-visible py-1 px-1">
+            {scanReveal && <span className="scan-reveal-beam" />}
             <motion.span
-              className="inline-block"
+              className={`inline-block ${scanReveal ? 'scan-reveal-text' : ''}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
@@ -146,7 +149,7 @@ export default function Hero() {
         initial="hidden"
         animate="show"
         custom={2}
-        className="text-lg md:text-xl leading-8 text-slate-800 dark:text-slate-300 max-w-3xl mx-auto mb-12 font-medium relative z-10"
+        className="text-lg md:text-xl leading-8 text-slate-900 dark:text-slate-100 max-w-3xl mx-auto mb-12 font-medium relative z-10"
       >
         {t('hero.subtitle')}
       </motion.p>
@@ -157,7 +160,7 @@ export default function Hero() {
         initial="hidden"
         animate="show"
         custom={3}
-        className="flex flex-col sm:flex-row items-center gap-4 mb-20 relative z-10"
+        className="flex flex-col sm:flex-row items-center gap-4 relative z-10"
       >
         <a
           className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-[0_0_0_3px_rgba(16,185,129,0.3),0_14px_30px_-8px_rgba(16,185,129,0.35)] hover:border-emerald-400/60 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5 border border-white/10"

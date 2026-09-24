@@ -12,6 +12,8 @@ function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
       <span className={baseClass} aria-hidden={hidden || undefined}>
         <img
           alt="Dynatrace"
+          width={24}
+          height={24}
           className="h-6 w-6 object-contain dark:brightness-125"
           src={partner.src}
           loading="lazy"
@@ -29,6 +31,8 @@ function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
       <span className={baseClass} aria-hidden={hidden || undefined}>
         <img
           alt="Katalon"
+          width={28}
+          height={28}
           className="h-7 w-7 object-contain dark:brightness-125"
           src={partner.src}
           loading="lazy"
@@ -47,6 +51,8 @@ function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
     <span className={baseClass} aria-hidden={hidden || undefined}>
       <img
         alt={partner.name}
+        width={160}
+        height={64}
         className={`max-w-full max-h-full w-auto h-auto object-contain dark:brightness-125 dark:contrast-110${extra}`}
         src={partner.src}
         loading="lazy"
@@ -62,9 +68,9 @@ export default function Partners() {
   return (
     <section className="max-w-6xl mx-auto px-6 lg:px-8 py-16 scroll-mt-28" id="partners">
       <ScrollReveal className="text-center mb-12">
-        <h3 className="font-display text-2xl leading-8 font-bold text-slate-900 dark:text-white tracking-tight">
+        <h2 className="font-display text-2xl leading-8 font-bold text-slate-900 dark:text-white tracking-tight">
           {t('partners.title')}
-        </h3>
+        </h2>
         <p className="text-sm leading-6 text-slate-800 dark:text-slate-300 font-medium mt-2 max-w-lg mx-auto">
           {t('partners.desc')}
         </p>

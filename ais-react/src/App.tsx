@@ -61,7 +61,7 @@ export default function App() {
         <AuroraBackground />
         <Navbar />
         <main className="relative z-10 pt-28 md:pt-32 pb-16">
-          <Hero />
+          <Hero ready={!loading} />
           <TabSystem />
           <WhyChooseUs />
           <ContactInfo />
