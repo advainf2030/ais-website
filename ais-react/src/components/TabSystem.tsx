@@ -127,8 +127,26 @@ function AccordionRow({
   panelId: string;
   headerId: string;
 }) {
+  const rowRef = useRef<HTMLDivElement>(null);
+
+  /* Auto-scroll the newly revealed content into view on open — expanding a
+     row otherwise often drops its text below the fold, forcing a manual
+     scroll (and an accidental re-close if that scroll lands on another
+     row's header). Fires after the 300ms height transition so it centers
+     on the FINAL expanded height, not the mid-animation one. */
+  const handleClick = () => {
+    const opening = !isOpen;
+    onToggle();
+    if (opening) {
+      setTimeout(() => {
+        rowRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 320);
+    }
+  };
+
   return (
     <div
+      ref={rowRef}
       className={`border-b border-slate-200/70 dark:border-slate-800/80 transition-colors duration-300 ${
         isOpen ? 'md:col-span-2' : ''
       }`}
@@ -136,7 +154,7 @@ function AccordionRow({
       <button
         type="button"
         id={headerId}
-        onClick={onToggle}
+        onClick={handleClick}
         aria-expanded={isOpen}
         aria-controls={panelId}
         className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
@@ -217,12 +235,24 @@ function AccordionGroup({
   headerId: string;
   children: React.ReactNode;
 }) {
+  const groupRef = useRef<HTMLDivElement>(null);
+
+  const handleClick = () => {
+    const opening = !isOpen;
+    onToggle();
+    if (opening) {
+      setTimeout(() => {
+        groupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 320);
+    }
+  };
+
   return (
-    <div className="border-b border-slate-200/70 dark:border-slate-800/80">
+    <div ref={groupRef} className="border-b border-slate-200/70 dark:border-slate-800/80">
       <button
         type="button"
         id={headerId}
-        onClick={onToggle}
+        onClick={handleClick}
         aria-expanded={isOpen}
         aria-controls={panelId}
         className={`w-full flex items-center justify-between py-5 px-4 md:px-6 gap-4 text-start group cursor-pointer transition-colors duration-300 ${
@@ -570,7 +600,7 @@ export default function TabSystem() {
   };
 
   return (
-    <section className="relative z-30 max-w-5xl mx-auto px-6 lg:px-8 py-20 scroll-mt-28" id="solutions">
+    <section className="relative z-30 max-w-5xl mx-auto px-6 lg:px-8 pt-2 md:pt-4 pb-20 scroll-mt-24" id="solutions">
       <ScrollReveal>
         {/* Tab bar — the fixed Navbar's own links (About / Software / Telecom / Power)
             already switch these same tabs from anywhere on the page, so this in-page
@@ -618,7 +648,7 @@ export default function TabSystem() {
         {/* Desktop-only current-section label — the tab bar above is hidden at this
             width (the fixed Navbar's links do the switching instead), so this keeps
             a lightweight, non-interactive hint of which section is showing. */}
-        <div className="hidden lg:block mt-10 mb-2">
+        <div className="hidden lg:block mb-2">
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-teal-700 dark:text-emerald-400">
             {t(`tabs.${active}`)}
           </span>
