@@ -612,15 +612,6 @@ html[dir="rtl"] * {
   animation: pillar-pulse 3s ease-in-out infinite;
 }
 
-/* ---------- Theme toggle button animation ---------- */
-@keyframes theme-toggle-spin {
-  from { transform: rotate(0deg) scale(0.5); opacity: 0; }
-  to { transform: rotate(360deg) scale(1); opacity: 1; }
-}
-.theme-toggle-icon {
-  animation: theme-toggle-spin 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
 /* ---------- Reduced motion accessibility ---------- */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -643,7 +634,6 @@ html[dir="rtl"] * {
   .confetti-piece,
   .btn-shimmer::before,
   .footer-shimmer-line,
-  .theme-toggle-icon,
   .pillar-active-pulse,
   .typing-dot {
     animation: none !important;

@@ -15,6 +15,10 @@ const resources = {
       nav: {
         about: 'About',
         close: 'Close menu',
+        back: 'Back',
+        lightMode: 'Light Mode',
+        darkMode: 'Dark Mode',
+        language: 'Language:',
         software: 'Software Solutions',
         power: 'Power Solutions',
         telecom: 'Telecom & ICT',
@@ -299,6 +303,10 @@ const resources = {
       nav: {
         about: 'من نحن',
         close: 'إغلاق القائمة',
+        back: 'رجوع',
+        lightMode: 'الوضع الفاتح',
+        darkMode: 'الوضع الداكن',
+        language: 'اللغة:',
         software: 'الحلول البرمجية',
         power: 'حلول الطاقة',
         telecom: 'الاتصالات',

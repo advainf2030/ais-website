@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
-import { ArrowUpRight, Fingerprint, Menu, X, Sun, Moon } from 'lucide-react';
+import { ArrowUpRight, Fingerprint, Menu, Moon, Sun, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from './ThemeContext';
 import { rememberLanguage } from '../i18n';
@@ -11,6 +11,38 @@ const LINKS = [
   { href: '#telecom', tab: 'telecom', key: 'nav.telecom' },
   { href: '#power', tab: 'power', key: 'nav.power' },
 ] as const;
+
+/* Theme switch styled as a segmented control to match the EN/AR toggle beside
+   it: sun and moon segments, with the navy "selected" block sliding to the
+   active one. A real role="switch" so screen readers announce its state. */
+function ThemeSwitch({ dark, onToggle, label }: { dark: boolean; onToggle: () => void; label: string }) {
+  const seg = 'relative z-10 flex items-center justify-center w-10 h-full transition-colors duration-300';
+  const on = 'text-white dark:text-slate-950';
+  const off = 'text-slate-500 dark:text-slate-400';
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={dark}
+      aria-label={label}
+      onClick={onToggle}
+      className="relative shrink-0 flex items-center h-11 rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm overflow-hidden shadow-xs cursor-pointer"
+    >
+      <span
+        className={`absolute inset-y-0 start-0 w-10 bg-slate-900 dark:bg-emerald-500 shadow-inner transition-transform duration-300 ease-out motion-reduce:transition-none ${
+          dark ? 'translate-x-full rtl:-translate-x-full' : 'translate-x-0'
+        }`}
+        aria-hidden="true"
+      />
+      <span className={`${seg} ${dark ? off : on}`} aria-hidden="true">
+        <Sun size={16} strokeWidth={1.75} />
+      </span>
+      <span className={`${seg} ${dark ? on : off}`} aria-hidden="true">
+        <Moon size={16} strokeWidth={1.75} />
+      </span>
+    </button>
+  );
+}
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
@@ -120,19 +152,7 @@ export default function Navbar() {
           {/* Right controls */}
           <div className="flex items-center gap-2.5">
             {/* Theme toggle */}
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className="min-w-11 min-h-11 p-2.5 rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-slate-700 dark:text-amber-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-xs flex items-center justify-center cursor-pointer"
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <Sun size={17} className="text-amber-400 theme-toggle-icon" />
-              ) : (
-                <Moon size={17} className="text-slate-700 theme-toggle-icon" />
-              )}
-            </button>
+            <ThemeSwitch dark={theme === 'dark'} onToggle={toggleTheme} label={t('nav.darkMode')} />
 
             {/* Language toggle */}
             <div className="hidden sm:flex items-center rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-[11px] font-bold overflow-hidden shadow-xs">
@@ -210,13 +230,25 @@ export default function Navbar() {
             aria-label="Navigation menu"
             onKeyDown={handleDrawerKeyDown}
           >
+            {/* Back button (adapted from uiverse.io/AKAspidey01/orange-donkey-78,
+                MIT): the arrow block grows to fill the pill on hover, press
+                (touch has no hover) or keyboard focus. Mirrors in RTL. */}
             <button
               type="button"
               onClick={() => setMobileOpen(false)}
               aria-label={t('nav.close')}
-              className="absolute top-6 end-6 min-w-11 min-h-11 flex items-center justify-center rounded-xl border border-slate-200/70 dark:border-slate-700/80 bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-200 hover:text-teal-700 dark:hover:text-emerald-400 hover:bg-white dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className="group absolute top-6 end-6 w-36 h-12 rounded-2xl bg-white/80 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/80 shadow-sm text-slate-900 dark:text-slate-100 text-base font-semibold cursor-pointer overflow-hidden"
             >
-              <X size={22} />
+              <span
+                className="absolute start-1 top-1 z-10 h-10 w-1/4 rounded-xl bg-gradient-to-r from-teal-600 to-emerald-500 flex items-center justify-center transition-[width] duration-500 ease-out group-hover:w-[calc(100%-0.5rem)] group-active:w-[calc(100%-0.5rem)] group-focus-visible:w-[calc(100%-0.5rem)] motion-reduce:transition-none"
+                aria-hidden="true"
+              >
+                <svg viewBox="0 0 1024 1024" width="20" height="20" className="rtl:-scale-x-100" fill="#ffffff">
+                  <path d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z" />
+                  <path d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z" />
+                </svg>
+              </span>
+              <span className="relative ps-8">{t('nav.back')}</span>
             </button>
             <motion.nav
               initial={{ y: -20, opacity: 0 }}
@@ -247,21 +279,14 @@ export default function Navbar() {
                 {/* Mobile theme toggle */}
                 <div className="flex items-center justify-between px-4 py-1">
                   <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold">
-                    {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                    {theme === 'dark' ? t('nav.darkMode') : t('nav.lightMode')}
                   </span>
-                  <button
-                    type="button"
-                    onClick={toggleTheme}
-                    className="min-w-11 min-h-11 flex items-center justify-center p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800 text-slate-700 dark:text-amber-300"
-                    aria-label="Toggle theme"
-                  >
-                    {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-                  </button>
+                  <ThemeSwitch dark={theme === 'dark'} onToggle={toggleTheme} label={t('nav.darkMode')} />
                 </div>
 
                 {/* Mobile lang toggle */}
                 <div className="flex items-center gap-2 px-4">
-                  <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold">Language:</span>
+                  <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold">{t('nav.language')}</span>
                   <div className="flex items-center rounded-xl border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800 text-xs font-bold overflow-hidden">
                     <button
                       type="button"
