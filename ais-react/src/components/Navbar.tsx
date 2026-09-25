@@ -12,34 +12,60 @@ const LINKS = [
   { href: '#power', tab: 'power', key: 'nav.power' },
 ] as const;
 
-/* Theme switch styled as a segmented control to match the EN/AR toggle beside
-   it: sun and moon segments, with the navy "selected" block sliding to the
-   active one. A real role="switch" so screen readers announce its state. */
-function ThemeSwitch({ dark, onToggle, label }: { dark: boolean; onToggle: () => void; label: string }) {
-  const seg = 'relative z-10 flex items-center justify-center w-10 h-full transition-colors duration-300';
-  const on = 'text-white dark:text-slate-950';
-  const off = 'text-slate-500 dark:text-slate-400';
+/* Single theme button: the sun sets and the moon rises (and back) with a
+   spring rotate/scale, plus a soft ripple in the new mode's colour. The
+   ripple only runs after the first toggle so it doesn't flash on page load. */
+function ThemeSwitch({
+  dark,
+  onToggle,
+  label,
+  className = '',
+}: {
+  dark: boolean;
+  onToggle: () => void;
+  label: string;
+  className?: string;
+}) {
+  const [toggled, setToggled] = useState(false);
   return (
     <button
       type="button"
       role="switch"
       aria-checked={dark}
       aria-label={label}
-      onClick={onToggle}
-      className="relative shrink-0 flex items-center h-11 rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm overflow-hidden shadow-xs cursor-pointer"
+      onClick={() => {
+        setToggled(true);
+        onToggle();
+      }}
+      className={`relative shrink-0 items-center justify-center w-11 h-11 rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm shadow-xs overflow-hidden cursor-pointer hover:border-teal-500/50 dark:hover:border-emerald-400/50 transition-colors ${className}`}
     >
-      <span
-        className={`absolute inset-y-0 start-0 w-10 bg-slate-900 dark:bg-emerald-500 shadow-inner transition-transform duration-300 ease-out motion-reduce:transition-none ${
-          dark ? 'translate-x-full rtl:-translate-x-full' : 'translate-x-0'
-        }`}
-        aria-hidden="true"
-      />
-      <span className={`${seg} ${dark ? off : on}`} aria-hidden="true">
-        <Sun size={16} strokeWidth={1.75} />
-      </span>
-      <span className={`${seg} ${dark ? on : off}`} aria-hidden="true">
-        <Moon size={16} strokeWidth={1.75} />
-      </span>
+      {toggled && (
+        <motion.span
+          key={dark ? 'ripple-dark' : 'ripple-light'}
+          initial={{ scale: 0, opacity: 0.4 }}
+          animate={{ scale: 2.6, opacity: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className={`absolute inset-0 m-auto w-6 h-6 rounded-full ${dark ? 'bg-indigo-400' : 'bg-amber-400'}`}
+          aria-hidden="true"
+        />
+      )}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={dark ? 'moon' : 'sun'}
+          initial={{ y: 16, rotate: -90, scale: 0.3, opacity: 0 }}
+          animate={{ y: 0, rotate: 0, scale: 1, opacity: 1 }}
+          exit={{ y: -16, rotate: 90, scale: 0.3, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 420, damping: 24 }}
+          className="relative flex"
+          aria-hidden="true"
+        >
+          {dark ? (
+            <Moon size={18} strokeWidth={1.75} className="text-indigo-200" />
+          ) : (
+            <Sun size={18} strokeWidth={1.75} className="text-amber-500" />
+          )}
+        </motion.span>
+      </AnimatePresence>
     </button>
   );
 }
@@ -151,16 +177,16 @@ export default function Navbar() {
 
           {/* Right controls */}
           <div className="flex items-center gap-2.5">
-            {/* Theme toggle */}
-            <ThemeSwitch dark={theme === 'dark'} onToggle={toggleTheme} label={t('nav.darkMode')} />
+            {/* Theme toggle — phones get it inside the menu instead */}
+            <ThemeSwitch dark={theme === 'dark'} onToggle={toggleTheme} label={t('nav.darkMode')} className="hidden sm:flex" />
 
-            {/* Language toggle */}
-            <div className="hidden sm:flex items-center rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-[11px] font-bold overflow-hidden shadow-xs">
+            {/* Language toggle — always in the header */}
+            <div className="flex items-center rounded-xl border border-white/60 dark:border-slate-700/60 bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm text-[11px] font-bold overflow-hidden shadow-xs">
               <button
                 type="button"
                 onClick={() => setLang('en')}
                 aria-pressed={lang === 'en'}
-                className={`min-h-11 px-3.5 py-2 flex items-center transition-all duration-300 ${
+                className={`min-h-11 px-2.5 sm:px-3.5 py-2 flex items-center transition-all duration-300 ${
                   lang === 'en'
                     ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950 shadow-inner'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
@@ -172,7 +198,7 @@ export default function Navbar() {
                 type="button"
                 onClick={() => setLang('ar')}
                 aria-pressed={lang === 'ar'}
-                className={`min-h-11 px-3.5 py-2 flex items-center transition-all duration-300 ${
+                className={`min-h-11 px-2.5 sm:px-3.5 py-2 flex items-center transition-all duration-300 ${
                   lang === 'ar'
                     ? 'bg-slate-900 dark:bg-emerald-500 text-white dark:text-slate-950 shadow-inner'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-700/50'
@@ -281,7 +307,7 @@ export default function Navbar() {
                   <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold">
                     {theme === 'dark' ? t('nav.darkMode') : t('nav.lightMode')}
                   </span>
-                  <ThemeSwitch dark={theme === 'dark'} onToggle={toggleTheme} label={t('nav.darkMode')} />
+                  <ThemeSwitch dark={theme === 'dark'} onToggle={toggleTheme} label={t('nav.darkMode')} className="flex" />
                 </div>
 
                 {/* Mobile lang toggle */}

@@ -31,6 +31,7 @@ const resources = {
         subtitle:
           'Owned by City Bandit Limited and established in 1998, Advanced Information Systems Company is a progressive technology organization specializing in telecommunications, information technology, and custom software development.',
         explore: 'Explore Solutions',
+        scrollCue: 'Scroll to our services',
         contact: 'Contact Us',
         statEstablished: 'YEAR ESTABLISHED',
         statAlignment: 'VISION 2030 ALIGNMENT',
@@ -319,6 +320,7 @@ const resources = {
         subtitle:
           'شركة أنظمة المعلومات المتقدمة، المملوكة لشركة City Bandit Limited والمؤسسة عام 1998، مؤسسة تقنية متطورة متخصصة في الاتصالات وتقنية المعلومات وتطوير البرمجيات المخصصة.',
         explore: 'تعرّف على خدماتنا',
+        scrollCue: 'انتقل إلى خدماتنا',
         contact: 'تواصل معنا',
         statEstablished: 'سنة التأسيس',
         statAlignment: 'متوافقون مع رؤية 2030',

@@ -32,6 +32,9 @@ export default function AuroraBackground() {
   // with first paint; phones get the lightweight portrait encode.
   const [video, setVideo] = useState<{ src: string; poster: string; mobile: boolean } | null>(null);
   const showVideo = video !== null;
+  // Set when the OS refuses autoplay (iOS Low Power Mode): swap the <video>
+  // for its poster image, or Safari draws a play button over the page.
+  const [blocked, setBlocked] = useState(false);
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
@@ -66,7 +69,7 @@ export default function AuroraBackground() {
     v.defaultMuted = true;
     v.setAttribute('muted', '');
     v.setAttribute('webkit-playsinline', 'true');
-    v.play().catch(() => {});
+    v.play().catch(() => setBlocked(true));
   }, [showVideo]);
 
   useEffect(() => {
@@ -162,7 +165,16 @@ export default function AuroraBackground() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] rounded-full bg-gradient-radial from-cyan-200/15 dark:from-emerald-500/5 to-transparent blur-[80px]" />
 
       {/* ─── Layer B: Video texture (conditionally loaded) ─── */}
-      {video && (
+      {video && blocked && (
+        <img
+          src={video.poster}
+          alt=""
+          className={`absolute inset-0 w-full h-full object-cover ${
+            video.mobile ? 'opacity-[0.3] dark:opacity-[0.14]' : 'opacity-[0.42] dark:opacity-[0.20]'
+          } mix-blend-multiply dark:mix-blend-screen contrast-[1.15] pointer-events-none`}
+        />
+      )}
+      {video && !blocked && (
         <video
           ref={videoRef}
           autoPlay

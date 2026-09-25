@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
-import { MessagesSquare, ScanSearch } from 'lucide-react';
+import { ChevronDown, MessagesSquare, ScanSearch } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import KineticHeadline, { splitUnits } from './KineticHeadline';
 
@@ -60,7 +60,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   return (
     <section
       ref={sectionRef}
-      className="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-10 md:pb-14 text-center flex flex-col items-center relative overflow-hidden"
+      className="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-20 min-h-[calc(100svh-7rem)] md:min-h-[calc(100svh-8rem)] text-center flex flex-col items-center justify-center relative overflow-hidden"
       id="about"
     >
       {/* Floating particles */}
@@ -184,6 +184,18 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
           </span>
         </a>
       </motion.div>
+
+      {/* Scroll cue — the hero fills the screen, so point to what's below */}
+      <motion.a
+        href="#solutions"
+        aria-label={t('hero.scrollCue')}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: ready ? 1 : 0 }}
+        transition={{ duration: 0.6, delay: ready ? 1.2 : 0 }}
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 p-2 text-slate-500 dark:text-slate-400 hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
+      >
+        <ChevronDown size={28} strokeWidth={1.5} className="scroll-chevron" aria-hidden="true" />
+      </motion.a>
     </section>
   );
 }

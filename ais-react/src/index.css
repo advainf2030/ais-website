@@ -792,3 +792,22 @@ html[dir="rtl"] * {
 .dark :where(a, button, select, textarea, [role="tab"], [tabindex]:not([tabindex="-1"])):focus-visible {
   outline-color: #34d399;
 }
+
+/* Hero scroll cue: small chevron that bobs gently */
+.scroll-chevron {
+  animation: scroll-chevron 1.8s ease-in-out infinite;
+}
+@keyframes scroll-chevron {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-chevron { animation: none; }
+}
+
+/* Never show Safari's native play button on the decorative background video */
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls {
+  display: none !important;
+  -webkit-appearance: none;
+}
