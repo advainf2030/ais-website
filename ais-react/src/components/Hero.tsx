@@ -60,7 +60,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
   return (
     <section
       ref={sectionRef}
-      className="max-w-6xl mx-auto px-6 lg:px-8 pt-6 pb-20 min-h-[calc(100svh-7rem)] md:min-h-[calc(100svh-8rem)] text-center flex flex-col items-center justify-center relative overflow-hidden"
+      className="max-w-6xl mx-auto px-6 lg:px-8 pt-8 md:pt-[6vh] pb-20 min-h-[calc(100svh-7rem)] md:min-h-[calc(100svh-8rem)] text-center flex flex-col items-center justify-start relative overflow-hidden"
       id="about"
     >
       {/* Floating particles */}
