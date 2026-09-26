@@ -149,12 +149,23 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-3">
           {/* Logo */}
           <a className="flex items-center shrink-0 group" href="#">
+            {/* Phones: the AIS mark; wider screens: the horizontal logo. Each
+                has a light- and a dark-background version. */}
+            <img alt="AIS" width={1255} height={553} className="sm:hidden dark:hidden h-10 w-auto shrink-0" src="logos/ais-mark.svg" />
+            <img alt="AIS" width={1255} height={553} className="hidden dark:block dark:sm:hidden h-10 w-auto shrink-0" src="logos/ais-mark-dark.svg" />
             <img
-              alt="AIS Logo"
-              width={333}
-              height={128}
-              className="h-14 md:h-16 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105 dark:brightness-125 dark:contrast-110 dark:drop-shadow-[0_0_12px_rgba(16,185,129,0.3)]"
-              src="logos/ais-logo.webp"
+              alt="AIS — Advanced Information Systems"
+              width={1312}
+              height={221}
+              className="hidden sm:block dark:sm:hidden h-10 md:h-11 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.03]"
+              src="logos/ais-logo-horizontal.svg"
+            />
+            <img
+              alt="AIS — Advanced Information Systems"
+              width={1312}
+              height={221}
+              className="hidden dark:sm:block h-10 md:h-11 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.03]"
+              src="logos/ais-logo-horizontal-dark.svg"
             />
           </a>
 
@@ -210,7 +221,7 @@ export default function Navbar() {
 
             {/* CTA */}
             <a
-              className="group btn-shimmer hidden sm:flex items-center gap-2.5 text-xs uppercase tracking-wider rtl:tracking-normal font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 shadow-md hover:shadow-[0_0_0_3px_rgba(16,185,129,0.35),0_10px_25px_-5px_rgba(16,185,129,0.35)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10 hover:border-emerald-400/60"
+              className="group btn-shimmer hidden sm:flex items-center gap-2.5 text-xs uppercase tracking-wider rtl:tracking-normal font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 shadow-md hover:shadow-[0_0_0_3px_rgba(0,174,239,0.35),0_10px_25px_-5px_rgba(0,174,239,0.35)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10 hover:border-emerald-400/60"
               href="#contact"
             >
               <span>{t('nav.cta')}</span>

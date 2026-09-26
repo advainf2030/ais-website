@@ -130,7 +130,7 @@ export default function AuroraBackground() {
     <div
       ref={root}
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#FAFAFA] dark:bg-[#070b14] transition-colors duration-500"
+      className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-[#EEF2F7] dark:bg-[#06142D] transition-colors duration-500"
     >
       {/* ─── Layer A: Aurora gradient orbs (base background colors) ─── */}
       {/* Primary emerald orb — top left */}
@@ -138,31 +138,31 @@ export default function AuroraBackground() {
         data-drift="14"
         data-mouse-strength="26"
         data-mouse-lag="1.1"
-        className="absolute -top-[14vw] -left-[12vw] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-[#10B981] via-[#059669] to-[#047857] blur-[130px] opacity-[0.32] dark:opacity-[0.12] will-change-transform animate-orb-1"
+        className="absolute -top-[14vw] -left-[12vw] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-[#3AB8FF] via-[#0556CB] to-[#0B3D91] blur-[130px] opacity-[0.32] dark:opacity-[0.12] will-change-transform animate-orb-1"
       />
       {/* Cyan-sky orb — top right */}
       <div
         data-drift="-12"
         data-mouse-strength="34"
         data-mouse-lag="1.6"
-        className="absolute -top-[10vw] -right-[10vw] w-[56vw] h-[56vw] rounded-full bg-gradient-to-bl from-[#06B6D4] via-[#22D3EE] to-[#0284C7] blur-[130px] opacity-[0.35] dark:opacity-[0.12] will-change-transform animate-orb-2"
+        className="absolute -top-[10vw] -right-[10vw] w-[56vw] h-[56vw] rounded-full bg-gradient-to-bl from-[#00AEEF] via-[#17AEFA] to-[#0556CB] blur-[130px] opacity-[0.35] dark:opacity-[0.12] will-change-transform animate-orb-2"
       />
       {/* Amber-warm orb — middle left */}
       <div
         data-drift="10"
         data-mouse-strength="18"
         data-mouse-lag="2.0"
-        className="absolute top-[40vh] -left-[14vw] w-[54vw] h-[54vw] rounded-full bg-gradient-to-tr from-[#FDE68A] via-[#F59E0B] to-[#F97316] blur-[130px] opacity-[0.25] dark:opacity-[0.06] will-change-transform animate-orb-3"
+        className="absolute top-[40vh] -left-[14vw] w-[54vw] h-[54vw] rounded-full bg-gradient-to-tr from-[#C7EEFD] via-[#8FD3FF] to-[#3AB8FF] blur-[130px] opacity-[0.25] dark:opacity-[0.06] will-change-transform animate-orb-3"
       />
       {/* Teal-indigo blend — bottom right */}
       <div
         data-drift="-16"
         data-mouse-strength="30"
         data-mouse-lag="1.35"
-        className="absolute top-[70vh] -right-[14vw] w-[58vw] h-[58vw] rounded-full bg-gradient-to-tl from-[#10B981] via-[#06B6D4] to-[#A5B4FC] blur-[130px] opacity-[0.28] dark:opacity-[0.10] will-change-transform animate-orb-4"
+        className="absolute top-[70vh] -right-[14vw] w-[58vw] h-[58vw] rounded-full bg-gradient-to-tl from-[#0556CB] via-[#00AEEF] to-[#B9D1F6] blur-[130px] opacity-[0.28] dark:opacity-[0.10] will-change-transform animate-orb-4"
       />
       {/* Subtle center glow for depth */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] rounded-full bg-gradient-radial from-cyan-200/15 dark:from-emerald-500/5 to-transparent blur-[80px]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] rounded-full bg-gradient-radial from-sky-200/15 dark:from-sky-500/5 to-transparent blur-[80px]" />
 
       {/* ─── Layer B: Video texture (conditionally loaded) ─── */}
       {video && blocked && (

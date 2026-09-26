@@ -163,7 +163,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
         className="flex flex-col sm:flex-row items-center gap-4 relative z-10"
       >
         <a
-          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-[0_0_0_3px_rgba(16,185,129,0.3),0_14px_30px_-8px_rgba(16,185,129,0.35)] hover:border-emerald-400/60 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5 border border-white/10"
+          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-[0_0_0_3px_rgba(0,174,239,0.3),0_14px_30px_-8px_rgba(0,174,239,0.35)] hover:border-emerald-400/60 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5 border border-white/10"
           href="#solutions"
         >
           {t('hero.explore')}

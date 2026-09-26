@@ -63,12 +63,21 @@ export default function Footer() {
           <div className="flex items-center gap-3 shrink-0">
             <img
               alt="AIS"
-              width={333}
-              height={128}
+              width={1312}
+              height={221}
               loading="lazy"
               decoding="async"
-              className="h-8 w-auto object-contain opacity-70 dark:opacity-90 dark:brightness-125 dark:contrast-110"
-              src="logos/ais-logo.webp"
+              className="h-8 w-auto dark:hidden"
+              src="logos/ais-logo-horizontal.svg"
+            />
+            <img
+              alt="AIS"
+              width={1312}
+              height={221}
+              loading="lazy"
+              decoding="async"
+              className="h-8 w-auto hidden dark:block"
+              src="logos/ais-logo-horizontal-dark.svg"
             />
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium leading-4 max-w-[200px]">
               © {year} {t('footer.tagline')}

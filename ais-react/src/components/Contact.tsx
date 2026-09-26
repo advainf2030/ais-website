@@ -179,7 +179,7 @@ export default function Contact() {
                       animate={{ scale: [1, 2.6], opacity: [0.6, 0] }}
                       transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
                     />
-                    <span className="relative h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+                    <span className="relative h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(0,174,239,0.9)]" />
                   </span>
                   <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.18em] rtl:tracking-normal rtl:text-xs text-emerald-800 dark:text-emerald-300">
                     {t('contact.badge')}
@@ -310,7 +310,7 @@ export default function Contact() {
                         id="field-email"
                         className={`${inputBaseClass} pe-11 ${
                           emailValid
-                            ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
+                            ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(0,174,239,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
                             : touched.email && email
                               ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400'
                               : ''
@@ -369,7 +369,7 @@ export default function Contact() {
                                   id="field-entity"
                                   className={`${inputBaseClass} pe-11 ${
                                     entity && entityValid
-                                      ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
+                                      ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(0,174,239,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
                                       : touched.entity && entity
                                         ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400'
                                         : ''
@@ -412,7 +412,7 @@ export default function Contact() {
                                   id="field-phone"
                                   className={`${inputBaseClass} pe-11 ${
                                     phone && phoneValid
-                                      ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
+                                      ? 'border-emerald-500 dark:border-emerald-400 shadow-[0_0_0_4px_rgba(0,174,239,0.12)] focus:border-emerald-500 dark:focus:border-emerald-400'
                                       : touched.phone && phone
                                         ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400'
                                         : ''

@@ -71,7 +71,7 @@ function jsonLd() {
       name: 'Advanced Information Systems Company',
       alternateName: ['AIS Contracting', 'Advanced Information Systems & Contracting', 'شركة أنظمة المعلومات المتقدمة'],
       url: abs(),
-      logo: { '@type': 'ImageObject', url: abs('logos/ais-logo.png'), width: 1663, height: 640 },
+      logo: { '@type': 'ImageObject', url: abs('logos/ais-mark.png'), width: 512, height: 512 },
       image: abs('og-image.png'),
       description: en.hero.subtitle,
       foundingDate: '1998',

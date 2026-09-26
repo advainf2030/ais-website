@@ -5,7 +5,7 @@ import ScrollReveal from './ScrollReveal';
 
 function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
   const baseClass =
-    'flex items-center justify-center w-32 md:w-40 h-14 md:h-16 shrink-0 mx-3 md:mx-4 opacity-85 hover:opacity-100 hover:scale-[1.08] transition-all duration-300 rounded-xl hover:bg-white/40 dark:hover:bg-slate-800/60 hover:shadow-md hover:backdrop-blur-sm dark:bg-white/5 dark:backdrop-blur-xs px-2.5';
+    'flex items-center justify-center w-32 md:w-40 h-14 md:h-16 shrink-0 mx-3 md:mx-4 opacity-85 hover:opacity-100 hover:scale-[1.08] transition-all duration-300 rounded-xl hover:bg-white/40 dark:hover:bg-white hover:shadow-md hover:backdrop-blur-sm dark:bg-white/90 px-2.5';
 
   if (partner.name === 'Dynatrace') {
     return (
@@ -14,12 +14,12 @@ function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
           alt="Dynatrace"
           width={24}
           height={24}
-          className="h-6 w-6 object-contain dark:brightness-125"
+          className="h-6 w-6 object-contain"
           src={partner.src}
           loading="lazy"
           draggable={false}
         />
-        <span className="ms-2 text-lg font-bold text-slate-700 dark:text-slate-200 lowercase tracking-tight">
+        <span className="ms-2 text-lg font-bold text-slate-700 lowercase tracking-tight">
           dynatrace
         </span>
       </span>
@@ -33,12 +33,12 @@ function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
           alt="Katalon"
           width={28}
           height={28}
-          className="h-7 w-7 object-contain dark:brightness-125"
+          className="h-7 w-7 object-contain"
           src={partner.src}
           loading="lazy"
           draggable={false}
         />
-        <span className="ms-2 text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+        <span className="ms-2 text-xl font-extrabold text-slate-900 tracking-tight">
           Katalon
         </span>
       </span>
@@ -53,7 +53,7 @@ function LogoItem({ partner, hidden }: { partner: Partner; hidden?: boolean }) {
         alt={partner.name}
         width={160}
         height={64}
-        className={`max-w-full max-h-full w-auto h-auto object-contain dark:brightness-125 dark:contrast-110${extra}`}
+        className={`max-w-full max-h-full w-auto h-auto object-contain${extra}`}
         src={partner.src}
         loading="lazy"
         draggable={false}
@@ -83,8 +83,8 @@ export default function Partners() {
           style={{ direction: 'ltr' }}
         >
           {/* Gradient edge masks */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white/90 via-white/50 to-transparent dark:from-[#0b1120] dark:via-[#0b1120]/60 dark:to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white/90 via-white/50 to-transparent dark:from-[#0b1120] dark:via-[#0b1120]/60 dark:to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white/90 via-white/50 to-transparent dark:from-[#06142D] dark:via-[#06142D]/60 dark:to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white/90 via-white/50 to-transparent dark:from-[#06142D] dark:via-[#06142D]/60 dark:to-transparent z-10 pointer-events-none" />
 
           {/* Triple-track seamless infinite marquee — tripled logos ensure no gaps even on wide screens */}
           <div className="marquee-track" dir="ltr">

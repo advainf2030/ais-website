@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from './ThemeContext';
 
 const CINEMATIC_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -9,6 +10,7 @@ interface SplashScreenProps {
 
 export default function SplashScreen({ onComplete }: SplashScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const { theme } = useTheme();
 
   useEffect(() => {
     // Total sequence: 2.2s zoom entrance + 0.4s hold = 2.6s, then trigger fade out
@@ -29,7 +31,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
             opacity: 0,
             transition: { duration: 0.8, ease: CINEMATIC_EASE },
           }}
-          className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-[#FAFAFA] dark:bg-[#070b14] overflow-hidden select-none pointer-events-auto"
+          className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-[#EEF2F7] dark:bg-[#06142D] overflow-hidden select-none pointer-events-auto"
         >
           {/* Subtle corporate ambient glow expanding smoothly behind logo */}
           <motion.div
@@ -42,10 +44,10 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
           {/* Deep Space Scale Logo */}
           <div className="relative flex flex-col items-center justify-center px-6">
             <motion.img
-              src="logos/ais-logo-lg.webp"
+              src={theme === 'dark' ? 'logos/ais-logo-horizontal-dark.svg' : 'logos/ais-logo-stacked.svg'}
               alt="Advanced Information Systems Company"
-              width={960}
-              height={369}
+              width={theme === 'dark' ? 1312 : 1000}
+              height={theme === 'dark' ? 221 : 470}
               fetchPriority="high"
               initial={{
                 scale: 0.15,
@@ -61,7 +63,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
                 duration: 2.2,
                 ease: CINEMATIC_EASE,
               }}
-              className="w-56 md:w-80 h-auto object-contain relative z-10 dark:brightness-125 dark:contrast-110 dark:drop-shadow-[0_0_30px_rgba(16,185,129,0.35)]"
+              className="w-56 md:w-80 h-auto object-contain relative z-10 dark:drop-shadow-[0_0_30px_rgba(0,174,239,0.35)]"
             />
 
             {/* Corporate hairline progress accent — animates scaleX (composited)
