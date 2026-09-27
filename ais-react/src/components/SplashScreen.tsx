@@ -44,10 +44,10 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
           {/* Deep Space Scale Logo */}
           <div className="relative flex flex-col items-center justify-center px-6">
             <motion.img
-              src={theme === 'dark' ? 'logos/ais-logo-horizontal-dark.svg' : 'logos/ais-logo-stacked.svg'}
+              src={theme === 'dark' ? 'logos/ais-logo-ar-stacked-dark.svg' : 'logos/ais-logo-ar-stacked.svg'}
               alt="Advanced Information Systems Company"
-              width={theme === 'dark' ? 1312 : 1000}
-              height={theme === 'dark' ? 221 : 470}
+              width={1000}
+              height={448}
               fetchPriority="high"
               initial={{
                 scale: 0.15,

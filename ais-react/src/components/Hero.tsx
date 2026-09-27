@@ -118,7 +118,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
           <span className="relative inline-block overflow-visible py-1 px-1">
             {scanReveal && <span className="scan-reveal-beam" />}
             <motion.span
-              className={`inline-block ${scanReveal ? 'scan-reveal-text' : ''}`}
+              className={`hero-accent inline-block ${scanReveal ? 'scan-reveal-text' : ''}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
@@ -128,7 +128,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
                 progress={scrollYProgress}
                 startIndex={titleAUnits.length}
                 totalUnits={totalUnits}
-                className="text-teal-800 dark:text-transparent dark:bg-gradient-to-r dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 dark:bg-clip-text inline-block pb-1"
+                className="text-transparent bg-clip-text bg-gradient-to-b from-emerald-500 via-teal-600 to-teal-800 dark:bg-gradient-to-r dark:from-teal-400 dark:via-emerald-400 dark:to-cyan-400 inline-block pb-1"
               />
             </motion.span>
             {/* Underline decoration */}
@@ -163,12 +163,12 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
         className="flex flex-col sm:flex-row items-center gap-4 relative z-10"
       >
         <a
-          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-[0_0_0_3px_rgba(0,174,239,0.3),0_14px_30px_-8px_rgba(0,174,239,0.35)] hover:border-emerald-400/60 hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5 border border-white/10"
+          className="btn-shimmer group w-full sm:w-auto px-9 py-4 rounded-2xl btn-primary text-sm font-semibold shadow-xl shadow-slate-900/15 hover:shadow-[0_0_0_3px_rgba(0,174,239,0.3),0_14px_30px_-8px_rgba(0,174,239,0.35)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5 border border-white/10"
           href="#solutions"
         >
           {t('hero.explore')}
           <span className="relative flex w-[18px] h-[18px] overflow-hidden" aria-hidden="true">
-            <ScanSearch size={18} className="text-emerald-300/80 group-hover:text-emerald-300 transition-colors duration-300" />
+            <ScanSearch size={18} className="btn-icon text-emerald-300/80 group-hover:text-emerald-300 transition-colors duration-300" />
             <span className="bio-scan-line [--scan-travel:18px]" />
           </span>
         </a>

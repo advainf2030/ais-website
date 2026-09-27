@@ -258,7 +258,7 @@ export default function Contact() {
                     transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.2 }}
                   >
                     <CheckCircle2 size={56} className="text-emerald-500" />
-                    <Sparkles size={20} className="absolute -top-2 -right-2 text-amber-400 animate-pulse" />
+                    <Sparkles size={20} className="absolute -top-2 -right-2 text-emerald-400 animate-pulse" />
                   </motion.div>
                   <p className="text-[16px] leading-7 text-slate-800 dark:text-slate-200 font-medium max-w-sm">
                     {t('contact.success')}
@@ -472,11 +472,10 @@ export default function Contact() {
                   <FieldError show={rateLimited} message={t('contact.rateLimitError')} />
 
                   <button
-                    className="group relative overflow-hidden w-full py-4 rounded-2xl bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 dark:from-emerald-600 dark:via-teal-600 dark:to-cyan-600 text-white text-sm font-semibold shadow-xl shadow-teal-900/20 hover:shadow-2xl hover:shadow-teal-900/30 hover:brightness-110 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                    className="btn-submit btn-shimmer group relative w-full h-14 rounded-2xl text-[15px] font-bold flex items-center justify-center gap-2.5 hover:enabled:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed cursor-pointer"
                     type="submit"
                     disabled={submitting || !emailValid || !phoneValid || !entityValid}
                   >
-                    <span className="transmit-sweep" aria-hidden="true" />
                     {submitting ? (
                       <span className="flex items-center gap-1">
                         <span className="typing-dot" />
@@ -486,7 +485,12 @@ export default function Contact() {
                     ) : (
                       <>
                         {t('contact.submit')}
-                        <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                        {/* Same icon treatment as the hero and navbar buttons: a scan line
+                            passes over the icon on hover */}
+                        <span className="relative flex w-[18px] h-[18px] overflow-hidden" aria-hidden="true">
+                          <Send size={18} className="btn-icon rtl:-scale-x-100 text-emerald-300/80 group-hover:text-emerald-300 transition-colors duration-300" />
+                          <span className="bio-scan-line [--scan-travel:18px]" />
+                        </span>
                       </>
                     )}
                   </button>

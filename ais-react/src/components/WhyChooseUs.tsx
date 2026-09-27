@@ -12,11 +12,10 @@ interface Strength {
   desc: string;
 }
 
+// One accent for all four: brand Blue on light, Cyan on dark. Four different
+// hues read as decoration; one colour reads as a system.
 const PALETTE = [
-  { title: 'text-teal-700 dark:text-emerald-400', numeral: 'from-teal-600 to-teal-600/10 dark:from-emerald-400 dark:to-emerald-400/10', rule: 'bg-teal-500/40 dark:bg-emerald-400/40' },
-  { title: 'text-cyan-700 dark:text-cyan-400', numeral: 'from-cyan-600 to-cyan-600/10 dark:from-cyan-400 dark:to-cyan-400/10', rule: 'bg-cyan-500/40 dark:bg-cyan-400/40' },
-  { title: 'text-emerald-700 dark:text-teal-400', numeral: 'from-emerald-600 to-emerald-600/10 dark:from-teal-400 dark:to-teal-400/10', rule: 'bg-emerald-500/40 dark:bg-teal-400/40' },
-  { title: 'text-sky-700 dark:text-sky-400', numeral: 'from-sky-600 to-sky-600/10 dark:from-sky-400 dark:to-sky-400/10', rule: 'bg-sky-500/40 dark:bg-sky-400/40' },
+  { title: 'text-teal-700 dark:text-emerald-400', numeral: 'from-teal-600 to-teal-600/10 dark:from-emerald-400 dark:to-emerald-400/10', rule: 'bg-teal-600/30 dark:bg-emerald-400/35' },
 ];
 
 export default function WhyChooseUs() {

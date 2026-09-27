@@ -8,27 +8,29 @@
   --font-display: "Montserrat", ui-sans-serif, sans-serif;
   --font-arabic: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
 
-  /* AIS visual identity. The accent utilities used across the components are
-     remapped here, so the whole site follows the brand from one place:
-     teal -> Deep Blue (#0B3D91, logo blue #0556CB), emerald/cyan -> Cyan
-     (#00AEEF, logo light #3AB8FF), dark slate -> Navy (#0A1F44). */
-  --color-teal-50: #eef4fd;
-  --color-teal-100: #dce8fb;
-  --color-teal-200: #b9d1f6;
-  --color-teal-300: #86b0ee;
-  --color-teal-400: #4f8ae2;
-  --color-teal-500: #1e6ad6;
-  --color-teal-600: #0556cb;
-  --color-teal-700: #0b3d91;
-  --color-teal-800: #0a316f;
-  --color-teal-900: #0a1f44;
-  --color-teal-950: #06142d;
+  /* AIS visual identity — colours from the final logo package (Navy #0A1F44,
+     Navy #032D5A, Blue #0B6FD8, Sky #2EA8F5, Cyan #00AEEF). The accent
+     utilities used across the components are remapped here, so the whole site
+     follows the brand from one place: teal -> Blue, emerald/cyan -> Cyan,
+     dark slate -> Navy. Text on light surfaces uses teal-700 (6.6:1 on white);
+     teal-600 is the logo blue for fills and large type. */
+  --color-teal-50: #edf5fe;
+  --color-teal-100: #d8e9fc;
+  --color-teal-200: #b0d3f9;
+  --color-teal-300: #7bb6f3;
+  --color-teal-400: #3f94ea;
+  --color-teal-500: #1a7fe0;
+  --color-teal-600: #0b6fd8;
+  --color-teal-700: #0a5bb5;
+  --color-teal-800: #08488e;
+  --color-teal-900: #032d5a;
+  --color-teal-950: #0a1f44;
 
   --color-emerald-50: #e6f7fe;
   --color-emerald-100: #c7eefd;
   --color-emerald-200: #93ddfb;
-  --color-emerald-300: #5acbf7;
-  --color-emerald-400: #3ab8ff;
+  --color-emerald-300: #62c6f7;
+  --color-emerald-400: #2ea8f5;
   --color-emerald-500: #00aeef;
   --color-emerald-600: #0090c8;
   --color-emerald-700: #0073a0;
@@ -39,8 +41,8 @@
   --color-cyan-50: #e6f7fe;
   --color-cyan-100: #c7eefd;
   --color-cyan-200: #93ddfb;
-  --color-cyan-300: #5acbf7;
-  --color-cyan-400: #3ab8ff;
+  --color-cyan-300: #62c6f7;
+  --color-cyan-400: #2ea8f5;
   --color-cyan-500: #00aeef;
   --color-cyan-600: #0090c8;
   --color-cyan-700: #0073a0;
@@ -55,8 +57,8 @@
   --color-ink: #0a1f44;
   --color-muted: #475569;
   --color-faint: #334155;
-  --color-teal-deep: #0b3d91;
-  --color-green-deep: #0556cb;
+  --color-teal-deep: #0a5bb5;
+  --color-green-deep: #0b6fd8;
   --color-sky-deep: #0284c7;
   --color-amber-deep: #855300;
 }
@@ -87,6 +89,12 @@ html[dir="rtl"],
 html[dir="rtl"] body,
 html[dir="rtl"] * {
   font-family: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif !important;
+}
+
+/* Arabic letters join, so any letter-spacing pulls the joins apart. Several
+   labels use tracking-[0.2em] for their English caps; cancel it in RTL. */
+html[dir="rtl"] * {
+  letter-spacing: normal !important;
 }
 
 ::selection {
@@ -215,7 +223,7 @@ html[dir="rtl"] * {
 }
 
 .dark .glass-card {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(15, 23, 42, 0.45) 100%);
+  background: linear-gradient(135deg, rgba(10, 31, 68, 0.62) 0%, rgba(10, 31, 68, 0.46) 100%);
   border: 1px solid rgba(148, 163, 184, 0.15);
   box-shadow:
     0 24px 48px -12px rgba(0, 0, 0, 0.3),
@@ -253,7 +261,7 @@ html[dir="rtl"] * {
 }
 
 .dark .glass-nav {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.35) 100%);
+  background: linear-gradient(135deg, rgba(10, 31, 68, 0.52) 0%, rgba(10, 31, 68, 0.36) 100%);
   border: 1px solid rgba(148, 163, 184, 0.12);
   box-shadow:
     0 20px 40px -10px rgba(0, 0, 0, 0.3),
@@ -295,10 +303,10 @@ html[dir="rtl"] * {
     flex: 3.2 1 0%;
     background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.4) 100%);
     box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.15);
-    border-color: rgba(34, 211, 238, 0.45);
+    border-color: rgba(0, 174, 239, 0.45);
   }
   .dark #pillar-accordion .pillar-card.is-active {
-    background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(15,23,42,0.45) 100%);
+    background: linear-gradient(135deg, rgba(10,31,68,0.62) 0%, rgba(10,31,68,0.46) 100%);
     box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.4);
   }
   #pillar-accordion .pillar-card .pillar-expandable {
@@ -350,9 +358,9 @@ html[dir="rtl"] * {
   #pillar-accordion .pillar-card .pillar-glow {
     transition: background-color 0.5s ease;
   }
-  #pillar-accordion .pillar-card.is-active .pillar-glow-emerald { background-color: rgba(5, 86, 203, 0.22); }
+  #pillar-accordion .pillar-card.is-active .pillar-glow-emerald { background-color: rgba(11, 111, 216, 0.22); }
   #pillar-accordion .pillar-card.is-active .pillar-glow-cyan { background-color: rgba(0, 174, 239, 0.22); }
-  #pillar-accordion .pillar-card.is-active .pillar-glow-sky { background-color: rgba(23, 174, 250, 0.22); }
+  #pillar-accordion .pillar-card.is-active .pillar-glow-sky { background-color: rgba(46, 168, 245, 0.22); }
   #pillar-accordion .pillar-card.is-active .pillar-glow-amber { background-color: rgba(245, 158, 11, 0.22); }
   #pillar-accordion .pillar-card.is-active .pillar-icon { transform: scale(1.12); }
   #pillar-accordion .pillar-card.is-active.pillar-emerald .pillar-title { color: #006c49; }
@@ -363,7 +371,7 @@ html[dir="rtl"] * {
 
 /* ---------- Gradient text utility ---------- */
 .text-gradient-brand {
-  background: linear-gradient(135deg, #0556cb 0%, #00aeef 50%, #17aefa 100%);
+  background: linear-gradient(135deg, #0b6fd8 0%, #00aeef 50%, #2ea8f5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -379,13 +387,16 @@ html[dir="rtl"] * {
 }
 
 /* ---------- Mobile menu overlay ---------- */
+/* Solid, not translucent: the drawer sits inside the header, whose own
+   backdrop-filter stops this one from blurring the page, so any transparency
+   let the hero text show through sharply. */
 .mobile-menu-overlay {
-  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(248,250,252,0.98) 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f5f8fc 100%);
   backdrop-filter: blur(40px) saturate(1.8);
   -webkit-backdrop-filter: blur(40px) saturate(1.8);
 }
 .dark .mobile-menu-overlay {
-  background: linear-gradient(180deg, rgba(11,17,32,0.97) 0%, rgba(15,23,42,0.98) 100%);
+  background: linear-gradient(180deg, #06142d 0%, #0a1f44 100%);
 }
 
 /* ========== NEW: Awwwards-level Enhancements ========== */
@@ -409,9 +420,9 @@ html[dir="rtl"] * {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(5, 86, 203, 0.4) 25%,
+    rgba(11, 111, 216, 0.4) 25%,
     rgba(0, 174, 239, 0.6) 50%,
-    rgba(23, 174, 250, 0.4) 75%,
+    rgba(46, 168, 245, 0.4) 75%,
     transparent 100%
   );
   background-size: 200% 200%;
@@ -451,7 +462,7 @@ html[dir="rtl"] * {
 }
 .hero-particle:nth-child(1) {
   width: 8px; height: 8px;
-  background: radial-gradient(circle, rgba(5, 86, 203, 0.6), transparent);
+  background: radial-gradient(circle, rgba(11, 111, 216, 0.6), transparent);
   animation: float-particle-1 12s ease-in-out infinite;
 }
 .hero-particle:nth-child(2) {
@@ -461,7 +472,7 @@ html[dir="rtl"] * {
 }
 .hero-particle:nth-child(3) {
   width: 10px; height: 10px;
-  background: radial-gradient(circle, rgba(23, 174, 250, 0.4), transparent);
+  background: radial-gradient(circle, rgba(46, 168, 245, 0.4), transparent);
   animation: float-particle-3 18s ease-in-out infinite;
 }
 .hero-particle:nth-child(4) {
@@ -471,7 +482,7 @@ html[dir="rtl"] * {
 }
 .hero-particle:nth-child(5) {
   width: 7px; height: 7px;
-  background: radial-gradient(circle, rgba(5, 86, 203, 0.4), transparent);
+  background: radial-gradient(circle, rgba(11, 111, 216, 0.4), transparent);
   animation: float-particle-2 14s ease-in-out infinite reverse;
 }
 .hero-particle:nth-child(6) {
@@ -507,12 +518,12 @@ html[dir="rtl"] * {
   border-radius: 2px;
   will-change: transform, opacity;
 }
-.confetti-piece:nth-child(1) { top: 30%; left: 20%; background: #0556cb; animation: confetti-fall-1 2.5s ease-out forwards; }
+.confetti-piece:nth-child(1) { top: 30%; left: 20%; background: #0b6fd8; animation: confetti-fall-1 2.5s ease-out forwards; }
 .confetti-piece:nth-child(2) { top: 25%; left: 40%; background: #00aeef; animation: confetti-fall-2 2.2s ease-out 0.1s forwards; }
 .confetti-piece:nth-child(3) { top: 20%; left: 60%; background: #F59E0B; animation: confetti-fall-3 2.8s ease-out 0.2s forwards; }
-.confetti-piece:nth-child(4) { top: 35%; left: 80%; background: #17aefa; animation: confetti-fall-1 2.3s ease-out 0.15s forwards; }
+.confetti-piece:nth-child(4) { top: 35%; left: 80%; background: #2ea8f5; animation: confetti-fall-1 2.3s ease-out 0.15s forwards; }
 .confetti-piece:nth-child(5) { top: 28%; left: 30%; background: #A78BFA; animation: confetti-fall-2 2.6s ease-out 0.25s forwards; }
-.confetti-piece:nth-child(6) { top: 22%; left: 70%; background: #0556cb; animation: confetti-fall-3 2.4s ease-out 0.3s forwards; }
+.confetti-piece:nth-child(6) { top: 22%; left: 70%; background: #0b6fd8; animation: confetti-fall-3 2.4s ease-out 0.3s forwards; }
 .confetti-piece:nth-child(7) { top: 32%; left: 50%; background: #F97316; animation: confetti-fall-1 2.7s ease-out 0.05s forwards; }
 .confetti-piece:nth-child(8) { top: 18%; left: 15%; background: #00aeef; animation: confetti-fall-2 2.9s ease-out 0.35s forwards; }
 
@@ -560,9 +571,9 @@ html[dir="rtl"] * {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(5, 86, 203, 0.4) 20%,
+    rgba(11, 111, 216, 0.4) 20%,
     rgba(0, 174, 239, 0.6) 50%,
-    rgba(23, 174, 250, 0.4) 80%,
+    rgba(46, 168, 245, 0.4) 80%,
     transparent 100%
   );
   background-size: 200% 100%;
@@ -580,7 +591,7 @@ html[dir="rtl"] * {
   left: 50%;
   right: 50%;
   height: 1.5px;
-  background: linear-gradient(90deg, #0556cb, #00aeef);
+  background: linear-gradient(90deg, #0b6fd8, #00aeef);
   border-radius: 999px;
   transition: left 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
               right 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -609,7 +620,7 @@ html[dir="rtl"] * {
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #0b3d91, #00aeef);
+  background: linear-gradient(90deg, #0b6fd8, #00aeef);
   border-radius: 999px;
   transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
@@ -701,7 +712,7 @@ html[dir="rtl"] * {
   height: 2px;
   border-radius: 9999px;
   background: linear-gradient(90deg, transparent, #8fd3ff, transparent);
-  box-shadow: 0 0 6px #3ab8ff;
+  box-shadow: 0 0 6px #2ea8f5;
   opacity: 0;
 }
 .group:hover .bio-scan-line,
@@ -728,7 +739,7 @@ html[dir="rtl"] * {
   position: absolute;
   inset: -3px;
   border-radius: 9999px;
-  border: 1.5px solid rgb(5 86 203 / 0.7);
+  border: 1.5px solid rgb(11 111 216 / 0.7);
   opacity: 0;
   pointer-events: none;
 }
@@ -741,30 +752,9 @@ html[dir="rtl"] * {
   100% { transform: scale(1.9); opacity: 0; }
 }
 
-/* Contact form submit: a light beam crosses the button, like data being sent */
-.transmit-sweep {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
-  width: 35%;
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent);
-  transform: translateX(-120%);
-  pointer-events: none;
-}
-.group:hover:not(:disabled) .transmit-sweep,
-.group:focus-visible:not(:disabled) .transmit-sweep {
-  animation: transmit 1.3s ease-in-out infinite;
-}
-[dir="rtl"] .group:hover:not(:disabled) .transmit-sweep,
-[dir="rtl"] .group:focus-visible:not(:disabled) .transmit-sweep {
-  animation-name: transmit-rtl;
-}
-@keyframes transmit { to { transform: translateX(320%); } }
-@keyframes transmit-rtl { from { transform: translateX(120%); } to { transform: translateX(-320%); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .group:hover .signal-ring, .group:focus-visible .signal-ring,
-  .group:hover .transmit-sweep, .group:focus-visible .transmit-sweep {
+  .group:hover .signal-ring, .group:focus-visible .signal-ring {
     animation: none;
   }
 }
@@ -784,17 +774,21 @@ html[dir="rtl"] * {
   left: 0;
   width: 3px;
   border-radius: 9999px;
-  background: linear-gradient(180deg, transparent, #8fd3ff, #17aefa, transparent);
-  box-shadow: 0 0 14px 2px rgb(58 184 255 / 0.7);
+  background: linear-gradient(180deg, transparent, #8fd3ff, #2ea8f5, transparent);
+  box-shadow: 0 0 14px 2px rgb(46 168 245 / 0.7);
   opacity: 0;
   pointer-events: none;
   z-index: 1;
-  animation: scan-beam 1s cubic-bezier(0.65, 0, 0.35, 1) 0.7s forwards;
+  /* One 5s cycle: the first second is the sweep (the reveal on load), the
+     other four it rests off-screen — so it passes over the words again
+     every 5 seconds. */
+  animation: scan-beam 5s cubic-bezier(0.65, 0, 0.35, 1) 0.7s infinite;
 }
 @keyframes scan-beam {
   0% { left: 0; opacity: 0; }
-  10% { opacity: 1; }
-  88% { opacity: 1; }
+  2% { opacity: 1; }
+  17.6% { opacity: 1; }
+  20% { left: calc(100% - 3px); opacity: 0; }
   100% { left: calc(100% - 3px); opacity: 0; }
 }
 
@@ -807,9 +801,20 @@ html[dir="rtl"] * {
 }
 @keyframes scan-beam-rtl {
   0% { left: calc(100% - 3px); opacity: 0; }
-  10% { opacity: 1; }
-  88% { opacity: 1; }
+  2% { opacity: 1; }
+  17.6% { opacity: 1; }
+  20% { left: 0; opacity: 0; }
   100% { left: 0; opacity: 0; }
+}
+
+/* Hero accent words (light mode): a hairline Navy edge gives the gradient
+   letters a crisp outline against the busy video backdrop. A tight
+   drop-shadow traces only the outer silhouette; -webkit-text-stroke would
+   also draw the glyphs' internal overlap seams (visible in R, t and at the
+   Arabic joins). Set on the wrapper, because each letter's inline style
+   already owns `filter` (the scroll blur). */
+html:not(.dark) .hero-accent {
+  filter: drop-shadow(0 0 0.6px rgb(3 45 90 / 0.75));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -829,12 +834,12 @@ html[dir="rtl"] * {
    element (mouse clicks don't trigger :focus-visible). :where() keeps it at
    zero specificity so component classes can still override it. */
 :where(a, button, select, textarea, [role="tab"], [tabindex]:not([tabindex="-1"])):focus-visible {
-  outline: 2px solid #0b3d91;
+  outline: 2px solid #0b6fd8;
   outline-offset: 3px;
   border-radius: 0.75rem;
 }
 .dark :where(a, button, select, textarea, [role="tab"], [tabindex]:not([tabindex="-1"])):focus-visible {
-  outline-color: #3ab8ff;
+  outline-color: #2ea8f5;
 }
 
 /* Hero scroll cue: small chevron that bobs gently */
@@ -854,4 +859,201 @@ video::-webkit-media-controls-start-playback-button,
 video::-webkit-media-controls {
   display: none !important;
   -webkit-appearance: none;
+}
+
+/* ---------- Primary button ----------
+   One primary style across the site, from the brand board: Navy with white
+   text on light surfaces; Cyan with Navy text on dark ones (white on Cyan is
+   only 2.5:1, Navy on Cyan is 6.4:1). */
+.btn-primary {
+  background: linear-gradient(90deg, #0a1f44 0%, #132a4f 100%);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: linear-gradient(90deg, #032d5a 0%, #0a4180 100%);
+}
+.dark .btn-primary {
+  background: #00aeef;
+  color: #0a1f44;
+}
+.dark .btn-primary:hover {
+  background: #2ebdf3;
+}
+/* Icons inside the button follow its text on dark surfaces */
+.dark .btn-primary .btn-icon {
+  color: rgb(10 31 68 / 0.75);
+}
+.dark .btn-primary:hover .btn-icon {
+  color: #0a1f44;
+}
+
+/* ---------- Contact submit button ----------
+   The form's one decisive action: Blue-to-Navy gradient with depth (inner
+   top highlight + brand-tinted glow) on light surfaces; Cyan with Navy text
+   on dark ones. Motion matches the other primary buttons (btn-shimmer glow,
+   scan line over the icon, slight scale). Disabled keeps its colour — fading
+   it let the grey video show through — and only mutes the text and glow. */
+.btn-submit {
+  color: #fff;
+  background: linear-gradient(135deg, #0b6fd8 0%, #0a4fa8 48%, #0a1f44 100%);
+  background-size: 180% 180%;
+  background-position: 0% 50%;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    0 12px 28px -12px rgb(11 111 216 / 0.65),
+    0 4px 12px -6px rgb(10 31 68 / 0.45);
+  transition: background-position 0.5s ease, box-shadow 0.3s ease, scale 0.3s ease, color 0.3s ease;
+}
+.btn-submit:hover:not(:disabled) {
+  background-position: 100% 50%;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    0 18px 36px -12px rgb(0 174 239 / 0.55),
+    0 6px 14px -6px rgb(10 31 68 / 0.5);
+}
+.btn-submit:disabled {
+  color: rgb(255 255 255 / 0.72);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.16), 0 6px 16px -10px rgb(10 31 68 / 0.4);
+}
+.btn-submit:disabled .bio-scan-line,
+.btn-submit:disabled.btn-shimmer::before {
+  animation: none;
+  opacity: 0;
+}
+
+.dark .btn-submit {
+  color: #0a1f44;
+  background: linear-gradient(135deg, #2ea8f5 0%, #00aeef 50%, #0aa0e0 100%);
+  background-size: 180% 180%;
+  border-color: rgb(255 255 255 / 0.25);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.45),
+    0 12px 30px -12px rgb(0 174 239 / 0.6);
+}
+.dark .btn-submit:hover:not(:disabled) {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    0 18px 40px -12px rgb(0 174 239 / 0.75);
+}
+.dark .btn-submit:disabled {
+  color: rgb(10 31 68 / 0.7);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35), 0 6px 16px -10px rgb(0 174 239 / 0.4);
+}
+/* On Cyan the icon and its scan line switch to Navy */
+.dark .btn-submit .btn-icon {
+  color: rgb(10 31 68 / 0.75);
+}
+.dark .btn-submit:hover:not(:disabled) .btn-icon {
+  color: #0a1f44;
+}
+.dark .btn-submit .bio-scan-line {
+  background: linear-gradient(90deg, transparent, #0a1f44, transparent);
+  box-shadow: none;
+}
+
+/* ---------- Section headings: scroll-scrubbed, one-time beam reveal ----------
+   (RevealText.tsx) A faint copy holds the space; the gradient copy is
+   uncovered behind a light beam as the visitor scrolls, driven from JS, and
+   the finished heading keeps the gradient. */
+.reveal-h {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  line-height: 1.25;
+  padding-bottom: 0.08em;
+}
+.rh-ghost {
+  color: rgb(10 31 68 / 0.12);
+}
+.dark .rh-ghost {
+  color: rgb(255 255 255 / 0.1);
+}
+.rh-fill,
+.reveal-h.is-done .rh-ghost {
+  color: transparent;
+  background: linear-gradient(180deg, #00aeef 0%, #0b6fd8 55%, #08488e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.dark .rh-fill,
+.dark .reveal-h.is-done .rh-ghost {
+  background: linear-gradient(180deg, #93ddfb 0%, #2ea8f5 55%, #1a7fe0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.rh-fill {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(-10% 100% -10% -2%);
+}
+[dir="rtl"] .rh-fill {
+  clip-path: inset(-10% -2% -10% 100%);
+}
+.rh-beam {
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  left: 0;
+  width: 4px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, transparent, #8fd3ff, #2ea8f5, transparent);
+  box-shadow: 0 0 20px 4px rgb(46 168 245 / 0.7), 0 0 50px 10px rgb(0 174 239 / 0.3);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Words light up in order as the visitor scrolls (LitText, driven from JS) */
+.lit-word {
+  opacity: 0.16;
+  transition: opacity 0.15s linear;
+}
+
+/* ---------- About scroll scenes (AboutScenes.tsx) ---------- */
+/* Clip the zoomed heading and ghost word vertically to the pinned frame, but
+   let them run the full page width */
+.scene-clip {
+  overflow-x: visible;
+  overflow-y: clip;
+}
+.grad-text {
+  color: transparent;
+  background: linear-gradient(180deg, #00aeef 0%, #0b6fd8 55%, #08488e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.dark .grad-text {
+  background: linear-gradient(180deg, #93ddfb 0%, #2ea8f5 55%, #1a7fe0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.zoom-title {
+  display: block;
+  width: fit-content;
+  font-weight: 700;
+  line-height: 1.25;
+  padding-bottom: 0.08em;
+  transform-origin: 50% 55%;
+}
+.zoom-ghost {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  font-size: 34vw;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  color: rgb(10 31 68 / 0.07);
+  pointer-events: none;
+  transform: translate(-85%, -50%);
+  will-change: transform;
+}
+.dark .zoom-ghost {
+  color: rgb(255 255 255 / 0.05);
+}
+.rise-word {
+  display: inline-block;
+  opacity: 0.12;
+  transform: translateY(18px);
 }

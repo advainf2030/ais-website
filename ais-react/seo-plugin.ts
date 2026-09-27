@@ -71,8 +71,8 @@ function jsonLd() {
       name: 'Advanced Information Systems Company',
       alternateName: ['AIS Contracting', 'Advanced Information Systems & Contracting', 'شركة أنظمة المعلومات المتقدمة'],
       url: abs(),
-      logo: { '@type': 'ImageObject', url: abs('logos/ais-mark.png'), width: 512, height: 512 },
-      image: abs('og-image.png'),
+      logo: { '@type': 'ImageObject', url: abs('logos/ais-app-icon.png'), width: 512, height: 512 },
+      image: abs('og-image.jpg'),
       description: en.hero.subtitle,
       foundingDate: '1998',
       parentOrganization: { '@type': 'Organization', name: 'City Bandit Limited' },
@@ -93,7 +93,7 @@ function jsonLd() {
       '@id': businessId,
       name: 'Advanced Information Systems Company',
       url: abs(),
-      image: abs('og-image.png'),
+      image: abs('og-image.jpg'),
       parentOrganization: { '@id': orgId },
       address,
       hasMap: MAPS_URL,
@@ -125,7 +125,7 @@ function headTags() {
   const { en } = content();
   const title = esc(en.meta.title);
   const desc = esc(en.meta.description);
-  const img = abs('og-image.png');
+  const img = abs('og-image.jpg');
   return [
     `<title>${title}</title>`,
     `<meta name="description" content="${desc}" />`,
@@ -139,6 +139,8 @@ function headTags() {
     `<meta property="og:title" content="${title}" />`,
     `<meta property="og:description" content="${desc}" />`,
     `<meta property="og:image" content="${img}" />`,
+    `<meta property="og:image:secure_url" content="${img}" />`,
+    `<meta property="og:image:type" content="image/jpeg" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:image:alt" content="Advanced Information Systems Company: Software, Cyber Security, Managed IT, Telecom, Power" />`,

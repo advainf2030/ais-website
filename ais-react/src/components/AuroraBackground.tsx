@@ -6,7 +6,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const DESKTOP_VIDEO = {
   src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4',
-  poster: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=60',
+  // First frame of the clip itself, so the backdrop looks the same while the
+  // 13.5 MB video is still loading (an unrelated stock photo showed before).
+  poster: 'videos/bg-desktop-poster.webp',
 };
 // Portrait centre crop of the same clip, 600x800 (~440 KB vs ~13.5 MB): phones
 // only ever show that middle strip under object-cover. Poster is its first frame.

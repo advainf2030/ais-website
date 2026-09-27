@@ -45,7 +45,7 @@ function ThemeSwitch({
           initial={{ scale: 0, opacity: 0.4 }}
           animate={{ scale: 2.6, opacity: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className={`absolute inset-0 m-auto w-6 h-6 rounded-full ${dark ? 'bg-indigo-400' : 'bg-amber-400'}`}
+          className={`absolute inset-0 m-auto w-6 h-6 rounded-full ${dark ? 'bg-emerald-400' : 'bg-amber-400'}`}
           aria-hidden="true"
         />
       )}
@@ -60,7 +60,7 @@ function ThemeSwitch({
           aria-hidden="true"
         >
           {dark ? (
-            <Moon size={18} strokeWidth={1.75} className="text-indigo-200" />
+            <Moon size={18} strokeWidth={1.75} className="text-cyan-100" />
           ) : (
             <Sun size={18} strokeWidth={1.75} className="text-amber-500" />
           )}
@@ -144,28 +144,30 @@ export default function Navbar() {
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 0.61, 0.36, 1] }}
+        data-site-nav=""
         className="fixed top-0 left-0 right-0 z-[9999] w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border-b border-white/50 dark:border-slate-800/60 shadow-sm transition-colors duration-300"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 py-3">
           {/* Logo */}
           <a className="flex items-center shrink-0 group" href="#">
-            {/* Phones: the AIS mark; wider screens: the horizontal logo. Each
+            {/* Phones: the AIS mark; wider screens: the primary logo (mark +
+                ADVANCED / INFORMATION SYSTEMS / أنظمة المعلومات المتقدمة). Each
                 has a light- and a dark-background version. */}
-            <img alt="AIS" width={1255} height={553} className="sm:hidden dark:hidden h-10 w-auto shrink-0" src="logos/ais-mark.svg" />
-            <img alt="AIS" width={1255} height={553} className="hidden dark:block dark:sm:hidden h-10 w-auto shrink-0" src="logos/ais-mark-dark.svg" />
+            <img alt="AIS" width={1310} height={600} className="sm:hidden dark:hidden h-10 w-auto shrink-0" src="logos/ais-mark.svg" />
+            <img alt="AIS" width={1310} height={600} className="hidden dark:block dark:sm:hidden h-10 w-auto shrink-0" src="logos/ais-mark-dark.svg" />
             <img
               alt="AIS — Advanced Information Systems"
-              width={1312}
+              width={987}
               height={221}
-              className="hidden sm:block dark:sm:hidden h-10 md:h-11 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.03]"
-              src="logos/ais-logo-horizontal.svg"
+              className="hidden sm:block dark:sm:hidden h-12 lg:h-14 xl:h-16 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.03]"
+              src="logos/ais-logo-ar.svg"
             />
             <img
               alt="AIS — Advanced Information Systems"
-              width={1312}
+              width={987}
               height={221}
-              className="hidden dark:sm:block h-10 md:h-11 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.03]"
-              src="logos/ais-logo-horizontal-dark.svg"
+              className="hidden dark:sm:block h-12 lg:h-14 xl:h-16 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.03]"
+              src="logos/ais-logo-ar-dark.svg"
             />
           </a>
 
@@ -221,12 +223,12 @@ export default function Navbar() {
 
             {/* CTA */}
             <a
-              className="group btn-shimmer hidden sm:flex items-center gap-2.5 text-xs uppercase tracking-wider rtl:tracking-normal font-bold text-white px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 shadow-md hover:shadow-[0_0_0_3px_rgba(0,174,239,0.35),0_10px_25px_-5px_rgba(0,174,239,0.35)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10 hover:border-emerald-400/60"
+              className="group btn-shimmer hidden sm:flex items-center gap-2.5 text-xs uppercase tracking-wider rtl:tracking-normal font-bold px-5 py-2.5 rounded-xl btn-primary shadow-md hover:shadow-[0_0_0_3px_rgba(0,174,239,0.35),0_10px_25px_-5px_rgba(0,174,239,0.35)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
               href="#contact"
             >
               <span>{t('nav.cta')}</span>
               <span className="relative flex w-4 h-4 overflow-hidden" aria-hidden="true">
-                <Fingerprint size={16} className="text-emerald-300/70 group-hover:text-emerald-300 transition-colors duration-300" />
+                <Fingerprint size={16} className="btn-icon text-emerald-300/70 group-hover:text-emerald-300 transition-colors duration-300" />
                 <span className="bio-scan-line" />
               </span>
             </a>
@@ -348,7 +350,7 @@ export default function Navbar() {
                 <a
                   href="#contact"
                   onClick={() => setMobileOpen(false)}
-                  className="mx-4 mt-2 bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 text-white rounded-2xl px-6 py-4 text-base font-semibold flex items-center justify-center gap-2 shadow-xl"
+                  className="mx-4 mt-2 btn-primary rounded-2xl px-6 py-4 text-base font-semibold flex items-center justify-center gap-2 shadow-xl"
                 >
                   {t('nav.cta')} <ArrowUpRight size={18} />
                 </a>

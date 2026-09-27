@@ -22,7 +22,7 @@ export default function Footer() {
             </p>
           </div>
           <a
-            className="btn-shimmer shrink-0 flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-white px-6 py-3 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 dark:from-emerald-600 dark:to-teal-600 shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
+            className="btn-shimmer shrink-0 flex items-center gap-2 text-xs uppercase tracking-wider font-bold px-6 py-3 rounded-xl btn-primary shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
             href="#contact"
           >
             <span>{t('nav.cta')}</span>
@@ -30,10 +30,28 @@ export default function Footer() {
           </a>
         </div>
 
-        {/* Compact contact info + copyright */}
-        <div className="pt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          {/* Contact details — compact row */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 text-xs text-slate-700 dark:text-slate-300 font-medium">
+        {/* Logo + contact details */}
+        <div className="pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <img
+            alt="AIS — Advanced Information Systems"
+            width={987}
+            height={221}
+            loading="lazy"
+            decoding="async"
+            className="h-14 w-auto shrink-0 dark:hidden"
+            src="logos/ais-logo-ar.svg"
+          />
+          <img
+            alt="AIS — Advanced Information Systems"
+            width={987}
+            height={221}
+            loading="lazy"
+            decoding="async"
+            className="h-14 w-auto shrink-0 hidden dark:block"
+            src="logos/ais-logo-ar-dark.svg"
+          />
+
+          <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-x-6 gap-y-3 text-xs text-slate-700 dark:text-slate-300 font-medium">
             <a
               href="https://maps.google.com/?q=Building+7022+Al+Aqeeq+Dist+Riyadh+13515+KSA"
               target="_blank"
@@ -45,45 +63,25 @@ export default function Footer() {
             </a>
             <a
               href={`tel:${t('footer.phone').replace(/\s/g, '')}`}
-              className="flex items-center gap-1.5 hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
+              className="flex items-center gap-1.5 whitespace-nowrap hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
             >
               <Phone size={13} className="text-teal-600 dark:text-emerald-400 shrink-0" />
               <span dir="ltr">{t('footer.phone')}</span>
             </a>
             <a
               href={`mailto:${t('footer.email')}`}
-              className="flex items-center gap-1.5 hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
+              className="flex items-center gap-1.5 whitespace-nowrap hover:text-teal-700 dark:hover:text-emerald-400 transition-colors"
             >
               <Mail size={13} className="text-teal-600 dark:text-emerald-400 shrink-0" />
               <span>{t('footer.email')}</span>
             </a>
           </div>
-
-          {/* Logo + copyright */}
-          <div className="flex items-center gap-3 shrink-0">
-            <img
-              alt="AIS"
-              width={1312}
-              height={221}
-              loading="lazy"
-              decoding="async"
-              className="h-8 w-auto dark:hidden"
-              src="logos/ais-logo-horizontal.svg"
-            />
-            <img
-              alt="AIS"
-              width={1312}
-              height={221}
-              loading="lazy"
-              decoding="async"
-              className="h-8 w-auto hidden dark:block"
-              src="logos/ais-logo-horizontal-dark.svg"
-            />
-            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium leading-4 max-w-[200px]">
-              © {year} {t('footer.tagline')}
-            </span>
-          </div>
         </div>
+
+        {/* Copyright */}
+        <p className="mt-6 pt-6 border-t border-slate-200/60 dark:border-slate-800 text-[11px] leading-5 text-slate-500 dark:text-slate-400 font-medium">
+          © {year} {t('footer.tagline')}
+        </p>
       </div>
     </footer>
   );

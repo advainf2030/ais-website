@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { BeamScene, ZoomScene } from './AboutScenes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
@@ -50,6 +51,10 @@ interface ServiceText {
 }
 
 /* ── About Tab Content ── */
+// One type scale for the three scene headings and their text
+const SCENE_TITLE = 'text-6xl lg:text-8xl';
+const SCENE_TEXT = 'text-lg md:text-xl leading-9 md:leading-10 text-slate-800 dark:text-slate-300 font-medium max-w-3xl';
+
 function AboutContent() {
   const { t } = useTranslation();
 
@@ -57,19 +62,15 @@ function AboutContent() {
     <div className="space-y-14">
       {/* Section 1: About the Company */}
       <div className="space-y-8">
-        <div className="space-y-4">
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-2">
-            {t('about.title')}
-          </h2>
-          {(t('about.overview', { returnObjects: true }) as unknown as string[]).map((para, i) => (
-            <p
-              key={i}
-              className="text-[15px] md:text-base leading-7 text-slate-800 dark:text-slate-300 font-medium max-w-3xl"
-            >
-              {para}
-            </p>
-          ))}
-        </div>
+        <BeamScene
+          id="about-overview"
+          title={t('tabs.about')}
+          subtitle={t('about.title')}
+          paragraphs={t('about.overview', { returnObjects: true }) as unknown as string[]}
+          titleClassName={SCENE_TITLE}
+          subtitleClassName="font-display text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-4"
+          paragraphClassName={SCENE_TEXT}
+        />
         {/* Image after overview */}
         <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800">
           <img
@@ -88,20 +89,22 @@ function AboutContent() {
       <div className="space-y-8">
         <div className="space-y-8">
           <div className="border-t border-slate-200/80 dark:border-slate-800 pt-6">
-            <h3 className="text-xs tracking-[0.2em] uppercase text-teal-700 dark:text-emerald-400 font-extrabold mb-3">
-              {t('about.visionTitle')}
-            </h3>
-            <p className="text-[15px] leading-7 text-slate-800 dark:text-slate-300 font-medium max-w-3xl">
-              {t('about.vision')}
-            </p>
+            <ZoomScene
+              id="about-vision"
+              title={t('about.visionTitle')}
+              text={t('about.vision')}
+              titleClassName={`${SCENE_TITLE} mb-4`}
+              paragraphClassName={SCENE_TEXT}
+            />
           </div>
           <div className="border-t border-slate-200/80 dark:border-slate-800 pt-6">
-            <h3 className="text-xs tracking-[0.2em] uppercase text-teal-700 dark:text-emerald-400 font-extrabold mb-3">
-              {t('about.missionTitle')}
-            </h3>
-            <p className="text-[15px] leading-7 text-slate-800 dark:text-slate-300 font-medium max-w-3xl">
-              {t('about.mission')}
-            </p>
+            <ZoomScene
+              id="about-mission"
+              title={t('about.missionTitle')}
+              text={t('about.mission')}
+              titleClassName={`${SCENE_TITLE} mb-4`}
+              paragraphClassName={SCENE_TEXT}
+            />
           </div>
         </div>
         {/* Image after Vision & Mission */}
@@ -679,11 +682,13 @@ export default function TabSystem() {
         {/* Desktop-only current-section label — the tab bar above is hidden at this
             width (the fixed Navbar's links do the switching instead), so this keeps
             a lightweight, non-interactive hint of which section is showing. */}
-        <div className="hidden lg:block mb-2">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-teal-700 dark:text-emerald-400">
-            {t(`tabs.${active}`)}
-          </span>
-        </div>
+        {active !== 'about' && (
+          <div className="hidden lg:block mb-2">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-teal-700 dark:text-emerald-400">
+              {t(`tabs.${active}`)}
+            </span>
+          </div>
+        )}
 
         {/* Tab content */}
         <div
