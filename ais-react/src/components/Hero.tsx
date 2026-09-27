@@ -173,7 +173,7 @@ export default function Hero({ ready = true }: { ready?: boolean }) {
           </span>
         </a>
         <a
-          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/70 dark:bg-slate-800/80 backdrop-blur-2xl border border-white/90 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm font-bold hover:bg-white/90 dark:hover:bg-slate-700/80 hover:border-teal-500/50 dark:hover:border-emerald-400/50 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5"
+          className="group w-full sm:w-auto px-9 py-4 rounded-2xl bg-white/75 dark:bg-slate-800/80 backdrop-blur-md border border-white/90 dark:border-slate-700/80 text-slate-900 dark:text-white text-sm font-bold hover:bg-white/90 dark:hover:bg-slate-700/80 hover:border-teal-500/50 dark:hover:border-emerald-400/50 shadow-lg shadow-slate-900/5 hover:shadow-xl active:scale-[0.97] transition-all duration-300 flex items-center justify-center gap-2.5"
           href="#contact"
         >
           {t('hero.contact')}

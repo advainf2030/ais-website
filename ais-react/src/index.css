@@ -207,12 +207,12 @@ html[dir="rtl"] * {
 }
 
 /* ---------- Glass ---------- */
-/* Light cards sit over a busy, partly dark video: at ~50% white they turned a
-   murky grey over the video's dark band, so they stay mostly opaque. */
+/* Cards sit over a busy, always-moving video. They are mostly opaque — at ~50%
+   white they turned a murky grey over the video's dark band — and carry no
+   backdrop blur: re-blurring the video behind every card on every frame
+   doubled the page's rendering cost and made scrolling stutter. */
 .glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.72) 100%);
-  backdrop-filter: blur(32px) saturate(1.5);
-  -webkit-backdrop-filter: blur(32px) saturate(1.5);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.84) 100%);
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow:
     0 24px 48px -12px rgba(8, 47, 73, 0.07),
@@ -225,7 +225,7 @@ html[dir="rtl"] * {
 }
 
 .dark .glass-card {
-  background: linear-gradient(135deg, rgba(10, 31, 68, 0.62) 0%, rgba(10, 31, 68, 0.46) 100%);
+  background: linear-gradient(135deg, rgba(10, 31, 68, 0.9) 0%, rgba(10, 31, 68, 0.82) 100%);
   border: 1px solid rgba(148, 163, 184, 0.15);
   box-shadow:
     0 24px 48px -12px rgba(0, 0, 0, 0.3),
@@ -394,8 +394,6 @@ html[dir="rtl"] * {
    let the hero text show through sharply. */
 .mobile-menu-overlay {
   background: linear-gradient(180deg, #ffffff 0%, #f5f8fc 100%);
-  backdrop-filter: blur(40px) saturate(1.8);
-  -webkit-backdrop-filter: blur(40px) saturate(1.8);
 }
 .dark .mobile-menu-overlay {
   background: linear-gradient(180deg, #06142d 0%, #0a1f44 100%);
@@ -1009,10 +1007,11 @@ video::-webkit-media-controls {
   pointer-events: none;
 }
 
-/* Words light up in order as the visitor scrolls (LitText, driven from JS) */
+/* Words light up in order as the visitor scrolls (driven from JS every
+   frame — no CSS transition: restarting one on every word each frame is what
+   made the scrub stutter) */
 .lit-word {
   opacity: 0.16;
-  transition: opacity 0.15s linear;
 }
 
 /* ---------- About scroll scenes (AboutScenes.tsx) ---------- */
@@ -1062,6 +1061,10 @@ video::-webkit-media-controls {
   display: inline-block;
   opacity: 0.12;
   transform: translateY(18px);
+}
+.rise-done .rise-word {
+  opacity: 1;
+  transform: none;
 }
 
 /* About images ease in once: fade up while the photo settles from a slight

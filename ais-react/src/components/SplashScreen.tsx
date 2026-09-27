@@ -47,7 +47,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
               src={theme === 'dark' ? 'logos/ais-logo-ar-stacked-dark.svg' : 'logos/ais-logo-ar-stacked.svg'}
               alt="Advanced Information Systems Company"
               width={1000}
-              height={448}
+              height={452}
               fetchPriority="high"
               initial={{
                 scale: 0.15,

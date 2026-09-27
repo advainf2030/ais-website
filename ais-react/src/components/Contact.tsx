@@ -60,7 +60,7 @@ const recordSubmission = (timestamps: number[]) => {
 };
 
 const inputBaseClass =
-  'w-full bg-white/60 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl px-4 py-3.5 placeholder-slate-400 dark:placeholder-slate-400 outline-none transition-all duration-300 text-slate-900 dark:text-white text-[15px] hover:bg-white/80 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 focus:border-teal-500 dark:focus:border-emerald-400 focus:shadow-sm';
+  'w-full bg-white/60 dark:bg-slate-800/80 rounded-xl px-4 py-3.5 placeholder-slate-400 dark:placeholder-slate-400 outline-none transition-all duration-300 text-slate-900 dark:text-white text-[15px] hover:bg-white/80 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700/80 focus:border-teal-500 dark:focus:border-emerald-400 focus:shadow-sm';
 
 function FieldError({ show, message }: { show: boolean; message: string }) {
   return (
@@ -172,7 +172,7 @@ export default function Contact() {
                 whileHover={{ y: -2 }}
                 className="group inline-block mb-7 p-px bg-gradient-to-r from-emerald-400/80 via-teal-400/40 to-cyan-400/80 dark:from-emerald-400/70 dark:via-teal-500/30 dark:to-cyan-400/70 [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]"
               >
-                <div className="flex items-center gap-3 px-4 py-2 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]">
+                <div className="flex items-center gap-3 px-4 py-2 bg-white/85 dark:bg-slate-950/85 [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]">
                   <span className="relative flex h-2 w-2" aria-hidden="true">
                     <motion.span
                       className="absolute inset-0 rounded-full bg-emerald-400"

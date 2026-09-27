@@ -9,10 +9,11 @@ import type { ImgHTMLAttributes, ReactNode } from 'react';
  *    settles into place while a giant ghost of the word drifts behind it, then
  *    the text rises in word by word.
  * Each scene pins in the middle of the screen and is scrubbed by the scroll,
- * so it only moves while the visitor scrolls. It plays once: progress never
- * rewinds, and when it completes the pinned scroll space is removed (the page
- * is shifted by the same amount, so nothing on screen moves) and the section
- * stays as normal text for the rest of the visit.
+ * both ways, so it only moves while the visitor scrolls — never on its own and
+ * never frozen. It plays once: the moment it completes it is locked in its
+ * final state and its pinned scroll length is released (the page is shifted
+ * by the same amount, so nothing on screen moves), and the section stays as
+ * normal text for the rest of the visit.
  */
 
 const played = new Set<string>();
@@ -38,15 +39,30 @@ interface Layout {
   pin: boolean; // false = content taller than the screen: scrubbed without pinning
 }
 
+// Anchor links (e.g. "Contact us") start a smooth scroll that passes through
+// the scenes; layout changes are held back until it has landed.
+let anchorNavAt = -Infinity;
+document.addEventListener(
+  'click',
+  (e) => {
+    if ((e.target as Element | null)?.closest?.('a[href^="#"]')) anchorNavAt = performance.now();
+  },
+  true,
+);
+const anchorNavActive = () => performance.now() - anchorNavAt < 2500;
+
 function useScene(id: string, extraVh: number, render: (p: number, pinned: boolean) => void) {
   const wrap = useRef<HTMLDivElement>(null);
   const stick = useRef<HTMLDivElement>(null);
   const content = useRef<HTMLDivElement>(null);
   const [alreadyPlayed] = useState(() => reducedMotion() || played.has(id));
-  const [done, setDone] = useState(alreadyPlayed); // animation finished
-  const [collapsed, setCollapsed] = useState(alreadyPlayed); // pinned space removed
+  const [done, setDone] = useState(alreadyPlayed); // animation finished and locked
+  // The pinned space is released in two steps: the extra scroll length, then
+  // (off screen) the full-screen frame around the content.
+  const [spaceGone, setSpaceGone] = useState(alreadyPlayed);
+  const [boxGone, setBoxGone] = useState(alreadyPlayed);
   const [layout, setLayout] = useState<Layout | null>(null);
-  const max = useRef(0);
+  const started = useRef(false);
   const anchor = useRef<{ el: Element; top: number } | null>(null);
   const renderRef = useRef(render);
   useEffect(() => {
@@ -54,23 +70,31 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
   });
 
   // Pin only when the content fits under the navbar. Re-measured on width
-  // changes only: mobile toolbars change the height while scrolling.
+  // changes (mobile toolbars change the height while scrolling) and once web
+  // fonts have loaded — but never while the scene is playing.
   useLayoutEffect(() => {
-    if (done) return; // the layout is frozen once the animation has played
+    if (done) return;
     let lastWidth = -1;
-    const measure = () => {
-      if (window.innerWidth === lastWidth) return;
+    let alive = true;
+    const measure = (force = false) => {
+      if (started.current) return;
+      if (!force && window.innerWidth === lastWidth) return;
       lastWidth = window.innerWidth;
       const nav = navHeight();
       const pin = (content.current?.offsetHeight ?? 0) <= smallViewportHeight() - nav - 12;
       setLayout((prev) => (prev && prev.nav === nav && prev.pin === pin ? prev : { nav, pin }));
     };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    const onResize = () => measure();
+    measure(true);
+    document.fonts?.ready.then(() => alive && measure(true));
+    window.addEventListener('resize', onResize);
+    return () => {
+      alive = false;
+      window.removeEventListener('resize', onResize);
+    };
   }, [done]);
 
-  // Scrub: progress follows the scroll and only ever moves forward
+  // Scrub: the animation follows the scroll both ways until it completes
   useEffect(() => {
     if (done || !layout) return;
     let frame = 0;
@@ -88,19 +112,30 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
       if (!w || !st) return;
       const r = w.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = layout!.pin
-        ? // From the moment it locks under the navbar to the end of the pin
-          (layout!.nav - r.top) / Math.max(1, w.offsetHeight - st.offsetHeight)
-        : // Too tall to pin (phones): follows a reading line through the
-          // block — complete once its last line has passed 64% of the screen
-          (vh * 0.82 - r.top) / (r.height + vh * 0.18);
-      max.current = Math.max(max.current, clamp01(p));
-      renderRef.current(max.current, layout!.pin);
-      if (max.current >= 1) {
-        stop();
-        played.add(id);
-        setDone(true);
+      const p = clamp01(
+        layout!.pin
+          ? // From the moment it locks under the navbar to the end of the pin
+            (layout!.nav - r.top) / Math.max(1, w.offsetHeight - st.offsetHeight)
+          : // Too tall to pin (phones): follows a reading line through the
+            // block — complete once its last line has passed 64% of the screen
+            (vh * 0.82 - r.top) / (r.height + vh * 0.18),
+      );
+      if (p > 0) started.current = true;
+      renderRef.current(p, layout!.pin);
+      if (p < 1) return;
+      stop();
+      played.add(id);
+      // Release the pinned scroll length right away when the visitor has
+      // scrolled through the scene, so scrolling back up never runs into a
+      // frozen, pinned stretch. If it was skipped past, or a link is still
+      // travelling, that waits until the scene is off screen (below).
+      const onScreen = r.bottom > 0 && r.top < vh;
+      if (layout!.pin && onScreen && !anchorNavActive() && content.current) {
+        anchor.current = { el: content.current, top: content.current.getBoundingClientRect().top };
+        document.documentElement.style.overflowAnchor = 'none';
+        setSpaceGone(true);
       }
+      setDone(true);
     }
     update();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -111,21 +146,24 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
     };
   }, [done, layout, id]);
 
-  // Once finished, the pin ends naturally (the next content scrolls up from
-  // below). The extra pinned space is removed only while the scene is off
-  // screen and scrolling has stopped — never mid-scroll, so smooth scrolls to
-  // an anchor (e.g. "Contact us") still land where they were aimed.
+  // Once off screen and scrolling has stopped, shrink the full-screen frame to
+  // its content (and drop the scroll length too, if that wasn't done yet)
   useEffect(() => {
-    if (!done || collapsed || !layout?.pin) return; // unpinned scenes add no space
+    if (!done || boxGone || !layout?.pin) return; // unpinned scenes add no space
     let timer = 0;
     const tryCollapse = () => {
       const r = wrap.current?.getBoundingClientRect();
       if (!r || (r.bottom > 0 && r.top < window.innerHeight)) return;
+      if (anchorNavActive()) {
+        timer = window.setTimeout(tryCollapse, 300);
+        return;
+      }
       // Keep whatever sits at the centre of the screen exactly where it is
       const el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
       anchor.current = el ? { el, top: el.getBoundingClientRect().top } : null;
       document.documentElement.style.overflowAnchor = 'none';
-      setCollapsed(true);
+      setSpaceGone(true);
+      setBoxGone(true);
     };
     const onScroll = () => {
       window.clearTimeout(timer);
@@ -137,21 +175,22 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
       window.removeEventListener('scroll', onScroll);
       window.clearTimeout(timer);
     };
-  }, [done, collapsed, layout]);
+  }, [done, boxGone, layout]);
 
   useLayoutEffect(() => {
-    if (!collapsed) return;
     const a = anchor.current;
+    if (!a) return;
     anchor.current = null;
-    if (a && a.el.isConnected) {
+    if (a.el.isConnected) {
       const delta = a.el.getBoundingClientRect().top - a.top;
       if (Math.abs(delta) > 0.5) window.scrollBy({ top: delta, behavior: 'instant' as ScrollBehavior });
     }
     document.documentElement.style.overflowAnchor = '';
-  }, [collapsed]);
+  }, [spaceGone, boxGone]);
 
-  const pinned = !collapsed && layout !== null && layout.pin;
-  return { wrap, stick, content, done, pinned, layout, extraVh };
+  const pinSpace = layout !== null && layout.pin && !spaceGone;
+  const frameBox = layout !== null && layout.pin && !boxGone;
+  return { wrap, stick, content, done, pinSpace, frameBox, layout, extraVh };
 }
 
 function SceneFrame({
@@ -165,18 +204,18 @@ function SceneFrame({
   backdrop?: ReactNode;
   children: ReactNode;
 }) {
-  const { wrap, stick, content, pinned, layout, extraVh } = scene;
+  const { wrap, stick, content, pinSpace, frameBox, layout, extraVh } = scene;
   const nav = layout?.nav ?? 0;
   return (
     <div
       ref={wrap}
       className="relative [overflow-anchor:none]"
-      style={pinned ? { height: `calc(100svh - ${nav}px + ${extraVh}svh)` } : undefined}
+      style={pinSpace ? { height: `calc(100svh - ${nav}px + ${extraVh}svh)` } : undefined}
     >
       <div
         ref={stick}
-        className={`${pinned ? 'sticky flex items-center' : 'relative'} ${clipX ? 'scene-clip' : ''}`}
-        style={pinned ? { top: nav, height: `calc(100svh - ${nav}px)` } : undefined}
+        className={`${frameBox ? 'sticky flex items-center' : 'relative'} ${clipX ? 'scene-clip' : ''}`}
+        style={frameBox ? { top: nav, height: `calc(100svh - ${nav}px)` } : undefined}
       >
         {backdrop}
         <div ref={content} className="relative z-10 w-full">
@@ -214,8 +253,9 @@ export function BeamScene({
   const fillRef = useRef<HTMLSpanElement>(null);
   const beamRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const headLit = useRef(0);
-  const wordLit = useRef<number[]>([]);
+  // Word positions inside the text block, measured once per layout (width,
+  // height, word count) instead of reading ~150 rects on every scroll frame
+  const wordOffsets = useRef<{ key: string; tops: number[] }>({ key: '', tops: [] });
 
   const scene = useScene(id, 190, (p, pinned) => {
     const fill = fillRef.current;
@@ -224,15 +264,23 @@ export function BeamScene({
     const vh = window.innerHeight;
     // Reads first, writes after (no layout thrash on phones)
     const headTop = pinned ? 0 : (headRef.current?.getBoundingClientRect().top ?? vh);
-    const wordTops = !pinned && words ? Array.from(words, (w) => w.getBoundingClientRect().top) : [];
+    let wordTops: number[] = [];
+    const box = textRef.current;
+    if (!pinned && words && box) {
+      const boxTop = box.getBoundingClientRect().top;
+      const key = `${box.offsetWidth}x${box.offsetHeight}:${words.length}`;
+      if (wordOffsets.current.key !== key) {
+        wordOffsets.current = { key, tops: Array.from(words, (w) => w.getBoundingClientRect().top - boxTop) };
+      }
+      wordTops = wordOffsets.current.tops.map((t) => boxTop + t);
+    }
 
     if (fill && beam) {
       let r: number;
       if (pinned) r = easeOut(range(p, 0.02, 0.32));
       else {
         // Unpinned: the heading reveals as it rises from 85% to 55% of the screen
-        headLit.current = Math.max(headLit.current, clamp01((vh * 0.85 - headTop) / (vh * 0.3)));
-        r = easeOut(headLit.current);
+        r = easeOut(clamp01((vh * 0.85 - headTop) / (vh * 0.3)));
       }
       const rtl = document.documentElement.dir === 'rtl';
       const hidden = `${((1 - r) * 100).toFixed(2)}%`;
@@ -247,12 +295,10 @@ export function BeamScene({
         words.forEach((w, i) => setStyle(w, 'opacity', (0.16 + 0.84 * clamp01(filled - i)).toFixed(3)));
       } else {
         // Unpinned: each word lights as it crosses the reading line (82% → 64%
-        // of the screen), and stays lit
-        if (wordLit.current.length !== words.length) wordLit.current = new Array(words.length).fill(0);
+        // of the screen)
         words.forEach((w, i) => {
           const t = clamp01((vh * 0.82 - wordTops[i]) / (vh * 0.18));
-          wordLit.current[i] = Math.max(wordLit.current[i], t);
-          setStyle(w, 'opacity', (0.16 + 0.84 * wordLit.current[i]).toFixed(3));
+          setStyle(w, 'opacity', (0.16 + 0.84 * t).toFixed(3));
         });
       }
     }
@@ -339,11 +385,16 @@ export function ZoomScene({
         )
       }
     >
-      <h3 ref={headRef} className={`zoom-title grad-text ${done ? '' : 'will-change-transform'} ${titleClassName}`}>
+      <h3
+        ref={headRef}
+        className={`zoom-title grad-text ${done ? '' : 'will-change-[transform,filter,opacity]'} ${titleClassName}`}
+      >
         {title}
       </h3>
-      <p ref={textRef} className={paragraphClassName}>
-        {done ? text : splitRising(text)}
+      {/* The word spans stay after it finishes: swapping them for plain text
+          would re-flow the paragraph and nudge the centred content */}
+      <p ref={textRef} className={`${done ? 'rise-done' : ''} ${paragraphClassName}`}>
+        {splitRising(text)}
       </p>
     </SceneFrame>
   );
