@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { BeamScene, ZoomScene } from './AboutScenes';
+import { BeamScene, RevealImage, ZoomScene } from './AboutScenes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
@@ -53,7 +53,7 @@ interface ServiceText {
 /* ── About Tab Content ── */
 // One type scale for the three scene headings and their text
 const SCENE_TITLE = 'text-6xl lg:text-8xl';
-const SCENE_TEXT = 'text-lg md:text-xl leading-9 md:leading-10 text-slate-800 dark:text-slate-300 font-medium max-w-3xl';
+const SCENE_TEXT = 'text-lg md:text-xl leading-8 md:leading-9 text-slate-800 dark:text-slate-300 font-medium max-w-3xl';
 
 function AboutContent() {
   const { t } = useTranslation();
@@ -72,17 +72,17 @@ function AboutContent() {
           paragraphClassName={SCENE_TEXT}
         />
         {/* Image after overview */}
-        <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800">
-          <img
-            src={ABOUT_IMAGE_1}
-            alt="AIS Company Office"
-            width={1200}
-            height={730}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-56 md:h-72 object-cover"
-          />
-        </div>
+        <RevealImage
+          id="about-image-1"
+          className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800"
+          src={ABOUT_IMAGE_1}
+          alt="AIS Company Office"
+          width={1200}
+          height={730}
+          loading="lazy"
+          decoding="async"
+          imgClassName="w-full h-56 md:h-72 object-cover"
+        />
       </div>
 
       {/* Section 2: Vision & Mission */}
@@ -108,19 +108,19 @@ function AboutContent() {
           </div>
         </div>
         {/* Image after Vision & Mission */}
-        <div className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800">
-          <img
-            src={ABOUT_IMAGE_2}
-            srcSet={ABOUT_IMAGE_2_SRCSET}
-            sizes="(min-width: 768px) 1100px, 100vw"
-            alt="AIS Vision 2030"
-            width={1200}
-            height={800}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-56 md:h-72 object-cover"
-          />
-        </div>
+        <RevealImage
+          id="about-image-2"
+          className="rounded-2xl overflow-hidden shadow-lg border border-white/40 dark:border-slate-800"
+          src={ABOUT_IMAGE_2}
+          srcSet={ABOUT_IMAGE_2_SRCSET}
+          sizes="(min-width: 768px) 1100px, 100vw"
+          alt="AIS Vision 2030"
+          width={1200}
+          height={800}
+          loading="lazy"
+          decoding="async"
+          imgClassName="w-full h-56 md:h-72 object-cover"
+        />
       </div>
     </div>
   );
