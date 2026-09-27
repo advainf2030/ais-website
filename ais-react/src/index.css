@@ -207,8 +207,10 @@ html[dir="rtl"] * {
 }
 
 /* ---------- Glass ---------- */
+/* Light cards sit over a busy, partly dark video: at ~50% white they turned a
+   murky grey over the video's dark band, so they stay mostly opaque. */
 .glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.38) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.72) 100%);
   backdrop-filter: blur(32px) saturate(1.5);
   -webkit-backdrop-filter: blur(32px) saturate(1.5);
   border: 1px solid rgba(255, 255, 255, 0.7);
@@ -840,6 +842,10 @@ html:not(.dark) .hero-accent {
 }
 .dark :where(a, button, select, textarea, [role="tab"], [tabindex]:not([tabindex="-1"])):focus-visible {
   outline-color: #2ea8f5;
+}
+/* …but not after a tap or click (see main.tsx) */
+html[data-input="pointer"] :focus-visible {
+  outline: none;
 }
 
 /* Hero scroll cue: small chevron that bobs gently */

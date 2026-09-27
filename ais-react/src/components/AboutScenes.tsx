@@ -38,7 +38,7 @@ interface Layout {
   pin: boolean; // false = content taller than the screen: scrubbed without pinning
 }
 
-function useScene(id: string, extraVh: number, render: (p: number) => void) {
+function useScene(id: string, extraVh: number, render: (p: number, pinned: boolean) => void) {
   const wrap = useRef<HTMLDivElement>(null);
   const stick = useRef<HTMLDivElement>(null);
   const content = useRef<HTMLDivElement>(null);
@@ -91,10 +91,11 @@ function useScene(id: string, extraVh: number, render: (p: number) => void) {
       const p = layout!.pin
         ? // From the moment it locks under the navbar to the end of the pin
           (layout!.nav - r.top) / Math.max(1, w.offsetHeight - st.offsetHeight)
-        : // Too tall to pin: starts once the top reaches mid-screen
-          (vh * 0.55 - r.top) / Math.max(r.height, vh * 0.5);
+        : // Too tall to pin (phones): follows a reading line through the
+          // block — complete once its last line has passed 64% of the screen
+          (vh * 0.82 - r.top) / (r.height + vh * 0.18);
       max.current = Math.max(max.current, clamp01(p));
-      renderRef.current(max.current);
+      renderRef.current(max.current, layout!.pin);
       if (max.current >= 1) {
         stop();
         played.add(id);
@@ -209,32 +210,58 @@ export function BeamScene({
   subtitleClassName?: string;
   paragraphClassName: string;
 }) {
+  const headRef = useRef<HTMLHeadingElement>(null);
   const fillRef = useRef<HTMLSpanElement>(null);
   const beamRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const headLit = useRef(0);
+  const wordLit = useRef<number[]>([]);
 
-  const scene = useScene(id, 190, (p) => {
+  const scene = useScene(id, 190, (p, pinned) => {
     const fill = fillRef.current;
     const beam = beamRef.current;
+    const words = textRef.current?.querySelectorAll<HTMLSpanElement>('.lit-word');
+    const vh = window.innerHeight;
+    // Reads first, writes after (no layout thrash on phones)
+    const headTop = pinned ? 0 : (headRef.current?.getBoundingClientRect().top ?? vh);
+    const wordTops = !pinned && words ? Array.from(words, (w) => w.getBoundingClientRect().top) : [];
+
     if (fill && beam) {
-      const r = easeOut(range(p, 0.02, 0.32));
+      let r: number;
+      if (pinned) r = easeOut(range(p, 0.02, 0.32));
+      else {
+        // Unpinned: the heading reveals as it rises from 85% to 55% of the screen
+        headLit.current = Math.max(headLit.current, clamp01((vh * 0.85 - headTop) / (vh * 0.3)));
+        r = easeOut(headLit.current);
+      }
       const rtl = document.documentElement.dir === 'rtl';
       const hidden = `${((1 - r) * 100).toFixed(2)}%`;
       setStyle(fill, 'clipPath', rtl ? `inset(-10% -2% -10% ${hidden})` : `inset(-10% ${hidden} -10% -2%)`);
       setStyle(beam, 'left', `calc(${((rtl ? 1 - r : r) * 100).toFixed(2)}% - ${rtl ? 0 : 4}px)`);
       setStyle(beam, 'opacity', r > 0.01 && r < 0.99 ? '1' : '0');
     }
-    const words = textRef.current?.querySelectorAll<HTMLSpanElement>('.lit-word');
     if (words) {
-      const filled = range(p, 0.3, 0.97) * words.length;
-      words.forEach((w, i) => setStyle(w, 'opacity', (0.16 + 0.84 * clamp01(filled - i)).toFixed(3)));
+      if (pinned) {
+        // Pinned: words light in reading order across the pinned scroll
+        const filled = range(p, 0.3, 0.97) * words.length;
+        words.forEach((w, i) => setStyle(w, 'opacity', (0.16 + 0.84 * clamp01(filled - i)).toFixed(3)));
+      } else {
+        // Unpinned: each word lights as it crosses the reading line (82% → 64%
+        // of the screen), and stays lit
+        if (wordLit.current.length !== words.length) wordLit.current = new Array(words.length).fill(0);
+        words.forEach((w, i) => {
+          const t = clamp01((vh * 0.82 - wordTops[i]) / (vh * 0.18));
+          wordLit.current[i] = Math.max(wordLit.current[i], t);
+          setStyle(w, 'opacity', (0.16 + 0.84 * wordLit.current[i]).toFixed(3));
+        });
+      }
     }
   });
   const { done } = scene;
 
   return (
     <SceneFrame scene={scene}>
-      <h2 className={`reveal-h ${done ? 'is-done' : ''} ${titleClassName}`}>
+      <h2 ref={headRef} className={`reveal-h ${done ? 'is-done' : ''} ${titleClassName}`}>
         <span className="rh-ghost">{title}</span>
         {!done && (
           <>

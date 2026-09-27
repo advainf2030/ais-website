@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, ArrowUpRight } from 'lucide-react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
@@ -6,32 +6,14 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-white/50 dark:bg-slate-950/80 backdrop-blur-3xl border-t border-white/60 dark:border-slate-800/80 shadow-[0_-20px_50px_-10px_rgba(15,23,42,0.04)] relative z-20">
+    <footer className="bg-white/80 dark:bg-slate-950/80 backdrop-blur-3xl border-t border-white/60 dark:border-slate-800/80 shadow-[0_-20px_50px_-10px_rgba(15,23,42,0.04)] relative z-20">
       {/* Shimmer line */}
       <div className="footer-shimmer-line" />
 
       <div className="max-w-5xl mx-auto px-6 py-10 md:py-12">
-        {/* "Let's Work Together" CTA row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-200/60 dark:border-slate-800">
-          <div>
-            <h2 className="font-display text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-              {t('footer.workTogether')}
-            </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mt-1">
-              {t('footer.workTogetherDesc')}
-            </p>
-          </div>
-          <a
-            className="btn-shimmer shrink-0 flex items-center gap-2 text-xs uppercase tracking-wider font-bold px-6 py-3 rounded-xl btn-primary shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 border border-white/10"
-            href="#contact"
-          >
-            <span>{t('nav.cta')}</span>
-            <ArrowUpRight size={14} />
-          </a>
-        </div>
-
-        {/* Logo + contact details */}
-        <div className="pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        {/* Logo + contact details. (No "Let's work together" call-to-action here:
+            the contact section right above already carries it.) */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <img
             alt="AIS — Advanced Information Systems"
             width={987}

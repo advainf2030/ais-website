@@ -211,8 +211,11 @@ export default function Contact() {
                     <Phone size={18} className="text-teal-700 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900 dark:text-white">{t('contact.phone')}</span>
-                    <span className="text-slate-800 dark:text-slate-300 ms-1.5 font-medium" dir="ltr">{CONTACT.phone}</span>
+                    <span className="font-bold block text-slate-900 dark:text-white">{t('contact.phone')}</span>
+                    {/* Own line: as an inline LTR run inside RTL text its margin fell on the wrong side ("الجوال:+966") */}
+                    <span className="block text-slate-800 dark:text-slate-300 font-medium">
+                      <span dir="ltr">{CONTACT.phone}</span>
+                    </span>
                   </div>
                 </div>
 
@@ -221,8 +224,10 @@ export default function Contact() {
                     <Mail size={18} className="text-teal-700 dark:text-emerald-400" />
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900 dark:text-white">{t('contact.email')}</span>
-                    <span className="text-slate-800 dark:text-slate-300 ms-1.5 font-medium">{CONTACT.email}</span>
+                    <span className="font-bold block text-slate-900 dark:text-white">{t('contact.email')}</span>
+                    <span className="block text-slate-800 dark:text-slate-300 font-medium">
+                      <span dir="ltr">{CONTACT.email}</span>
+                    </span>
                   </div>
                 </div>
               </div>

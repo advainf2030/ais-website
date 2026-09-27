@@ -52,7 +52,7 @@ interface ServiceText {
 
 /* ── About Tab Content ── */
 // One type scale for the three scene headings and their text
-const SCENE_TITLE = 'text-6xl lg:text-8xl';
+const SCENE_TITLE = 'text-5xl sm:text-6xl lg:text-8xl';
 const SCENE_TEXT = 'text-lg md:text-xl leading-8 md:leading-9 text-slate-800 dark:text-slate-300 font-medium max-w-3xl';
 
 function AboutContent() {
