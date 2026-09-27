@@ -6,7 +6,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-white/90 dark:bg-slate-950/90 border-t border-white/60 dark:border-slate-800/80 shadow-[0_-20px_50px_-10px_rgba(15,23,42,0.04)] relative z-20">
+    <footer className="bg-white/50 dark:bg-slate-950/80 backdrop-blur-3xl border-t border-white/60 dark:border-slate-800/80 shadow-[0_-20px_50px_-10px_rgba(15,23,42,0.04)] relative z-20">
       {/* Shimmer line */}
       <div className="footer-shimmer-line" />
 
