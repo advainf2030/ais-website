@@ -126,6 +126,18 @@ function AboutContent() {
   );
 }
 
+/* Visual order of row i in the two-column grid (md+). An item opened in the
+   second column swaps places with its neighbour in the first, so its
+   description opens directly beneath it — otherwise it read as belonging to
+   the item opposite. Closing puts both back. DOM order never changes. */
+function gridOrder(i: number, open: number | null) {
+  const swap = open !== null && open % 2 === 1;
+  let header = i * 10;
+  if (swap && i === open) header = (open - 1) * 10;
+  if (swap && i === open - 1) header = open * 10;
+  return { header, panel: i * 10 + 5 };
+}
+
 /* ── Accordion Row ── */
 function AccordionRow({
   title,
@@ -134,6 +146,7 @@ function AccordionRow({
   onToggle,
   panelId,
   headerId,
+  order,
   level = 3,
 }: {
   title: string;
@@ -142,6 +155,7 @@ function AccordionRow({
   onToggle: () => void;
   panelId: string;
   headerId: string;
+  order: { header: number; panel: number };
   level?: 3 | 4;
 }) {
   const Heading = level === 4 ? 'h4' : 'h3';
@@ -166,8 +180,11 @@ function AccordionRow({
     <>
     {/* While open, the header takes the panel's tint and drops its divider, so
         it reads as a tab joined to its description — whichever column it's in. */}
-    <div
-      className={`border-b transition-colors duration-300 ${
+    <motion.div
+      layout="position"
+      transition={{ layout: { duration: 0.35, ease: EASE } }}
+      style={{ '--grid-order': order.header } as React.CSSProperties}
+      className={`md:order-(--grid-order) border-b transition-colors duration-300 ${
         isOpen
           ? 'bg-teal-50/40 dark:bg-slate-800/30 border-transparent'
           : 'border-slate-200/70 dark:border-slate-800/80'
@@ -211,7 +228,7 @@ function AccordionRow({
           </motion.span>
         </button>
       </Heading>
-    </div>
+    </motion.div>
 
       <AnimatePresence initial={false}>
         {isOpen && (
@@ -231,7 +248,8 @@ function AccordionRow({
                 panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
               }
             }}
-            className="overflow-hidden md:col-span-2 border-b border-slate-200/70 dark:border-slate-800/80 bg-teal-50/40 dark:bg-slate-800/30 scroll-mt-32"
+            style={{ '--grid-order': order.panel } as React.CSSProperties}
+            className="md:order-(--grid-order) overflow-hidden md:col-span-2 border-b border-slate-200/70 dark:border-slate-800/80 bg-teal-50/40 dark:bg-slate-800/30 scroll-mt-32"
           >
             {/* Full row width so the description reads as ~2 lines of prose.
                 Left edge lines up with the title text (past the dot + gap:
@@ -512,6 +530,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                         desc={it.desc}
                         isOpen={openGroup === gi && openItem === ii}
                         onToggle={() => toggleItem(ii)}
+                        order={gridOrder(ii, openGroup === gi ? openItem : null)}
                         headerId={`accordion-header-${serviceIndex}-${gi}-${ii}`}
                         panelId={`accordion-panel-${serviceIndex}-${gi}-${ii}`}
                         level={4}
@@ -528,6 +547,7 @@ function ServiceContent({ serviceIndex }: { serviceIndex: number }) {
                         desc={sub.desc}
                         isOpen={openIndex === i}
                         onToggle={() => toggleAccordion(i)}
+                        order={gridOrder(i, openIndex)}
                         headerId={`accordion-header-${serviceIndex}-${i}`}
                         panelId={`accordion-panel-${serviceIndex}-${i}`}
                       />
