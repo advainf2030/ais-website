@@ -52,7 +52,7 @@ interface ServiceText {
 
 /* ── About Tab Content ── */
 // One type scale for the three scene headings and their text
-const SCENE_TITLE = 'text-5xl sm:text-6xl lg:text-8xl';
+const SCENE_TITLE = 'text-4xl sm:text-5xl lg:text-6xl';
 const SCENE_TEXT = 'text-lg md:text-xl leading-8 md:leading-9 text-slate-800 dark:text-slate-300 font-medium max-w-3xl';
 
 function AboutContent() {
@@ -79,7 +79,8 @@ function AboutContent() {
           alt="AIS Company Office"
           width={1200}
           height={730}
-          loading="lazy"
+          loading="eager"
+          fetchPriority="low"
           decoding="async"
           imgClassName="w-full h-56 md:h-72 object-cover"
         />
@@ -117,7 +118,8 @@ function AboutContent() {
           alt="AIS Vision 2030"
           width={1200}
           height={800}
-          loading="lazy"
+          loading="eager"
+          fetchPriority="low"
           decoding="async"
           imgClassName="w-full h-56 md:h-72 object-cover"
         />

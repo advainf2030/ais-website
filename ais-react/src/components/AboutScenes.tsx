@@ -94,25 +94,31 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
     };
   }, [done]);
 
-  // Scrub: the animation follows the scroll both ways until it completes
+  // Scrub: the animation follows the scroll both ways until it completes.
+  // While pinned it glides toward the scroll position instead of jumping to
+  // it (like GSAP's `scrub: 0.5`): a fast wheel flick or trackpad fling moves
+  // the scroll a long way in one frame, which otherwise made the heading snap
+  // from 6x to 1x at once — it read as the page freezing, then jumping.
   useEffect(() => {
     if (done || !layout) return;
     let frame = 0;
+    let last = 0;
+    let shown = 0;
     const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
+      if (!frame) frame = requestAnimationFrame(tick);
     };
     const stop = () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
-    function update() {
+    function tick(now: number) {
       frame = 0;
       const w = wrap.current;
       const st = stick.current;
       if (!w || !st) return;
       const r = w.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = clamp01(
+      const target = clamp01(
         layout!.pin
           ? // From the moment it locks under the navbar to the end of the pin
             (layout!.nav - r.top) / Math.max(1, w.offsetHeight - st.offsetHeight)
@@ -120,24 +126,38 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
             // block — complete once its last line has passed 64% of the screen
             (vh * 0.82 - r.top) / (r.height + vh * 0.18),
       );
-      if (p > 0) started.current = true;
-      renderRef.current(p, layout!.pin);
-      if (p < 1) return;
-      stop();
-      played.add(id);
-      // Release the pinned scroll length right away when the visitor has
-      // scrolled through the scene, so scrolling back up never runs into a
-      // frozen, pinned stretch. If it was skipped past, or a link is still
-      // travelling, that waits until the scene is off screen (below).
-      const onScreen = r.bottom > 0 && r.top < vh;
-      if (layout!.pin && onScreen && !anchorNavActive() && content.current) {
-        anchor.current = { el: content.current, top: content.current.getBoundingClientRect().top };
-        document.documentElement.style.overflowAnchor = 'none';
-        setSpaceGone(true);
+      if (target > 0) started.current = true;
+      // Off screen (e.g. flung straight past): nothing to glide for anyone
+      if (!layout!.pin || r.bottom <= 0 || r.top >= vh) shown = target;
+      else {
+        const dt = last ? Math.min(0.1, (now - last) / 1000) : 1 / 60;
+        shown += (target - shown) * (1 - Math.exp(-dt / 0.16));
+        if (Math.abs(target - shown) < 0.002) shown = target;
       }
-      setDone(true);
+      renderRef.current(shown, layout!.pin);
+      if (shown >= 1) {
+        stop();
+        played.add(id);
+        // Release the pinned scroll length right away when the scene is still
+        // on screen, so scrolling back up never runs into a frozen, pinned
+        // stretch. If it was flung past, or a link is still travelling, that
+        // waits until the scene is off screen (below).
+        const cur = w.getBoundingClientRect();
+        const onScreen = cur.bottom > 0 && cur.top < vh;
+        if (layout!.pin && onScreen && !anchorNavActive() && content.current) {
+          anchor.current = { el: content.current, top: content.current.getBoundingClientRect().top };
+          document.documentElement.style.overflowAnchor = 'none';
+          setSpaceGone(true);
+        }
+        setDone(true);
+        return;
+      }
+      if (shown !== target) {
+        last = now;
+        frame = requestAnimationFrame(tick);
+      } else last = 0;
     }
-    update();
+    frame = requestAnimationFrame(tick);
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     return () => {
@@ -422,8 +442,16 @@ export function RevealImage({
   const [loaded, setLoaded] = useState(false);
   const shown = alreadyPlayed || (inView && loaded);
 
+  // Mark loaded only once the image is decoded, so the reveal never starts
+  // with a half-decoded frame (that decode used to land mid-scroll)
+  const markLoaded = () => {
+    const el = imgRef.current;
+    if (!el) return;
+    (el.decode ? el.decode() : Promise.resolve()).catch(() => {}).then(() => setLoaded(true));
+  };
+
   useEffect(() => {
-    if (imgRef.current?.complete) setLoaded(true);
+    if (imgRef.current?.complete) markLoaded();
     if (alreadyPlayed || !ref.current) return;
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -448,7 +476,7 @@ export function RevealImage({
         ref={imgRef}
         {...img}
         className={imgClassName}
-        onLoad={() => setLoaded(true)}
+        onLoad={markLoaded}
         onError={() => setLoaded(true)}
       />
     </div>
