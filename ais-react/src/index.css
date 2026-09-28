@@ -1106,3 +1106,12 @@ video::-webkit-media-controls {
 @media (prefers-reduced-motion: reduce) {
   .badge-ping { animation: none; opacity: 0; }
 }
+
+/* Zooming scene heading: solid brand colour while it animates (see
+   ZoomScene — gradient text breaks in Safari on transformed elements) */
+.zoom-live {
+  color: #0b6fd8;
+}
+.dark .zoom-live {
+  color: #2ea8f5;
+}

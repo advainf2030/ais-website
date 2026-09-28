@@ -90,7 +90,9 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
       if (!force && window.innerWidth === lastWidth) return;
       lastWidth = window.innerWidth;
       const nav = navHeight();
-      const pin = (content.current?.offsetHeight ?? 0) <= smallViewportHeight() - nav - 12;
+      const pin =
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        (content.current?.offsetHeight ?? 0) <= smallViewportHeight() - nav - 12;
       setLayout((prev) => (prev && prev.nav === nav && prev.pin === pin ? prev : { nav, pin }));
     };
     const onResize = () => measure();
@@ -383,28 +385,62 @@ export function ZoomScene({
   const ghostRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
 
-  const scene = useScene(id, 190, (p) => {
+  // Word positions inside the paragraph, measured once per layout (unpinned)
+  const wordOffsets = useRef<{ key: string; tops: number[] }>({ key: '', tops: [] });
+
+  const scene = useScene(id, 190, (p, pinned) => {
     const head = headRef.current;
-    if (head) {
-      const z = easeOut(range(p, 0, 0.42));
-      setStyle(head, 'transform', `scale(${(6 - 5 * z).toFixed(4)})`);
-      setStyle(head, 'filter', z < 1 ? `blur(${((1 - z) * 14).toFixed(2)}px)` : '');
-      setStyle(head, 'opacity', clamp01(range(p, 0, 0.08) * 1.2).toFixed(3));
-    }
     const ghost = ghostRef.current;
+    const box = textRef.current;
+    const words = box?.querySelectorAll<HTMLSpanElement>('.rise-word');
+    const vh = window.innerHeight;
+
+    // Reads first, writes after
+    let z: number;
+    let from: number;
+    let blur: number;
+    let wordT: (i: number) => number;
+    if (pinned) {
+      // Pinned (mouse/trackpad): heading zooms 6x -> 1x over the first 42%
+      // of the pin, then the words rise in reading order
+      z = easeOut(range(p, 0, 0.42));
+      from = 6;
+      blur = 14;
+      const filled = range(p, 0.42, 0.97) * (words?.length ?? 0);
+      wordT = (i) => clamp01(filled - i);
+    } else {
+      // Touch screens: the heading settles 3x -> 1x as it rises from 92% to
+      // 55% of the screen; each word rises as it crosses the reading line
+      const headTop = head?.getBoundingClientRect().top ?? vh;
+      z = easeOut(clamp01((vh * 0.92 - headTop) / (vh * 0.37)));
+      from = 3;
+      blur = 8;
+      let tops: number[] = [];
+      if (words && box) {
+        const boxTop = box.getBoundingClientRect().top;
+        const key = `${box.offsetWidth}x${box.offsetHeight}:${words.length}`;
+        if (wordOffsets.current.key !== key) {
+          wordOffsets.current = { key, tops: Array.from(words, (w) => w.getBoundingClientRect().top - boxTop) };
+        }
+        tops = wordOffsets.current.tops.map((t) => boxTop + t);
+      }
+      wordT = (i) => clamp01((vh * 0.86 - (tops[i] ?? vh)) / (vh * 0.2));
+    }
+
+    if (head) {
+      setStyle(head, 'transform', `scale(${(from - (from - 1) * z).toFixed(4)})`);
+      setStyle(head, 'filter', z < 1 ? `blur(${((1 - z) * blur).toFixed(2)}px)` : '');
+      setStyle(head, 'opacity', clamp01(z * 4).toFixed(3));
+    }
     if (ghost) {
       setStyle(ghost, 'transform', `translate(${(-85 + p * 70).toFixed(2)}%, -50%)`);
       setStyle(ghost, 'opacity', (1 - range(p, 0.82, 1)).toFixed(3));
     }
-    const words = textRef.current?.querySelectorAll<HTMLSpanElement>('.rise-word');
-    if (words) {
-      const filled = range(p, 0.42, 0.97) * words.length;
-      words.forEach((w, i) => {
-        const t = clamp01(filled - i);
-        setStyle(w, 'opacity', (0.12 + 0.88 * t).toFixed(3));
-        setStyle(w, 'transform', `translateY(${((1 - t) * 18).toFixed(2)}px)`);
-      });
-    }
+    words?.forEach((w, i) => {
+      const t = wordT(i);
+      setStyle(w, 'opacity', (0.12 + 0.88 * t).toFixed(3));
+      setStyle(w, 'transform', `translateY(${((1 - t) * 18).toFixed(2)}px)`);
+    });
   });
   const { done } = scene;
 
@@ -420,10 +456,10 @@ export function ZoomScene({
         )
       }
     >
-      <h3
-        ref={headRef}
-        className={`zoom-title grad-text ${done ? '' : 'will-change-[transform,filter,opacity]'} ${titleClassName}`}
-      >
+      {/* Solid brand colour while it zooms, the gradient once it lands:
+          Safari drops `background-clip: text` on a transformed or filtered
+          element (the heading vanished, or showed as a blurred blue box) */}
+      <h3 ref={headRef} className={`zoom-title ${done ? 'grad-text' : 'zoom-live'} ${titleClassName}`}>
         {title}
       </h3>
       {/* The word spans stay after it finishes: swapping them for plain text
