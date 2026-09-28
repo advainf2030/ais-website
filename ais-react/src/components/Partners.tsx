@@ -83,8 +83,8 @@ export default function Partners() {
           style={{ direction: 'ltr' }}
         >
           {/* Gradient edge masks */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white/90 via-white/50 to-transparent dark:from-[#06142D] dark:via-[#06142D]/60 dark:to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white/90 via-white/50 to-transparent dark:from-[#06142D] dark:via-[#06142D]/60 dark:to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-white/90 via-white/50 to-transparent dark:from-[#0b1120] dark:via-[#0b1120]/60 dark:to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-white/90 via-white/50 to-transparent dark:from-[#0b1120] dark:via-[#0b1120]/60 dark:to-transparent z-10 pointer-events-none" />
 
           {/* Triple-track seamless infinite marquee — tripled logos ensure no gaps even on wide screens */}
           <div className="marquee-track" dir="ltr">

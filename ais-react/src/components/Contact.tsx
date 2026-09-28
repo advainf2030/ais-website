@@ -174,11 +174,7 @@ export default function Contact() {
               >
                 <div className="flex items-center gap-3 px-4 py-2 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl [clip-path:polygon(10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%,0_10px)]">
                   <span className="relative flex h-2 w-2" aria-hidden="true">
-                    <motion.span
-                      className="absolute inset-0 rounded-full bg-emerald-400"
-                      animate={{ scale: [1, 2.6], opacity: [0.6, 0] }}
-                      transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
-                    />
+                    <span className="badge-ping absolute inset-0 rounded-full bg-emerald-400" />
                     <span className="relative h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(0,174,239,0.9)]" />
                   </span>
                   <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.18em] rtl:tracking-normal rtl:text-xs text-emerald-800 dark:text-emerald-300">

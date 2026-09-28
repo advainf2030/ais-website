@@ -31,7 +31,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
             opacity: 0,
             transition: { duration: 0.8, ease: CINEMATIC_EASE },
           }}
-          className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-[#EEF2F7] dark:bg-[#06142D] overflow-hidden select-none pointer-events-auto"
+          className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-[#EEF2F7] dark:bg-[#070b14] overflow-hidden select-none pointer-events-auto"
         >
           {/* Subtle corporate ambient glow expanding smoothly behind logo */}
           <motion.div

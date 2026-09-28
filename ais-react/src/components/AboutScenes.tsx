@@ -51,6 +51,15 @@ document.addEventListener(
 );
 const anchorNavActive = () => performance.now() - anchorNavAt < 2500;
 
+// Fingers on the screen: the page is being dragged or is about to fling
+let touches = 0;
+const onTouch = (e: TouchEvent) => {
+  touches = e.touches.length;
+};
+for (const type of ['touchstart', 'touchend', 'touchcancel'] as const) {
+  document.addEventListener(type, onTouch, { capture: true, passive: true });
+}
+
 function useScene(id: string, extraVh: number, render: (p: number, pinned: boolean) => void) {
   const wrap = useRef<HTMLDivElement>(null);
   const stick = useRef<HTMLDivElement>(null);
@@ -138,18 +147,7 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
       if (shown >= 1) {
         stop();
         played.add(id);
-        // Release the pinned scroll length right away when the scene is still
-        // on screen, so scrolling back up never runs into a frozen, pinned
-        // stretch. If it was flung past, or a link is still travelling, that
-        // waits until the scene is off screen (below).
-        const cur = w.getBoundingClientRect();
-        const onScreen = cur.bottom > 0 && cur.top < vh;
-        if (layout!.pin && onScreen && !anchorNavActive() && content.current) {
-          anchor.current = { el: content.current, top: content.current.getBoundingClientRect().top };
-          document.documentElement.style.overflowAnchor = 'none';
-          setSpaceGone(true);
-        }
-        setDone(true);
+        setDone(true); // the pinned space is released once scrolling settles (below)
         return;
       }
       if (shown !== target) {
@@ -166,28 +164,45 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
     };
   }, [done, layout, id]);
 
-  // Once off screen and scrolling has stopped, shrink the full-screen frame to
-  // its content (and drop the scroll length too, if that wasn't done yet)
+  // Release the pinned space once scrolling has settled — no scroll event
+  // for a moment and no finger on the screen — keeping what's on screen
+  // exactly where it is. Never mid-scroll: moving the scroll position during
+  // a touch fling or a smooth wheel scroll kills its momentum ("it froze").
+  // The one exception is the visitor turning back up: there is no downward
+  // momentum left to lose then, and waiting would leave a pinned stretch to
+  // scroll through, so it goes at once. While the scene is still on screen
+  // only the extra scroll length goes; the full-screen frame around the
+  // content goes once it's off screen.
   useEffect(() => {
     if (!done || boxGone || !layout?.pin) return; // unpinned scenes add no space
     let timer = 0;
-    const tryCollapse = () => {
-      const r = wrap.current?.getBoundingClientRect();
-      if (!r || (r.bottom > 0 && r.top < window.innerHeight)) return;
-      if (anchorNavActive()) {
-        timer = window.setTimeout(tryCollapse, 300);
+    let lastY = window.scrollY;
+    const release = (turnedBack = false) => {
+      if (!turnedBack && (touches > 0 || anchorNavActive())) {
+        timer = window.setTimeout(release, 200);
         return;
       }
-      // Keep whatever sits at the centre of the screen exactly where it is
-      const el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
-      anchor.current = el ? { el, top: el.getBoundingClientRect().top } : null;
+      const r = wrap.current?.getBoundingClientRect();
+      if (!r) return;
+      const onScreen = r.bottom > 0 && r.top < window.innerHeight;
+      if (onScreen && spaceGone) return;
+      if (onScreen && content.current) {
+        anchor.current = { el: content.current, top: content.current.getBoundingClientRect().top };
+      } else {
+        const el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+        anchor.current = el ? { el, top: el.getBoundingClientRect().top } : null;
+      }
       document.documentElement.style.overflowAnchor = 'none';
       setSpaceGone(true);
-      setBoxGone(true);
+      if (!onScreen) setBoxGone(true);
     };
     const onScroll = () => {
       window.clearTimeout(timer);
-      timer = window.setTimeout(tryCollapse, 220);
+      const y = window.scrollY;
+      const turnedBack = y < lastY - 2 && !spaceGone && !anchorNavActive();
+      lastY = y;
+      if (turnedBack) release(true);
+      else timer = window.setTimeout(release, 160);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -195,7 +210,7 @@ function useScene(id: string, extraVh: number, render: (p: number, pinned: boole
       window.removeEventListener('scroll', onScroll);
       window.clearTimeout(timer);
     };
-  }, [done, boxGone, layout]);
+  }, [done, boxGone, spaceGone, layout]);
 
   useLayoutEffect(() => {
     const a = anchor.current;
