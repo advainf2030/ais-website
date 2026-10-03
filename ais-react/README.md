@@ -56,6 +56,13 @@ branch. The server needs no Node.js or npm:
 - Without cPanel Git: GitHub → switch branch to `hosting` → *Code* →
   *Download ZIP*, and upload the files inside it to the document root.
 
+**Automatic upload on every push (FTP):** add repo secrets `FTP_SERVER`,
+`FTP_USERNAME`, `FTP_PASSWORD` (Settings → Secrets and variables → Actions;
+cPanel → *FTP Accounts* shows the server and user). The Action then uploads the
+build into `public_html/` after each push. Optional repo variables: `FTP_DIR`
+(another document root, ending in `/`) and `FTP_PROTOCOL` (`ftp` if the host
+rejects FTPS).
+
 If the Action fails to push, enable *Settings → Actions → General → Workflow
 permissions → Read and write* on the repo.
 

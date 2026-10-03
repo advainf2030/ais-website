@@ -21,6 +21,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Optional automatic upload to the host (Spaceship cPanel). Set these as
+      # repo secrets: Settings -> Secrets and variables -> Actions. Without
+      # them the upload step is skipped and only the hosting branch updates.
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
     steps:
       - uses: actions/checkout@v4
 
@@ -59,3 +64,15 @@ jobs:
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -q -m "Build ${GITHUB_SHA::7}"
           git push origin HEAD:refs/heads/hosting
+
+      - name: Upload to the host over FTP
+        if: env.FTP_SERVER != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          local-dir: ./ais-react/dist/
+          # The domain's document root as seen by the FTP account
+          server-dir: ${{ vars.FTP_DIR || 'public_html/' }}
