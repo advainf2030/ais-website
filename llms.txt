@@ -1,0 +1,74 @@
+# Advanced Information Systems Company (AIS Contracting)
+
+> Owned by City Bandit Limited and established in 1998, Advanced Information Systems Company is a progressive technology organization specializing in telecommunications, information technology, and custom software development.
+
+## Who We Are
+
+Owned by City Bandit Limited and established in 1998, Advanced Information Systems Company is a progressive technology organization specializing in telecommunications, information technology, and custom software development. Over the years, the company has earned a strong reputation for delivering reliable, scalable, and future-ready digital solutions that help organizations adapt to rapidly evolving technological landscapes.
+
+Leveraging decades of industry experience, the company combines advanced technologies, modern infrastructure, and best practices to design and implement solutions that enhance operational efficiency, strengthen security, and accelerate digital transformation. Its multidisciplinary expertise allows it to serve a broad range of sectors, providing customized services aligned with each client's strategic objectives and long-term growth plans.
+
+Focusing primarily on the Middle East, especially Saudi Arabia, Advanced Information Systems Company actively contributes to regional modernization and innovation initiatives. By partnering with both public and private sector organizations, the company delivers high-quality systems that support sustainable development and economic diversification.
+
+**Our Vision:** To be among the leading companies in information technology, cybersecurity, artificial intelligence, electricity, telecommunications, and general contracting, through continuous innovation and leveraging artificial intelligence to enhance trust and efficiency for clients in both the public and private sectors.
+
+**Our Mission:** Advanced Information Systems Company strives to provide diverse and reliable services with high quality and cost-effectiveness, combining modernity and innovation to meet client needs and exceed expectations efficiently and professionally, while contributing to the achievement of Saudi Arabia's Vision 2030.
+
+## Software Solutions
+
+We specialize in designing and developing tailor-made software solutions that address the unique challenges and requirements of each client.
+
+### Software Development
+
+- **Custom Software Development:** We focus on creating custom software solutions, carefully designed and developed to meet the specific needs and challenges of every client.
+- **Testing & Inspection:** We deliver comprehensive verification, testing, and inspection services to ensure the reliability and performance of systems and digital software.
+- **Quality Engineering:** Quality is integrated into every phase of our development lifecycle as we support organizations throughout their digital transformation journey.
+- **Code Testing:** We analyze, test, and verify software code to ensure it is robust, easy to maintain, and capable of scaling effectively.
+
+### Cyber Security
+
+- **Implementation & Deployment:** We deliver complete implementation and deployment of cybersecurity solutions across enterprise-level infrastructures.
+- **Customization & Development:** We deliver personalized cybersecurity solutions designed to address the specific challenges and goals of each client.
+- **Cyber Security Services:** We provide comprehensive cybersecurity services, including designing, implementing, and managing security solutions.
+- **Planning & Execution:** We help clients create customized incident response plans that align with their organization's specific risk profile.
+- **Professional Consulting:** We provide expert consulting to help clients define secure, scalable technology strategies aligned with their business goals.
+- **Performance Engineering:** We optimize systems and applications for speed, scalability, and reliability under real-world operating conditions.
+- **Automation Engineering:** We design and implement automation solutions that streamline operations, reduce manual effort, and improve consistency.
+- **IT Outsourcing:** We provide dedicated IT outsourcing services, giving clients access to skilled technical teams without the overhead of an in-house department.
+
+### Managed IT Services
+
+- **Managed Services:** We offer a wide array of managed IT services tailored to address the varied needs of clients across multiple industries.
+- **Integrated Managed Services:** We provide fully integrated managed services solutions that seamlessly blend IT management, cybersecurity, and cloud services.
+- **Proactive Solutions:** Proactive IT solutions emphasize detecting and resolving potential issues before they disrupt operations, using preventive strategies to maintain seamless performance.
+- **Securing Access:** We enable our clients with innovative solutions that adapt to their evolving needs, offering secure access to cutting-edge technologies.
+- **Improving IT Performance:** We actively enhance the long-term performance of internal and external devices, systems, and networks through continuous optimization.
+- **Hyperconverged Infrastructure:** We focus on implementing HCI solutions that unify computing, storage, and networking resources into a single, efficient system.
+- **Operation & Maintenance:** We offer clients technical expertise to support system management and maintenance, ensuring seamless and reliable IT operations.
+
+## Power Solutions
+
+We offer complete Power Solutions for both Medium and Low Voltage systems, encompassing engineering, design, supply, installation, testing, and commissioning.
+
+- **Low Voltage Services:** Expert design, installation, and maintenance of low-voltage systems for commercial, residential, and industrial applications.
+- **Backup Power Systems (UPS):** UPS and backup power systems safeguard business continuity through intelligent energy monitoring and management.
+- **Medium Voltage Solutions:** Improving network reliability and stability with advanced medium-voltage power solutions.
+
+## Telecom & ICT Solutions
+
+We provide end-to-end technology solutions, covering connectivity, fiber optics (OSP & FTTX), data centers, network security, core ISP networks, infrastructure, and storage.
+
+- **Connectivity Solutions:** This encompasses the design and deployment of wired and wireless networks, structured cabling, and unified communications systems.
+- **Data Center Solutions:** Ensures reliable connectivity and fast data transfer through comprehensive data center infrastructure planning and maintenance.
+- **Core Network - ISP:** Enterprise-grade routing, switching, and MPLS backbone infrastructure built to core ISP network standards.
+- **Safe City - CCTV:** We deliver complete CCTV and surveillance solutions for Safe City initiatives, ensuring efficient and high-quality monitoring.
+- **Network Security:** We deliver comprehensive network security solutions to safeguard critical systems, data, and communications against unauthorized access.
+- **Storage Solutions:** We offer scalable and dependable storage solutions designed to support the expanding data requirements of modern organizations.
+- **Network Infrastructure:** We deliver complete network infrastructure solutions tailored to address the evolving demands of modern organizations.
+- **OSP & FTTX Solutions:** We offer complete OSP (Outside Plant) and FTTx solutions, including planning, design, implementation, and testing.
+
+## Contact
+
+- Headquarters: [Building 7022, Al Aqeeq Dist, Riyadh, Postal Code 13515, Kingdom of Saudi Arabia.](https://maps.google.com/?q=Building+7022+Al+Aqeeq+Dist+Riyadh+13515+KSA)
+- Phone: [+966 53 086 7489](tel:+966530867489)
+- Email: [info@advaninfo.com](mailto:info@advaninfo.com)
