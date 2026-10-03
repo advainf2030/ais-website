@@ -5,7 +5,7 @@ import type { ImgHTMLAttributes, ReactNode } from 'react';
  * Scroll scenes for the About tab, built to match the approved demo:
  *  - "Who we are" (BeamScene): the heading is uncovered behind a light beam,
  *    then the text lights up word by word.
- *  - "Vision" / "Mission" (ZoomScene): the heading starts huge and blurred and
+ *  - "Vision" / "Mission" (ZoomScene): the heading starts huge and
  *    settles into place while a giant ghost of the word drifts behind it, then
  *    the text rises in word by word.
  * Each scene pins in the middle of the screen and is scrubbed by the scroll,
@@ -398,23 +398,23 @@ export function ZoomScene({
     // Reads first, writes after
     let z: number;
     let from: number;
-    let blur: number;
     let wordT: (i: number) => number;
     if (pinned) {
       // Pinned (mouse/trackpad): heading zooms 6x -> 1x over the first 42%
       // of the pin, then the words rise in reading order
       z = easeOut(range(p, 0, 0.42));
       from = 6;
-      blur = 14;
       const filled = range(p, 0.42, 0.97) * (words?.length ?? 0);
       wordT = (i) => clamp01(filled - i);
     } else {
-      // Touch screens: the heading settles 3x -> 1x as it rises from 92% to
-      // 55% of the screen; each word rises as it crosses the reading line
-      const headTop = head?.getBoundingClientRect().top ?? vh;
-      z = easeOut(clamp01((vh * 0.92 - headTop) / (vh * 0.37)));
+      // Touch screens: once the heading has risen a little into view (80% of
+      // the screen) it settles 3x -> 1x by 48%; each word rises as it
+      // crosses the reading line. Layout position, not the zoomed box (that
+      // would feed back into itself).
+      const headTop =
+        head && box ? box.getBoundingClientRect().top - (box.offsetTop - head.offsetTop) : vh;
+      z = easeOut(clamp01((vh * 0.8 - headTop) / (vh * 0.32)));
       from = 3;
-      blur = 8;
       let tops: number[] = [];
       if (words && box) {
         const boxTop = box.getBoundingClientRect().top;
@@ -424,12 +424,11 @@ export function ZoomScene({
         }
         tops = wordOffsets.current.tops.map((t) => boxTop + t);
       }
-      wordT = (i) => clamp01((vh * 0.86 - (tops[i] ?? vh)) / (vh * 0.2));
+      wordT = (i) => clamp01((vh * 0.8 - (tops[i] ?? vh)) / (vh * 0.2));
     }
 
     if (head) {
       setStyle(head, 'transform', `scale(${(from - (from - 1) * z).toFixed(4)})`);
-      setStyle(head, 'filter', z < 1 ? `blur(${((1 - z) * blur).toFixed(2)}px)` : '');
       setStyle(head, 'opacity', clamp01(z * 4).toFixed(3));
     }
     if (ghost) {
