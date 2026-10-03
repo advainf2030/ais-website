@@ -13,6 +13,15 @@ AIS Contracting landing page — single-page marketing site for Advanced Informa
 - **lucide-react** for icons
 - **oxlint** for linting (not ESLint)
 
+## Setup on a new machine
+
+Node.js 22 LTS (pinned in `ais-react/.nvmrc`), then install with **`npm ci`** — it installs the exact `package-lock.json` versions without re-resolving, so it is fast and reproducible. `ais-react/.npmrc` sets `prefer-offline` (reuse the npm cache) and turns off the audit/fund calls. Use `npm install <pkg>` only when adding or upgrading a dependency, and commit the updated `package-lock.json`. Don't add an `engines` field to `package.json`: Vercel reads it and would switch the production Node version.
+
+```bash
+cd ais-react
+npm ci            # first-time / after package-lock.json changes
+```
+
 ## Commands
 
 ```bash
