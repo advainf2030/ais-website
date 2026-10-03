@@ -27,7 +27,8 @@ export default defineConfig(({ mode }) => {
     // Relative asset URLs: the same dist/ works at a domain root (Vercel) and
     // when uploaded into any sub-folder of a traditional host (cPanel/Spaceship)
     base: './',
-    plugins: [react(), tailwindcss(), seoPlugin(), standalone && classicScripts()],
+    // The standalone build is the one uploaded to the client's own domain
+    plugins: [react(), tailwindcss(), seoPlugin(standalone ? { siteUrl: 'https://advainf.com' } : {}), standalone && classicScripts()],
     build: {
       sourcemap: !standalone,
       modulePreload: standalone ? false : undefined,

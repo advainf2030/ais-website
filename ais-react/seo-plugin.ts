@@ -19,7 +19,9 @@ const MAPS_URL = 'https://maps.google.com/?q=Building+7022+Al+Aqeeq+Dist+Riyadh+
 // The one place the production domain lives. When the site moves to its own
 // domain, change this default (or set SITE_URL in the host's env vars) and
 // canonical, hreflang, Open Graph, JSON-LD, sitemap and robots all follow.
-const SITE_URL = (process.env.SITE_URL ?? 'https://advaninfo.vercel.app').replace(/\/$/, '');
+// Order: SITE_URL env var, then seoPlugin({ siteUrl }), then this default.
+const DEFAULT_SITE_URL = 'https://advaninfo.vercel.app';
+let SITE_URL = DEFAULT_SITE_URL;
 const abs = (path = '') => `${SITE_URL}/${path.replace(/^\//, '')}`;
 const langUrl = (lng: 'en' | 'ar') => `${SITE_URL}/?lang=${lng}`;
 
@@ -265,7 +267,8 @@ const TEXT_FILES: Record<string, { type: string; body: () => string }> = {
   'robots.txt': { type: 'text/plain', body: robotsTxt },
 };
 
-export default function seoPlugin(): Plugin {
+export default function seoPlugin({ siteUrl }: { siteUrl?: string } = {}): Plugin {
+  SITE_URL = (process.env.SITE_URL ?? siteUrl ?? DEFAULT_SITE_URL).replace(/\/$/, '');
   return {
     name: 'ais-seo',
     transformIndexHtml(html) {

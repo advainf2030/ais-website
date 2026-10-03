@@ -38,6 +38,13 @@ Build order matters: `tsc` runs before `vite build`. TypeScript errors will fail
 
 Traditional hosting (advainf.com, cPanel): `.github/workflows/hosting.yml` builds on every push to `master` and commits the built files to the `hosting` branch; the server pulls that branch into its document root. Never point the server at `master` (it holds source, not a build). The Action uses `npm run build:standalone` (classic script, no ES modules), so the same files also run by double-clicking `index.html` offline.
 
+### Deploying to advainf.com (Spaceship cPanel)
+The host is a static LiteSpeed server: it serves files, it does not run Node. Build on a computer, then upload the result:
+1. `cd ais-react && npm ci && npm run build:standalone` → `ais-react/dist/` (already set for `https://advainf.com`).
+2. Upload the **contents** of `dist/`, including the hidden `.htaccess`, into the domain's document root (cPanel → *Domains* → *Document Root*, usually `public_html/`). Easiest: zip the contents, upload with *File Manager*, *Extract*, delete the zip.
+3. Never upload the project folder itself or `node_modules`; `index.html` in the source only works through Vite.
+4. Open https://advainf.com with Ctrl+F5. An "Index of /" page means `index.html` is not directly in the document root.
+
 ### Self-contained site (offline)
 The client runs the site with no internet. Keep every asset local: no CDN videos/images, no Google Fonts, no remote scripts. Fonts come from `@fontsource` subsets in `src/fonts.css`; images and videos live in `public/`. Only plain links (maps, WhatsApp, mail) may point outside.
 

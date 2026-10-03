@@ -68,9 +68,9 @@ permissions → Read and write* on the repo.
 
 **Manual build:**
 
-1. Build with the real domain so canonical / Open Graph / sitemap point to it:
-   `SITE_URL=https://example.com npm run build:standalone` (PowerShell:
-   `$env:SITE_URL="https://example.com"; npm run build:standalone`).
+1. `npm run build:standalone`. Canonical / Open Graph / sitemap already point
+   to `https://advainf.com`; for another domain set `SITE_URL` first
+   (PowerShell: `$env:SITE_URL="https://example.com"; npm run build:standalone`).
 2. Upload the **contents** of `dist/` (`index.html`, `assets/`, `logos/`, …,
    including the hidden `.htaccess`) into `public_html/` or any sub-folder.
    `*.map` files are optional.
