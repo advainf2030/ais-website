@@ -33,9 +33,6 @@ const resources = {
         explore: 'Explore Solutions',
         scrollCue: 'Scroll to our services',
         contact: 'Contact Us',
-        statEstablished: 'YEAR ESTABLISHED',
-        statAlignment: 'VISION 2030 ALIGNMENT',
-        statFocus: 'SAUDI ARABIA FOCUS',
       },
       services: {
         cards: [
@@ -285,12 +282,9 @@ const resources = {
           'Advanced Information Systems & Contracting (AIS Contracting). Owned by City Bandit Limited.',
         rights:
           'Copyright Advanced Information Systems & Contracting (AIS Contracting). Owned by City Bandit Limited. Riyadh, KSA. All rights reserved.',
-        location: 'Riyadh, Kingdom of Saudi Arabia',
         address: 'Building 7022, Al Aqeeq Dist, Riyadh 13515, KSA',
         phone: '+966 53 086 7489',
         email: 'info@advaninfo.com',
-        workTogether: "Let's Work Together!",
-        workTogetherDesc: 'Ready to start your next project? We\'d love to hear from you.',
       },
     },
   },
@@ -322,9 +316,6 @@ const resources = {
         explore: 'تعرّف على خدماتنا',
         scrollCue: 'انتقل إلى خدماتنا',
         contact: 'تواصل معنا',
-        statEstablished: 'سنة التأسيس',
-        statAlignment: 'متوافقون مع رؤية 2030',
-        statFocus: 'نخدم المملكة',
       },
       services: {
         cards: [
@@ -574,12 +565,9 @@ const resources = {
           'شركة أنظمة المعلومات المتقدمة والمقاولات (AIS Contracting) — مملوكة لشركة City Bandit Limited.',
         rights:
           'جميع الحقوق محفوظة © شركة أنظمة المعلومات المتقدمة والمقاولات. الرياض، المملكة العربية السعودية.',
-        location: 'الرياض، المملكة العربية السعودية',
         address: 'مبنى 7022، حي العقيق، الرياض 13515، المملكة العربية السعودية',
         phone: '+966 53 086 7489',
         email: 'info@advaninfo.com',
-        workTogether: 'لنعمل معاً!',
-        workTogetherDesc: 'جاهز لبدء مشروعك القادم؟ نسعد بالتواصل معك.',
       },
     },
   },

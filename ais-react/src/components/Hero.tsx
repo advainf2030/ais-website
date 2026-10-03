@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef } from 'react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { ChevronDown, MessagesSquare, ScanSearch } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import KineticHeadline, { splitUnits } from './KineticHeadline';
+import KineticHeadline from './KineticHeadline';
+import { splitUnits } from '../lib/splitUnits';
 
 const EASE = [0.22, 0.61, 0.36, 1] as [number, number, number, number];
 

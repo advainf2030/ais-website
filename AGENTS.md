@@ -2,13 +2,13 @@
 
 ## Project
 
-AIS Contracting landing page — single-page marketing site for Advanced Information Systems & Contracting (Saudi tech company). React app lives in `ais-react/`. Root `index.html` is a legacy static version — ignore it.
+AIS Contracting landing page — single-page marketing site for Advanced Information Systems & Contracting (Saudi tech company). The React app in `ais-react/` is the whole project (the old static HTML version has been removed).
 
 ## Stack
 
 - **Vite 8** + **React 19** + **TypeScript 6** (strict: `noUnusedLocals`, `noUnusedParameters`)
 - **Tailwind CSS v4** via `@tailwindcss/vite` plugin — **no `tailwind.config.*` file**. Theme tokens are defined in `src/index.css` using `@theme {}` blocks.
-- **framer-motion v13** for animations, **GSAP** for scroll-driven parallax
+- **framer-motion v13** for animations, **GSAP** (`quickTo`) for the cursor-tilt cards
 - **i18next** + **react-i18next** for Arabic/English i18n
 - **lucide-react** for icons
 - **oxlint** for linting (not ESLint)
@@ -29,23 +29,27 @@ Build order matters: `tsc` runs before `vite build`. TypeScript errors will fail
 
 ```
 ais-react/
-├── index.html              # HTML entry + Google Fonts (Inter, Plus Jakarta Sans, IBM Plex Sans Arabic)
-├── public/logos/            # All partner/brand logos served statically
+├── index.html              # HTML entry + Google Fonts (Montserrat, IBM Plex Sans Arabic)
+├── seo-plugin.ts           # Build plugin: meta/OG/hreflang/JSON-LD, sitemap.xml, robots.txt, llms.txt
+├── public/                 # logos/, images/, videos/, og-image.jpg, Search Console file (keep)
 ├── src/
-│   ├── main.tsx             # React root + i18n init import
-│   ├── App.tsx              # Layout shell: Aurora → Navbar → sections → Footer
+│   ├── main.tsx             # React root + i18n init, keyboard/pointer focus-ring mode
+│   ├── App.tsx              # Layout shell: Splash → Aurora → Navbar → sections → Footer
 │   ├── i18n.ts              # All EN/AR translations inline (no JSON files)
-│   ├── data.ts              # Service cards, pillar cards, partner logos, contact info
-│   ├── index.css            # Tailwind v4 theme, glass effects, aurora keyframes, pillar accordion CSS
+│   ├── data.ts              # Partner logos, contact info
+│   ├── index.css            # Tailwind v4 theme (brand colours), glass, motion keyframes
+│   ├── hooks/useTheme.ts    # Theme context + hook
+│   ├── lib/splitUnits.ts    # Headline splitting for KineticHeadline (words for Arabic)
 │   └── components/
-│       ├── AuroraBackground  # Fixed fullscreen gradient orbs with GSAP scroll parallax
-│       ├── Navbar            # Glass nav with mobile hamburger, language toggle, scroll progress
-│       ├── Hero              # Title, stats strip (1998 / Vision 2030 / KSA map)
-│       ├── Services          # 4 service cards in a 12-col grid with background images
-│       ├── Pillars           # Horizontal accordion (CSS flex, not JS resize)
-│       ├── Partners          # Infinite marquee of partner logos
-│       ├── Contact           # Form with AnimatePresence success state
-│       └── Footer
+│       ├── SplashScreen      # Logo intro
+│       ├── AuroraBackground  # Fixed background: CSS-animated orbs + video (never hide it)
+│       ├── Navbar            # Glass nav, mobile drawer, language/theme switches, scroll progress
+│       ├── Hero / KineticHeadline  # Title with scroll-dissolve and light-beam reveal
+│       ├── TabSystem         # About + service tabs; two-column accordions
+│       ├── AboutScenes       # Scroll scenes for About (pinned on desktop, position-driven on touch)
+│       ├── WhyChooseUs, ContactInfo, Partners, Contact, Footer
+│       ├── ScrollReveal      # whileInView wrapper
+│       └── ThemeContext      # ThemeProvider
 ```
 
 ## Critical Gotchas
@@ -63,11 +67,11 @@ Tailwind v4 uses CSS-first configuration. All theme customization is in `src/ind
 ### framer-motion v13 typing
 Cubic-bezier ease arrays must be typed as tuples: `[0.22, 0.61, 0.36, 1] as [number, number, number, number]`. Plain `number[]` causes TS errors with framer-motion's `Variants` type.
 
-### Pillar Accordion
-The horizontal accordion in `Pillars.tsx` is driven by **CSS flex transitions** defined in `index.css` (`#pillar-accordion .pillar-card`), not by JS width manipulation. React state only toggles the `is-active` class.
+### Accordion layout
+In the two-column service accordions (`TabSystem.tsx`), an item opened in the second column swaps places with the item opposite it (CSS `order`), so its description opens directly beneath it. DOM order never changes.
 
 ### Static Assets
-All logos are in `public/logos/` and referenced as `logos/filename.ext` (no leading `/` needed — Vite resolves from public root). Service card background images are external URLs from `data.ts`.
+All logos are in `public/logos/` and referenced as `logos/filename.ext` (no leading `/` needed — Vite resolves from public root). Service images live in `public/images/`.
 
 ### No italic on Arabic
 Never use `italic` on Arabic text — IBM Plex Sans Arabic doesn't have an italic variant, and it causes character clipping (especially ن and similar descenders).

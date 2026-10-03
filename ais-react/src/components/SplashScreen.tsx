@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../hooks/useTheme';
 
 const CINEMATIC_EASE = [0.22, 1, 0.36, 1] as [number, number, number, number];
 

@@ -19,17 +19,6 @@ import { motion, useTransform, useMotionValueEvent, type MotionValue } from 'fra
  * a finer letter-by-letter dissolve. Both still read as fully "kinetic".
  */
 
-function splitUnits(text: string, wordLevel: boolean): string[] {
-  if (wordLevel) {
-    return text.split(/(\s+)/).filter((s) => s.length > 0);
-  }
-  if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
-    return Array.from(segmenter.segment(text), (s) => s.segment);
-  }
-  return Array.from(text);
-}
-
 function KineticUnit({
   unit,
   index,
@@ -100,7 +89,7 @@ export default function KineticHeadline({
   dissolveEnd = 0.6,
   className,
 }: {
-  // Pre-split by the caller (via `splitUnits`, exported below) so a headline
+  // Pre-split by the caller (via `splitUnits` in lib/splitUnits.ts) so a headline
   // made of several segments — e.g. a plain run plus a gradient run — only
   // splits each string once instead of once per segment per render.
   units: string[];
@@ -148,4 +137,3 @@ export default function KineticHeadline({
   );
 }
 
-export { splitUnits };

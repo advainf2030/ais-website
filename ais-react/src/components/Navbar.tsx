@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { ArrowUpRight, Fingerprint, Menu, Moon, Sun, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../hooks/useTheme';
 import { rememberLanguage } from '../i18n';
 
 const LINKS = [
@@ -129,7 +129,9 @@ export default function Navbar() {
   const setLang = (lng: 'en' | 'ar') => rememberLanguage(lng);
 
   const handleNavClick = (tab: string, href: string) => {
-    window.location.hash = href;
+    // pushState rather than location.hash: '#about' is also the hero's id,
+    // so assigning the hash first jumped to the top of the page
+    window.history.pushState(null, '', href);
     window.dispatchEvent(new CustomEvent('ais:switch-tab', { detail: tab }));
     const el = document.getElementById('solutions');
     if (el) {
