@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 
 
 const DESKTOP_VIDEO = {
-  src: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4',
+  // Served from the site itself (no CDN), so it also plays offline. Re-encoded
+  // from the 13.8 MB original at the same 1920x1080 (~3.2 MB, SSIM 0.98).
+  src: 'videos/bg-desktop.mp4',
   // First frame of the clip itself, so the backdrop looks the same while the
-  // 13.5 MB video is still loading (an unrelated stock photo showed before).
+  // video is still loading (an unrelated stock photo showed before).
   poster: 'videos/bg-desktop-poster.webp',
 };
-// Portrait centre crop of the same clip, 600x800 (~440 KB vs ~13.5 MB): phones
+// Portrait centre crop of the same clip, 600x800 (~440 KB vs ~3.2 MB): phones
 // only ever show that middle strip under object-cover. Poster is its first frame.
 const MOBILE_VIDEO = {
   src: 'videos/bg-mobile.mp4',

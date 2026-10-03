@@ -44,7 +44,7 @@ const resources = {
             groups: [
               {
                 title: 'Software Development',
-                image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/software-development.webp',
                 items: [
                   {
                     title: 'Custom Software Development',
@@ -200,7 +200,7 @@ const resources = {
               {
                 title: 'Network Infrastructure',
                 desc: 'We deliver complete network infrastructure solutions tailored to address the evolving demands of modern organizations.',
-                image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/network-infrastructure.webp',
               },
               {
                 title: 'OSP & FTTX Solutions',
@@ -327,7 +327,7 @@ const resources = {
             groups: [
               {
                 title: 'تطوير البرمجيات',
-                image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/software-development.webp',
                 items: [
                   {
                     title: 'تطوير برمجيات مخصصة',
@@ -483,7 +483,7 @@ const resources = {
               {
                 title: 'البنية التحتية للشبكات',
                 desc: 'نقدم حلول بنية تحتية متكاملة للشبكات، مصممة خصيصاً لتلبية المتطلبات المتطورة للمؤسسات الحديثة.',
-                image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
+                image: 'images/network-infrastructure.webp',
               },
               {
                 title: 'حلول الألياف الضوئية (FTTX)',

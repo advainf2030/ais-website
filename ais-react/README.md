@@ -40,6 +40,10 @@ npm run preview   # serve the production build
 The browser can't run the source (`index.html` there loads `src/main.tsx`), so
 the server must get the **build**, never the project folder.
 
+**Offline / on a computer:** the `hosting` branch has no internet
+dependencies. GitHub → branch `hosting` → *Code* → *Download ZIP*, unzip, and
+double-click `index.html` (or `npm run build:standalone` and open `dist/index.html`).
+
 **Pulling from GitHub (recommended):** on every push to `master`, the GitHub
 Action `.github/workflows/hosting.yml` builds the site (for
 `https://advainf.com`) and commits the ready files to the **`hosting`**
@@ -58,16 +62,16 @@ permissions → Read and write* on the repo.
 **Manual build:**
 
 1. Build with the real domain so canonical / Open Graph / sitemap point to it:
-   `SITE_URL=https://example.com npm run build` (PowerShell:
-   `$env:SITE_URL="https://example.com"; npm run build`).
+   `SITE_URL=https://example.com npm run build:standalone` (PowerShell:
+   `$env:SITE_URL="https://example.com"; npm run build:standalone`).
 2. Upload the **contents** of `dist/` (`index.html`, `assets/`, `logos/`, …,
    including the hidden `.htaccess`) into `public_html/` or any sub-folder.
    `*.map` files are optional.
 
 Asset URLs are relative (`base: './'` in `vite.config.ts`), so the same build
-works at the domain root and in a sub-folder. Opening `dist/index.html` by
-double-click (`file://`) does not work: browsers block module scripts there.
-Use `npm run preview` to check a build locally.
+works at the domain root and in a sub-folder. Only the standalone build
+(`npm run build:standalone`) opens by double-click (`file://`): the normal
+build uses ES modules, which browsers block there.
 
 Stack: React 19, Vite 8, TypeScript, Tailwind CSS v4 (theme in `src/index.css`),
 framer-motion, GSAP, i18next. Translations live in `src/i18n.ts`; the site URL

@@ -36,13 +36,16 @@ Build order matters: `tsc` runs before `vite build`. TypeScript errors will fail
 
 `base: './'` in `vite.config.ts` keeps every built URL relative so `dist/` also works when uploaded to a sub-folder on a traditional host. Keep public assets referenced without a leading `/` (`logos/x.svg`, not `/logos/x.svg`).
 
-Traditional hosting (advainf.com, cPanel): `.github/workflows/hosting.yml` builds on every push to `master` and commits the built files to the `hosting` branch; the server pulls that branch into its document root. Never point the server at `master` (it holds source, not a build).
+Traditional hosting (advainf.com, cPanel): `.github/workflows/hosting.yml` builds on every push to `master` and commits the built files to the `hosting` branch; the server pulls that branch into its document root. Never point the server at `master` (it holds source, not a build). The Action uses `npm run build:standalone` (classic script, no ES modules), so the same files also run by double-clicking `index.html` offline.
+
+### Self-contained site (offline)
+The client runs the site with no internet. Keep every asset local: no CDN videos/images, no Google Fonts, no remote scripts. Fonts come from `@fontsource` subsets in `src/fonts.css`; images and videos live in `public/`. Only plain links (maps, WhatsApp, mail) may point outside.
 
 ## Architecture
 
 ```
 ais-react/
-├── index.html              # HTML entry + Google Fonts (Montserrat, IBM Plex Sans Arabic)
+├── index.html              # HTML entry (fonts are bundled: src/fonts.css, @fontsource)
 ├── seo-plugin.ts           # Build plugin: meta/OG/hreflang/JSON-LD, sitemap.xml, robots.txt, llms.txt
 ├── public/                 # logos/, images/, videos/, og-image.jpg, .htaccess (cPanel hosts), Search Console file (keep)
 ├── src/

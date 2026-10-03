@@ -20,9 +20,8 @@ const CATEGORY_HERO_IMAGES: Record<number, string> = {
 
 /* Curated technical architectural imagery for the About section (100% human-free) */
 const ABOUT_IMAGE_1 = 'images/about-building.webp';
-const ABOUT_IMAGE_2_BASE = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=75';
-const ABOUT_IMAGE_2 = `${ABOUT_IMAGE_2_BASE}&w=1200`;
-const ABOUT_IMAGE_2_SRCSET = `${ABOUT_IMAGE_2_BASE}&w=640 640w, ${ABOUT_IMAGE_2_BASE}&w=1200 1200w`;
+const ABOUT_IMAGE_2 = 'images/about-tower.webp';
+const ABOUT_IMAGE_2_SRCSET = 'images/about-tower-640.webp 640w, images/about-tower.webp 1200w';
 
 interface SubServiceItem {
   title: string;
