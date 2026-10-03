@@ -36,6 +36,8 @@ Build order matters: `tsc` runs before `vite build`. TypeScript errors will fail
 
 `base: './'` in `vite.config.ts` keeps every built URL relative so `dist/` also works when uploaded to a sub-folder on a traditional host. Keep public assets referenced without a leading `/` (`logos/x.svg`, not `/logos/x.svg`).
 
+Traditional hosting (advainf.com, cPanel): `.github/workflows/hosting.yml` builds on every push to `master` and commits the built files to the `hosting` branch; the server pulls that branch into its document root. Never point the server at `master` (it holds source, not a build).
+
 ## Architecture
 
 ```

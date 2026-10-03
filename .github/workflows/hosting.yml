@@ -1,0 +1,59 @@
+# Builds the site on every push to master and publishes the ready-to-serve
+# files (index.html, assets/, logos/, .htaccess …) to the `hosting` branch.
+# A cPanel/Spaceship host clones or pulls that branch straight into the
+# domain's document root: no Node.js or npm is needed on the server.
+name: Build for hosting
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hosting
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ais-react/.nvmrc
+          cache: npm
+          cache-dependency-path: ais-react/package-lock.json
+
+      - name: Build
+        working-directory: ais-react
+        env:
+          SITE_URL: https://advainf.com
+        run: |
+          npm ci
+          npm run build
+          find dist -name '*.map' -delete
+
+      - name: Publish to the hosting branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin hosting >/dev/null; then
+            git fetch --depth=1 origin hosting
+            git worktree add --detach ../hosting FETCH_HEAD
+          else
+            git worktree add --detach ../hosting
+            (cd ../hosting && git checkout -q --orphan hosting && git rm -rfq .)
+          fi
+          # New commits on top of the old ones (never a force push), so a
+          # plain `git pull` on the server always fast-forwards
+          find ../hosting -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a ais-react/dist/. ../hosting/
+          cd ../hosting
+          git add -A
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -q -m "Build ${GITHUB_SHA::7}"
+          git push origin HEAD:refs/heads/hosting

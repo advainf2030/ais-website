@@ -38,7 +38,24 @@ npm run preview   # serve the production build
 ## Hosting outside Vercel (cPanel, Spaceship, any Apache/LiteSpeed host)
 
 The browser can't run the source (`index.html` there loads `src/main.tsx`), so
-upload the **build**, never the project folder:
+the server must get the **build**, never the project folder.
+
+**Pulling from GitHub (recommended):** on every push to `master`, the GitHub
+Action `.github/workflows/hosting.yml` builds the site (for
+`https://advainf.com`) and commits the ready files to the **`hosting`**
+branch. The server needs no Node.js or npm:
+
+- cPanel → *Git Version Control* → *Create* → Clone URL = the repo, Repository
+  Path = the domain's document root (*Domains* → *Document Root*, must be
+  empty), then under *Manage* set the checked-out branch to `hosting`.
+- To update later: *Manage* → *Pull or Deploy* → *Update from Remote*.
+- Without cPanel Git: GitHub → switch branch to `hosting` → *Code* →
+  *Download ZIP*, and upload the files inside it to the document root.
+
+If the Action fails to push, enable *Settings → Actions → General → Workflow
+permissions → Read and write* on the repo.
+
+**Manual build:**
 
 1. Build with the real domain so canonical / Open Graph / sitemap point to it:
    `SITE_URL=https://example.com npm run build` (PowerShell:
