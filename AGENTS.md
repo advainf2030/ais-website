@@ -34,13 +34,15 @@ npm run preview   # serve production build locally
 
 Build order matters: `tsc` runs before `vite build`. TypeScript errors will fail the build.
 
+`base: './'` in `vite.config.ts` keeps every built URL relative so `dist/` also works when uploaded to a sub-folder on a traditional host. Keep public assets referenced without a leading `/` (`logos/x.svg`, not `/logos/x.svg`).
+
 ## Architecture
 
 ```
 ais-react/
 ├── index.html              # HTML entry + Google Fonts (Montserrat, IBM Plex Sans Arabic)
 ├── seo-plugin.ts           # Build plugin: meta/OG/hreflang/JSON-LD, sitemap.xml, robots.txt, llms.txt
-├── public/                 # logos/, images/, videos/, og-image.jpg, Search Console file (keep)
+├── public/                 # logos/, images/, videos/, og-image.jpg, .htaccess (cPanel hosts), Search Console file (keep)
 ├── src/
 │   ├── main.tsx             # React root + i18n init, keyboard/pointer focus-ring mode
 │   ├── App.tsx              # Layout shell: Splash → Aurora → Navbar → sections → Footer

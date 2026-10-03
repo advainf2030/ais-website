@@ -5,6 +5,9 @@ import seoPlugin from './seo-plugin.ts'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Relative asset URLs: the same dist/ works at a domain root (Vercel) and
+  // when uploaded into any sub-folder of a traditional host (cPanel/Spaceship)
+  base: './',
   plugins: [react(), tailwindcss(), seoPlugin()],
   build: {
     sourcemap: true,

@@ -35,6 +35,23 @@ npm run lint      # oxlint
 npm run preview   # serve the production build
 ```
 
+## Hosting outside Vercel (cPanel, Spaceship, any Apache/LiteSpeed host)
+
+The browser can't run the source (`index.html` there loads `src/main.tsx`), so
+upload the **build**, never the project folder:
+
+1. Build with the real domain so canonical / Open Graph / sitemap point to it:
+   `SITE_URL=https://example.com npm run build` (PowerShell:
+   `$env:SITE_URL="https://example.com"; npm run build`).
+2. Upload the **contents** of `dist/` (`index.html`, `assets/`, `logos/`, …,
+   including the hidden `.htaccess`) into `public_html/` or any sub-folder.
+   `*.map` files are optional.
+
+Asset URLs are relative (`base: './'` in `vite.config.ts`), so the same build
+works at the domain root and in a sub-folder. Opening `dist/index.html` by
+double-click (`file://`) does not work: browsers block module scripts there.
+Use `npm run preview` to check a build locally.
+
 Stack: React 19, Vite 8, TypeScript, Tailwind CSS v4 (theme in `src/index.css`),
 framer-motion, GSAP, i18next. Translations live in `src/i18n.ts`; the site URL
 used for SEO tags is `SITE_URL` in `seo-plugin.ts`. See `../AGENTS.md` for the
